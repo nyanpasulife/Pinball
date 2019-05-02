@@ -17,8 +17,8 @@ public class PhysicsEngine extends Thread{
 
     // 두 오브젝트가 충돌하면 두 오브젝트의 행동함수를 호출되는 함수
     private void isCollision(PhysicsEngine.PhysicsInterface a, PhysicsEngine.PhysicsInterface b){
-        a.beCollisoned();
-        b.beCollisoned();
+        a.beCollided();
+        b.beCollided();
     }
 /*
     public PhysicsInterface getView(){
@@ -26,7 +26,7 @@ public class PhysicsEngine extends Thread{
     }
 */
     public interface PhysicsInterface{
-        void beCollisoned();
+        void beCollided();
     }
 
     public class Grid{
