@@ -1,4 +1,7 @@
 package com.example.pinball;
 
-public class PhysicsView {
+import android.view.SurfaceHolder;
+import android.view.SurfaceView;
+
+public class PhysicsView extends SurfaceView implements SurfaceHolder.Callback{
 }

@@ -32,19 +32,11 @@ public class PhysicsEngine extends Thread{
     public interface PhysicsInterface{
         boolean collisionCheck(PhysicsInterface x);
         void beCollided(PhysicsInterface x);
-        void act(double px, double py);
+        void act(Vector collisionPoint, Vector force);
 
 
     }
 
-    public class Vector{
-        double X; double Y;
-        Vector(double x, double y){X =x, Y = y}
-        public Vector plus(Vector a, Vector b){
-            return new Vector(a.X+b.X, a.Y+b.Y);
-        }
-
-    }
 
     public class Grid{
 
