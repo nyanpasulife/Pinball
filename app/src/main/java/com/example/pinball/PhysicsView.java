@@ -6,23 +6,24 @@ import android.view.SurfaceView;
 
 public class PhysicsView extends SurfaceView implements SurfaceHolder.Callback{
 
-    private PhysicsEngine EngineThread;
+    private DrawEngine DrawThread;
+    private PhysicsEngine PhysicsThread;
 
     public PhysicsView(Context context){
         super(context);
         SurfaceHolder holder = getHolder();
         holder.addCallback(this);
-        EngineThread = new PhysicsEngine(holder);
+        DrawThread = new DrawEngine(holder);
     }
 
-    public PhysicsEngine getEngine(){
-        return EngineThread;
+    public DrawEngine getEngine(){
+        return DrawThread;
     }
 
     @Override
     public void surfaceCreated(SurfaceHolder holder) {
-        EngineThread.setRunning(true);
-        EngineThread.start();
+        DrawThread.setRunning(true);
+        DrawThread.start();
     }
 
     @Override
@@ -33,10 +34,10 @@ public class PhysicsView extends SurfaceView implements SurfaceHolder.Callback{
     public void surfaceDestroyed(SurfaceHolder holder){
         boolean retry = true;
 
-        EngineThread.setRunning(false);
+        DrawThread.setRunning(false);
         while(retry){
             try{
-                EngineThread.join();
+                DrawThread.join();
                 retry = false;
             }catch(InterruptedException e){}
         }
