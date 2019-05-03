@@ -11,11 +11,6 @@ public class PolygonPhysicsView  implements PhysicsEngine.PhysicsInterface {
     ArrayList<Vector> VertexPoints = new ArrayList<>(); // 중심점을 기준으로 꼭지점까지의 벡터들 ,p0 ~ pn-1 , 반드시 예각이 없는 다면체여야함.
     ArrayList<Vector> PerpendicularsOfSides = new ArrayList<>(); //각 변과 수직인 법선벡터들, p1 ~ pn
 
-
-    PolygonPhysicsView(Context context){
-        super(context);
-    }
-
     public void surfaceCreated(SurfaceHolder holder){
 
     }
