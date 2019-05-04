@@ -1,6 +1,7 @@
 package com.example.pinball;
 
 import android.content.Context;
+import android.util.AttributeSet;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
@@ -11,6 +12,12 @@ public class PhysicsView extends SurfaceView implements SurfaceHolder.Callback{
 
     public PhysicsView(Context context){
         super(context);
+        SurfaceHolder holder = getHolder();
+        holder.addCallback(this);
+        DrawThread = new DrawEngine(holder);
+    }
+    public PhysicsView(Context context, AttributeSet attr){
+        super(context, attr);
         SurfaceHolder holder = getHolder();
         holder.addCallback(this);
         DrawThread = new DrawEngine(holder);

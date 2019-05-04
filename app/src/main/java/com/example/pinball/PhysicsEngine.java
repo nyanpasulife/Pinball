@@ -1,8 +1,5 @@
 package com.example.pinball;
 
-import android.graphics.Canvas;
-import android.view.SurfaceHolder;
-
 public class PhysicsEngine extends Thread{
 
 
@@ -17,12 +14,12 @@ public class PhysicsEngine extends Thread{
     //
     //    // 두 오브젝트가 충돌하면 두 오브젝트의 행동함수를 호출되는 함수
 
-    private void collisionCheck(PhysicsInterface a, PhysicsInterface b){
+    private void collisionCheck(PhysicsObjectInterface a, PhysicsObjectInterface b){
         a.collisionCheck(b);
     }
 
 
-    private void isCollision(PhysicsEngine.PhysicsInterface a, PhysicsEngine.PhysicsInterface b){
+    private void isCollision(PhysicsObjectInterface a, PhysicsObjectInterface b){
         a.beCollided(b);
     }
 /*
@@ -30,15 +27,6 @@ public class PhysicsEngine extends Thread{
         return ;
     }
 */
-
-
-    public interface PhysicsInterface{
-        boolean collisionCheck(PhysicsInterface x);
-        void beCollided(PhysicsInterface x);
-        void act(Vector collisionPoint, Vector force);
-
-
-    }
 
 
     public class Grid{
