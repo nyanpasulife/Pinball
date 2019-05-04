@@ -9,11 +9,15 @@ import android.graphics.Paint;
 import java.util.ArrayList;
 
 public class PolygonPhysicsObject implements PhysicsObjectInterface {
+    boolean MovingObject = true; // 물체가 움직이는지 여부
+
     Vector2D MaterialPoint ; //물체의 무게중심(질점)
     ArrayList<Vector2D> VertexVectors = new ArrayList<>(); // 중심점을 기준으로 꼭지점까지의 벡터들 ,p0 ~ pn-1 , 반드시 예각이 없는 다면체여야함.
     ArrayList<Vector2D> PerpendicularsOfSides = new ArrayList<>(); //각 변과 수직인 법선벡터들, p1 ~ pn
-    Bitmap Image;
+    double SuperRange; //사각형을 감싸는 원의 반지름
+    Bitmap Image; //비트맵 이미지.
 
+    Vector2D Velocity = new Vector2D(0,0);
 
     //비트맵을 받아 비트맵을 감싸는 오브젝트 생성
     PolygonPhysicsObject(Vector2D position, Bitmap bitmap){
@@ -31,6 +35,8 @@ public class PolygonPhysicsObject implements PhysicsObjectInterface {
         PerpendicularsOfSides.add(new Vector2D(1,0));
         PerpendicularsOfSides.add(new Vector2D(0,1));
         PerpendicularsOfSides.add(new Vector2D(-1,0));
+
+        SuperRange = Math.sqrt(w*w + h*h);
     }
 
 
@@ -54,9 +60,16 @@ public class PolygonPhysicsObject implements PhysicsObjectInterface {
     }
 
     @Override
-    public void act(Vector2D collisionPoint, Vector2D power){
+    public void collisionAct(Vector2D collisionPoint, Vector2D power){
 
     }
+
+    @Override
+    public void gravitationAct(Vector2D gravity) {
+        Velocity = Velocity.plus(gravity);
+        MaterialPoint = MaterialPoint.plus(Velocity);
+    }
+
 
     @Override
     public void paint(Canvas c) {

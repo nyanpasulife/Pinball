@@ -4,14 +4,17 @@ import java.util.ArrayList;
 
 public class PhysicsEngine extends Thread{
     boolean Run = false;
-    private ArrayList<PhysicsObjectInterface> PhysicsObjectsList = new ArrayList<>();
+    static Vector2D gravity = new Vector2D(0,1);
+    private ArrayList<PhysicsObjectInterface> GameObjectsList = new ArrayList<>();
 
-
-        @Override
-        public void run() {
-            while(Run){
+    @Override
+    public void run() {
+        while(Run){
+            for(PhysicsObjectInterface e :GameObjectsList){
+                e.gravitationAct(gravity);
             }
         }
+    }
 
         // 두 오브젝트가 충돌하면 두 오브젝트의 행동함수를 호출하는 함수
 
@@ -31,6 +34,9 @@ public class PhysicsEngine extends Thread{
 
     public class Grid{
 
+    }
+    public void setGameObjectsList(ArrayList<PhysicsObjectInterface> list){
+        GameObjectsList = list;
     }
 
 
