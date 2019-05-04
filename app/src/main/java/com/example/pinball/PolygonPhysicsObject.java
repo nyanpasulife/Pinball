@@ -1,6 +1,5 @@
 package com.example.pinball;
 
-import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -8,7 +7,7 @@ import android.graphics.Paint;
 
 import java.util.ArrayList;
 
-public class PolygonPhysicsObject  implements PhysicsObjectInterface {
+public class PolygonPhysicsObject implements PhysicsObjectInterface {
     Vector2D MaterialPoint ; //물체의 무게중심(질점)
     ArrayList<Vector2D> VertexPoints = new ArrayList<>(); // 중심점을 기준으로 꼭지점까지의 벡터들 ,p0 ~ pn-1 , 반드시 예각이 없는 다면체여야함.
     ArrayList<Vector2D> PerpendicularsOfSides = new ArrayList<>(); //각 변과 수직인 법선벡터들, p1 ~ pn

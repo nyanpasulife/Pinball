@@ -25,7 +25,7 @@ public class DrawEngine extends Thread {
                 c = MSurfaceHolder.lockCanvas(null);
                 c.drawColor(Color.BLACK);
                 synchronized (MSurfaceHolder) {
-
+                    PolygonPhysicsObject a =
                 }
             } finally {
                 if (c != null) {
