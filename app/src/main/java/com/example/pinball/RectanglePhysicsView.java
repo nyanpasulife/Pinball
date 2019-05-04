@@ -9,7 +9,7 @@ public class RectanglePhysicsView{
     double Vectorhalfwidth = 0;
 
 
-    public boolean collisionCheck(PhysicsEngine.PhysicsInterface other){
+    public boolean collisionCheck(PhysicsObjectInterface other){
        // if(other instanceof CirclePhysicsView){
       //  }
       //  else if (other instanceof RectanglePhysicsView){
@@ -19,10 +19,10 @@ public class RectanglePhysicsView{
         return false;
 
     }
-    public void beCollided(PhysicsEngine.PhysicsInterface other){
+    public void beCollided(PhysicsObjectInterface other){
 
     }
-    public void act(Vector vector1, Vector vector2){
+    public void act(Vector2D vector1, Vector2D vector2){
 
     }
 }

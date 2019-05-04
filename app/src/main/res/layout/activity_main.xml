@@ -7,8 +7,10 @@
     tools:context=".MainActivity">
 
     <com.example.pinball.PhysicsView
-        android:id="@+id/physicsView"
+        android:id="@+id/game_inside"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        tools:layout_editor_absoluteX="30dp"
+        tools:layout_editor_absoluteY="149dp" />
 
 </android.support.constraint.ConstraintLayout>

@@ -1,18 +1,17 @@
 package com.example.pinball;
 
 public class PhysicsEngine extends Thread{
+    boolean Run = false;
 
 
 
+        @Override
+        public void run() {
+            while(Run){
+            }
+        }
 
-    //    @Override
-    //    public void run() {
-    //        while(true){
-    //            Log.d("tag", "running");
-    //        }
-    //    }
-    //
-    //    // 두 오브젝트가 충돌하면 두 오브젝트의 행동함수를 호출되는 함수
+        // 두 오브젝트가 충돌하면 두 오브젝트의 행동함수를 호출하는 함수
 
     private void collisionCheck(PhysicsObjectInterface a, PhysicsObjectInterface b){
         a.collisionCheck(b);
@@ -22,11 +21,12 @@ public class PhysicsEngine extends Thread{
     private void isCollision(PhysicsObjectInterface a, PhysicsObjectInterface b){
         a.beCollided(b);
     }
-/*
-    public PhysicsInterface getView(){
-        return ;
+
+    //쓰레드가 작동하는지에 관한 논리값을 입력받는다.
+    public void setRunning(boolean b){
+        Run = b;
     }
-*/
+
 
 
     public class Grid{

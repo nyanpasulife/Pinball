@@ -6,43 +6,37 @@ import android.graphics.Paint;
 import android.view.SurfaceHolder;
 
 //DrawEngine 은 SurfaceView 와 연동된 SurfaceHolder 객체를 받아와 화면에 게임 상태를 출력한다.
-public class DrawEngine extends Thread{
+public class DrawEngine extends Thread {
     private boolean Run = false; //Run == true 여야 그리는 행동이 작동함.
     private SurfaceHolder MSurfaceHolder; // 이 객체를 이용해 SurefaceView에 그림을 그릴 수 있음.
 
-     //생성자 : SurfaceHolder 를 받아와 자신의 인스턴스 변수로 저장한다.
-    public DrawEngine(SurfaceHolder holder){
+    //생성자 : SurfaceHolder 를 받아와 자신의 인스턴스 변수로 저장한다.
+    public DrawEngine(SurfaceHolder holder) {
         MSurfaceHolder = holder;
     }
 
+    //run 함수. 쓰레드가 종료되기 전까지 SurfaceView 에 지속적으로 그림을 그린다.
     @Override
-    public void run(){
-        int j =0;
-        while(Run){
+    public void run() {
+        int j = 0;
+        while (Run) {
             Canvas c = null;
-            try{
-              doLockCanvas(c);
-            }finally {
-                if(c!=null){
-                    doUnlockCanvas(c);
+            try {
+                c = MSurfaceHolder.lockCanvas(null);
+                c.drawColor(Color.BLACK);
+                synchronized (MSurfaceHolder) {
+
+                }
+            } finally {
+                if (c != null) {
+                    MSurfaceHolder.unlockCanvasAndPost(c);
                 }
             }
         }
     }
-    public void setRunning(boolean b){
+
+    //쓰레드가 작동하는지에 관한 논리값을 입력받는다.
+    public void setRunning(boolean b) {
         Run = b;
     }
-
-    void doLockCanvas(Canvas c){
-        c = MSurfaceHolder.lockCanvas(null);
-        c.drawColor(Color.BLACK);
-        synchronized (MSurfaceHolder){
-
-        }
-    }
-
-    void doUnlockCanvas(Canvas c){
-        MSurfaceHolder.unlockCanvasAndPost(c);
-    }
-
 }
