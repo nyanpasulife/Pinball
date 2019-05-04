@@ -1,5 +1,7 @@
 package com.example.pinball;
 
+import android.content.MutableContextWrapper;
+
 public class Vector2D {
     double X, Y;
     Vector2D(double x, double y){
@@ -12,6 +14,9 @@ public class Vector2D {
     }
     public Vector2D minus(Vector2D other){
         return new Vector2D(X-other.X, Y-other.Y);
+    }
+    public Vector2D conversion(double a,double b){
+        return new Vector2D(X*a, Y*b);
     }
     public Vector2D inverse(){
         return new Vector2D(-X,-Y);

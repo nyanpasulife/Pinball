@@ -16,15 +16,17 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         setGameInside();
     }
-
     void setGameInside(){
+        PhysicsView gameView = findViewById(R.id.game_inside);
+
         ArrayList<PhysicsObjectInterface> pack = new ArrayList<>();
         Bitmap img= BitmapFactory.decodeResource(getResources(), R.drawable.bitmap);
-        PolygonPhysicsObject a = new PolygonPhysicsObject(new Vector2D(300,200),img);
+        PolygonPhysicsObject a = new PolygonPhysicsObject(new Vector2D(500,500),img);
         pack.add(a);
 
-        PhysicsView gameView = findViewById(R.id.game_inside);
+        gameView.setGameObjectsList(pack);
         gameView.getDrawEngine().setGameObjectsList(pack);
         gameView.getPhysicsEngine().setGameObjectsList(pack);
     }
+
 }

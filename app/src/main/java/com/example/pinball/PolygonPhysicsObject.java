@@ -5,6 +5,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Paint;
+import android.provider.ContactsContract;
 
 import java.util.ArrayList;
 
@@ -37,7 +38,10 @@ public class PolygonPhysicsObject implements PhysicsObjectInterface {
         PerpendicularsOfSides.add(new Vector2D(-1,0));
 
         SuperRange = Math.sqrt(w*w + h*h);
+
     }
+
+    //비트맵을 받고 따로 충돌영역을 커스터마이징 하는 생성자 추가바람...
 
 
     @Override
@@ -70,22 +74,38 @@ public class PolygonPhysicsObject implements PhysicsObjectInterface {
         MaterialPoint = MaterialPoint.plus(Velocity);
     }
 
+    public void convertBitmap(double widthRate, double heightRate){
+        Image = Bitmap.createBitmap(Image, 0,0, (int)(Math.round(Image.getWidth()*widthRate)),(int)(Math.round(Image.getHeight()*heightRate)));
+    }
 
     @Override
-    public void paint(Canvas c) {
-
-
+    public void paint(Canvas c, double widthRate, double heightRate) {
         Paint paint2 = new Paint();
         Matrix matrix = new Matrix();
-        Vector2D firstPoint = MaterialPoint.plus(VertexVectors.get(0));
-        matrix.postTranslate((float)firstPoint.X, (float)firstPoint.Y);
+
+        Vector2D conMaterialPoint = MaterialPoint.conversion(widthRate,heightRate);
+        ArrayList<Vector2D> conVertexVectors = new ArrayList<>();
+        for(Vector2D v : VertexVectors){
+            conVertexVectors.add(v.conversion(widthRate,heightRate));
+        }
+        Vector2D conFirstPoint = conMaterialPoint.plus(conVertexVectors.get(0));
+        matrix.setTranslate((float)(conFirstPoint.X), (float)(conFirstPoint.Y));
         c.drawBitmap(Image, matrix, paint2);
 
         Paint paint = new Paint();
         paint.setColor(Color.RED);
-        for(Vector2D v  :VertexVectors){
-            Vector2D otherPoint = MaterialPoint.plus(v);
-            c.drawLine((float)MaterialPoint.X,(float)MaterialPoint.Y,(float)otherPoint.X,(float)otherPoint.Y,paint);
+        for(Vector2D v  :conVertexVectors){
+            Vector2D otherPoint = conMaterialPoint.plus(v);
+            c.drawLine((float)conMaterialPoint.X,(float)conMaterialPoint.Y,(float)otherPoint.X,(float)otherPoint.Y,paint);
         }
+    }
+
+    public Bitmap getBitmap(){
+        return Image;
+    }
+
+    @Override
+    public void setBitmap(Bitmap bitmap) {
+        Image = bitmap;
     }
 }

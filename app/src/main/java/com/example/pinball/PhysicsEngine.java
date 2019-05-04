@@ -4,8 +4,12 @@ import java.util.ArrayList;
 
 public class PhysicsEngine extends Thread{
     boolean Run = false;
-    static Vector2D gravity = new Vector2D(0,1);
+    static Vector2D gravity = new Vector2D(0,0);
     private ArrayList<PhysicsObjectInterface> GameObjectsList = new ArrayList<>();
+
+    PhysicsEngine(ArrayList<PhysicsObjectInterface> pack){
+        GameObjectsList = pack;
+    }
 
     @Override
     public void run() {
