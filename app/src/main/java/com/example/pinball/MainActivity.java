@@ -20,9 +20,13 @@ public class MainActivity extends AppCompatActivity {
         PhysicsView gameView = findViewById(R.id.game_inside);
 
         ArrayList<PhysicsObjectInterface> pack = new ArrayList<>();
-        Bitmap img= BitmapFactory.decodeResource(getResources(), R.drawable.bitmap);
-        PolygonPhysicsObject a = new PolygonPhysicsObject(new Vector2D(500,500),img);
+
+        Bitmap img1= BitmapFactory.decodeResource(getResources(), R.drawable.bitmap1);
+        PolygonPhysicsObject a = new PolygonPhysicsObject(new Vector2D(0,0),img1);
         pack.add(a);
+        Bitmap img2= BitmapFactory.decodeResource(getResources(), R.drawable.bitmap2);
+        PolygonPhysicsObject b = new PolygonPhysicsObject(new Vector2D(720,1280),img2);
+        pack.add(b);
 
         gameView.setGameObjectsList(pack);
         gameView.getDrawEngine().setGameObjectsList(pack);
