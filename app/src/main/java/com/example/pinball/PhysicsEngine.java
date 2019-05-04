@@ -1,8 +1,10 @@
 package com.example.pinball;
 
+import java.util.ArrayList;
+
 public class PhysicsEngine extends Thread{
     boolean Run = false;
-
+    private ArrayList<PhysicsObjectInterface> PhysicsObjectsList = new ArrayList<>();
 
 
         @Override
@@ -26,8 +28,6 @@ public class PhysicsEngine extends Thread{
     public void setRunning(boolean b){
         Run = b;
     }
-
-
 
     public class Grid{
 

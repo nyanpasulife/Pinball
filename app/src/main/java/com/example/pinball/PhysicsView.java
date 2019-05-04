@@ -5,10 +5,13 @@ import android.util.AttributeSet;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
+import java.util.ArrayList;
+
 public class PhysicsView extends SurfaceView implements SurfaceHolder.Callback{
 
     private DrawEngine DrawThread;
     private PhysicsEngine PhysicsThread;
+    private ArrayList<PhysicsObjectInterface> PhysicsObjectsList = new ArrayList<>();
 
     public PhysicsView(Context context){
         super(context);
@@ -63,6 +66,10 @@ public class PhysicsView extends SurfaceView implements SurfaceHolder.Callback{
                 retry = false;
             }catch(InterruptedException e){}
         }
+    }
+
+    public void setPhysicsObjectsList(ArrayList<PhysicsObjectInterface> list){
+        PhysicsObjectsList = list;
     }
 
 }
