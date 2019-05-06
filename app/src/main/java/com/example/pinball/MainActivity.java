@@ -25,6 +25,6 @@ public class MainActivity extends AppCompatActivity {
 
         PhysicsView gameView = findViewById(R.id.game_inside);
         gameView.getDrawEngine().setGameObjectsList(pack);
-        gameView.getPhysicsEngine().setGameObjectsList(pack);
+        //gameView.getPhysicsEngine().setGameObjectsList(pack);
     }
 }

@@ -9,6 +9,7 @@ public class CirclePhysicsView extends SurfaceView implements PhysicsEngine.Phys
     double r = 0;
     double speed = 0;
     double rotate = 0;
+    double velocity;
 
     public CirclePhysicsView(Context context) {
         super(context);
