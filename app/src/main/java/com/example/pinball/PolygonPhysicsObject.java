@@ -45,7 +45,7 @@ public class PolygonPhysicsObject implements PhysicsObjectInterface {
 
         if(other instanceof PolygonPhysicsObject){
 
-    }
+        }
         //else if (other instanceof RectanglePhysicsView){
 
        // }
