@@ -5,6 +5,8 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Paint;
+import android.provider.ContactsContract;
+import android.util.Log;
 
 import java.util.ArrayList;
 
@@ -37,55 +39,110 @@ public class PolygonPhysicsObject implements PhysicsObjectInterface {
         PerpendicularsOfSides.add(new Vector2D(-1,0));
 
         SuperRange = Math.sqrt(w*w + h*h);
+
     }
+
+    //비트맵을 받고 따로 충돌영역을 커스터마이징 하는 생성자 추가바람...
 
 
     @Override
-    public boolean collisionCheck(PhysicsObjectInterface other){
+    public void collisionCheck(PhysicsObjectInterface other){
 
-        if(other instanceof PolygonPhysicsObject){
-
+        double rangeEachOthers = MaterialPoint.minus(other.getMaterialPoint()).getSize();
+        if(MaterialPoint.minus(other.getMaterialPoint()).getSize() +0.02 <= SuperRange + other.getRadius()){
+            collisionCheck2(other);
         }
-        //else if (other instanceof RectanglePhysicsView){
 
-       // }
 
-        return false;
+    }
+
+    public void collisionCheck2(PhysicsObjectInterface other){
+        if(other instanceof PolygonPhysicsObject){
+            PolygonPhysicsObject otherPol = (PolygonPhysicsObject) other;
+            Vector2D otherMP =otherPol.MaterialPoint;
+            int otherPolSize = otherPol.VertexVectors.size();
+            boolean breakBool = false;
+            for(Vector2D myVertexV : VertexVectors){
+                Vector2D myV = MaterialPoint.plus(myVertexV);
+                for(int j=0;j<otherPolSize;j++){
+                    Vector2D otherVertexV = otherPol.VertexVectors.get(j);
+                    Vector2D otherV = otherMP.plus(otherVertexV);
+                    Vector2D compareV = myV.minus(otherV);
+
+                    Vector2D otherPerpendicular = otherPol.PerpendicularsOfSides.get(j);
+                    double comparedValue = otherPerpendicular.dotProduct(compareV);
+                    if(comparedValue >=0){ break; }
+                    if(j == otherPolSize-1){
+                        collided(new Vector2D(0,0), other);
+                        breakBool = true;
+                        break;
+                    }
+                }
+                if(breakBool){break;}
+            }
+        }
+    }
+
+    public void collided(Vector2D collisionPoint, PhysicsObjectInterface other){
+
+    }
+
+    public void addImpulse(Vector2D impulse) {
 
     }
 
     @Override
-    public void beCollided(PhysicsObjectInterface other){
-
-    }
-
-    @Override
-    public void collisionAct(Vector2D collisionPoint, Vector2D power){
-
-    }
-
-    @Override
-    public void gravitationAct(Vector2D gravity) {
+    public void addGravitation(Vector2D gravity) {
         Velocity = Velocity.plus(gravity);
-        MaterialPoint = MaterialPoint.plus(Velocity);
     }
 
+    @Override
+    public void act() {
+
+    }
+
+    public void convertBitmap(double widthRate, double heightRate){
+        Image = Bitmap.createBitmap(Image, 0,0, (int)(Math.round(Image.getWidth()*widthRate)),(int)(Math.round(Image.getHeight()*heightRate)));
+    }
 
     @Override
-    public void paint(Canvas c) {
-
-
+    public void paint(Canvas c, double widthRate, double heightRate) {
         Paint paint2 = new Paint();
         Matrix matrix = new Matrix();
-        Vector2D firstPoint = MaterialPoint.plus(VertexVectors.get(0));
-        matrix.postTranslate((float)firstPoint.X, (float)firstPoint.Y);
+
+        Vector2D conMaterialPoint = MaterialPoint.conversion(widthRate,heightRate);
+        ArrayList<Vector2D> conVertexVectors = new ArrayList<>();
+        for(Vector2D v : VertexVectors){
+            conVertexVectors.add(v.conversion(widthRate,heightRate));
+        }
+        Vector2D conFirstPoint = conMaterialPoint.plus(conVertexVectors.get(0));
+        matrix.setTranslate((float)(conFirstPoint.X), (float)(conFirstPoint.Y));
         c.drawBitmap(Image, matrix, paint2);
 
         Paint paint = new Paint();
         paint.setColor(Color.RED);
-        for(Vector2D v  :VertexVectors){
-            Vector2D otherPoint = MaterialPoint.plus(v);
-            c.drawLine((float)MaterialPoint.X,(float)MaterialPoint.Y,(float)otherPoint.X,(float)otherPoint.Y,paint);
+        for(Vector2D v  :conVertexVectors){
+            Vector2D otherPoint = conMaterialPoint.plus(v);
+            c.drawLine((float)conMaterialPoint.X,(float)conMaterialPoint.Y,(float)otherPoint.X,(float)otherPoint.Y,paint);
         }
+    }
+
+    public Bitmap getBitmap(){
+        return Image;
+    }
+
+    @Override
+    public void setBitmap(Bitmap bitmap) {
+        Image = bitmap;
+    }
+
+    @Override
+    public double getRadius() {
+        return SuperRange;
+    }
+
+
+    public Vector2D getMaterialPoint(){
+        return MaterialPoint;
     }
 }

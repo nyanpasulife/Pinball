@@ -4,8 +4,12 @@ import java.util.ArrayList;
 
 public class PhysicsEngine extends Thread{
     boolean Run = false;
-    static Vector2D gravity = new Vector2D(0,1);
+    static Vector2D gravity = new Vector2D(0,0);
     private ArrayList<PhysicsObjectInterface> GameObjectsList = new ArrayList<>();
+
+    PhysicsEngine(ArrayList<PhysicsObjectInterface> pack){
+        GameObjectsList = pack;
+    }
 
     @Override
     public void run() {
@@ -27,7 +31,8 @@ public class PhysicsEngine extends Thread{
         }
     }
 
-        // 두 오브젝트가 충돌하면 두 오브젝트의 행동함수를 호출하는 함수
+    // 두 오브젝트가 충돌하면 두 오브젝트의 행동함수를 호출하는 함수
+
 
     //쓰레드가 작동하는지에 관한 논리값을 입력받는다.
     public void setRunning(boolean b){
