@@ -82,7 +82,7 @@ public class CirclePhysicsObject implements PhysicsObjectInterface{
 
     @Override
     public Vector2D getMaterialPoint() {
-        return materialPoint;
+        return null;
     }
 
     @Override
