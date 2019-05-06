@@ -10,7 +10,7 @@ public class RectanglePhysicsView{
 
 
     public boolean collisionCheck(PhysicsObjectInterface other){
-       // if(other instanceof CirclePhysicsView){
+       // if(){
       //  }
       //  else if (other instanceof RectanglePhysicsView){
 
