@@ -2,7 +2,6 @@ package com.example.pinball;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Paint;
 
@@ -10,41 +9,80 @@ import java.util.ArrayList;
 
 public class CirclePhysicsObject implements PhysicsObjectInterface{
 
-    boolean movingObject = false;
-    Vector2D materialPoint;
-    double range;
-    Bitmap image;
-    Vector2D velocity = new Vector2D(0,0);
+    private Vector2D materialPoint;
+    private double radius;
+    private Bitmap image;
+    private Vector2D velocity = new Vector2D(0,0);
+    private Vector2D gravity;
 
     public CirclePhysicsObject (Vector2D position, Bitmap bitmap){
         materialPoint = position;
         image = bitmap;
 
-        range = bitmap.getWidth() / 2.0;
+        radius = bitmap.getWidth() / 2.0;
     }
 
     @Override
-    public boolean collisionCheck(PhysicsObjectInterface x) {
-
-        movingObject = false;
-
+    public void collisionCheck(PhysicsObjectInterface x) {
         if(x instanceof CirclePhysicsObject){
             CirclePhysicsObject other = (CirclePhysicsObject)x;
-            if(calculateDistance(this.materialPoint, other.materialPoint) <= (this.range + other.range)){
-                movingObject = true;
+            if(calculateDistance(this.materialPoint, other.materialPoint) <= (this.radius + other.radius)){
+                act();
             }
         }
 
         if(x instanceof PolygonPhysicsObject){
             PolygonPhysicsObject other = (PolygonPhysicsObject) x;
-            if(calculateDistance(this.materialPoint, other.MaterialPoint) <= (this.range + other.SuperRange)){
+            if(calculateDistance(this.materialPoint, other.MaterialPoint) <= (this.radius + other.SuperRange)){
                 if(isCollidedWithRect(other)){
-                    movingObject = true;
+                    act();
                 }
             }
         }
+    }
 
-        return movingObject;
+    @Override
+    public void addGravitation(Vector2D g) {
+        gravity = g;
+    }
+
+    @Override
+    public void act() {
+        //TODO
+    }
+
+    @Override
+    public void paint(Canvas c, double widthRate, double heightRate) {
+        //TODO
+        Paint paint = new Paint();
+        Matrix matrix = new Matrix();
+        matrix.postTranslate((float)materialPoint.X, (float)materialPoint.Y);
+        c.drawBitmap(image, matrix, paint);
+    }
+
+    @Override
+    public void convertBitmap(double widthRate, double heightRate) {
+        //TODO
+    }
+
+    @Override
+    public Bitmap getBitmap() {
+        return image;
+    }
+
+    @Override
+    public void setBitmap(Bitmap bitmap) {
+        image = bitmap;
+    }
+
+    @Override
+    public double getRadius() {
+        return radius;
+    }
+
+    @Override
+    public Vector2D getMaterialPoint() {
+        return materialPoint;
     }
 
     @Override
@@ -65,16 +103,7 @@ public class CirclePhysicsObject implements PhysicsObjectInterface{
 
     @Override
     public void gravitationAct(Vector2D gravity) {
-        velocity = velocity.plus(gravity);
-        materialPoint = materialPoint.plus(velocity);
-    }
 
-    @Override
-    public void paint(Canvas c) {
-        Paint paint = new Paint();
-        Matrix matrix = new Matrix();
-        matrix.postTranslate((float)materialPoint.X, (float)materialPoint.Y);
-        c.drawBitmap(image, matrix, paint);
     }
 
     private double calculateDistance(Vector2D a, Vector2D b){
@@ -87,8 +116,8 @@ public class CirclePhysicsObject implements PhysicsObjectInterface{
         //collider setting
         ArrayList<Vector2D> vertexVector = other.VertexVectors;
         ArrayList<Vector2D> boxCollider = new ArrayList<>();
-        double colliderHeight =  other.Image.getHeight() / 2 + range;
-        double colliderWidth = other.Image.getWidth() / 2 + range;
+        double colliderHeight =  other.Image.getHeight() / 2 + radius;
+        double colliderWidth = other.Image.getWidth() / 2 + radius;
 
         double newVectorSize = Math.sqrt(Math.pow(colliderHeight, 2)+Math.pow(colliderWidth, 2));
 
