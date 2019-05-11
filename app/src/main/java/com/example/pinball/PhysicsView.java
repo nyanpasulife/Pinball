@@ -11,6 +11,7 @@ public class PhysicsView extends SurfaceView implements SurfaceHolder.Callback{
 
     private DrawEngine DrawThread;
     private PhysicsEngine PhysicsThread;
+    private ArrayList<PhysicsObjectInterface> GameMovableObjectsList = new ArrayList<>();
     private ArrayList<PhysicsObjectInterface> GameObjectsList = new ArrayList<>();
 
     public PhysicsView(Context context){
@@ -18,14 +19,14 @@ public class PhysicsView extends SurfaceView implements SurfaceHolder.Callback{
         SurfaceHolder holder = getHolder();
         holder.addCallback(this);
         DrawThread = new DrawEngine(holder, GameObjectsList);
-        PhysicsThread = new PhysicsEngine(GameObjectsList);
+        PhysicsThread = new PhysicsEngine(GameMovableObjectsList, GameObjectsList);
     }
     public PhysicsView(Context context, AttributeSet attr){
         super(context, attr);
         SurfaceHolder holder = getHolder();
         holder.addCallback(this);
         DrawThread = new DrawEngine(holder, GameObjectsList);
-        PhysicsThread = new PhysicsEngine(GameObjectsList);
+        PhysicsThread = new PhysicsEngine(GameMovableObjectsList, GameObjectsList);
     }
 
     public DrawEngine getDrawEngine(){
@@ -47,7 +48,6 @@ public class PhysicsView extends SurfaceView implements SurfaceHolder.Callback{
 
     @Override
     public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
-        DrawThread.convertDraw(getWidth(),getHeight());
     }
 
     public void surfaceDestroyed(SurfaceHolder holder){
@@ -72,5 +72,7 @@ public class PhysicsView extends SurfaceView implements SurfaceHolder.Callback{
     public void setGameObjectsList(ArrayList<PhysicsObjectInterface> list){
         GameObjectsList = list;
     }
-
+    public void setGameMovableObjectsList(ArrayList<PhysicsObjectInterface> list){
+        GameMovableObjectsList = list;
+    }
 }

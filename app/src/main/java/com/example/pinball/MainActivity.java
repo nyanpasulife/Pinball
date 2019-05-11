@@ -19,18 +19,26 @@ public class MainActivity extends AppCompatActivity {
     void setGameInside(){
         PhysicsView gameView = findViewById(R.id.game_inside);
 
+        ArrayList<PhysicsObjectInterface> movePack = new ArrayList<>();
         ArrayList<PhysicsObjectInterface> pack = new ArrayList<>();
 
-        Bitmap img1= BitmapFactory.decodeResource(getResources(), R.drawable.bitmap1);
-        PolygonPhysicsObject a = new PolygonPhysicsObject(new Vector2D(0,0),img1);
+
+        BitmapFactory.Options originOp = new BitmapFactory.Options();
+        originOp.inJustDecodeBounds = true;
+
+        Bitmap img1= BitmapFactory.decodeResource(getResources(), R.drawable.bitmap);
+        PolygonPhysicsObject a = new PolygonPhysicsObject(new Vector2D(300,300),100,100,img1);
+        movePack.add(a);
         pack.add(a);
-        Bitmap img2= BitmapFactory.decodeResource(getResources(), R.drawable.bitmap2);
-        PolygonPhysicsObject b = new PolygonPhysicsObject(new Vector2D(720,1280),img2);
-        pack.add(b);
+        //Bitmap img2= BitmapFactory.decodeResource(getResources(), R.drawable.floor);
+        // b = new PolygonPhysicsObject(new Vector2D(0,1100),img2,false);
+        //pack.add(b);
 
         gameView.setGameObjectsList(pack);
+        gameView.setGameMovableObjectsList(movePack);
         gameView.getDrawEngine().setGameObjectsList(pack);
         gameView.getPhysicsEngine().setGameObjectsList(pack);
+        gameView.getPhysicsEngine().setGameMovableObjectsList(movePack);
     }
 
 }

@@ -54,7 +54,7 @@ public class DrawEngine extends Thread {
         GameObjectsList = list;
     }
 
-    public void convertDraw(double width, double height){
+    /*public void convertDraw(double width, double height){
         WidthRate = width / 720;
         HeightRate = height / 1280;
         for(PhysicsObjectInterface e : GameObjectsList){
@@ -65,5 +65,5 @@ public class DrawEngine extends Thread {
             e.setBitmap(tempB);
 
         }
-    }
+    }*/
 }
