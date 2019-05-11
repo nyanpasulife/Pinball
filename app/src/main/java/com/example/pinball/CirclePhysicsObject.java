@@ -39,9 +39,9 @@ public class CirclePhysicsObject implements PhysicsObjectInterface{
                 other.flag = false;
                 rePositioning(other);
                 other.rePositioning(this);
-                //other.flag = true;
+                other.flag = true;
 
-
+//                moveByCollision(other);
             }
         }
 
@@ -71,11 +71,14 @@ public class CirclePhysicsObject implements PhysicsObjectInterface{
 
         other.materialPoint.X += this.collisionPoint.X / this.radius;
         other.materialPoint.Y += this.collisionPoint.Y / this.radius;
+
+        other.velocity.X += this.collisionPoint.X / this.radius;
+        other.velocity.Y += this.collisionPoint.Y / this.radius;
     }
 
     private double getForce(CirclePhysicsObject other) {
-        double j = 1 * velocity.plus(other.velocity).getSize() / (1/m + 1/other.m);
-        return j/m;
+        double j = 1 * velocity.minus(other.velocity).getSize() / (1/m + 1/other.m);
+        return j/m / 100;
     }
 
     @Override
