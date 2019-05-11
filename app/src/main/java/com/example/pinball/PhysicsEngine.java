@@ -1,10 +1,12 @@
 package com.example.pinball;
 
+import android.util.Log;
+
 import java.util.ArrayList;
 
 public class PhysicsEngine extends Thread{
     boolean Run = false;
-    static Vector2D gravity = new Vector2D(0,0);
+    static Vector2D gravity = new Vector2D(0,0.001);
     private ArrayList<PhysicsObjectInterface> GameObjectsList = new ArrayList<>();
 
     PhysicsEngine(ArrayList<PhysicsObjectInterface> pack){
@@ -22,11 +24,10 @@ public class PhysicsEngine extends Thread{
                 }
 
                 e.addGravitation(gravity);
-                e.act();
             }
 
             try {
-                this.wait(10);
+                this.wait(5);
             }catch (Exception e){}
         }
     }

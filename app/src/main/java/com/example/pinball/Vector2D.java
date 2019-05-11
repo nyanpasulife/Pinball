@@ -16,7 +16,8 @@ public class Vector2D {
         return new Vector2D(X-other.X, Y-other.Y);
     }
     public Vector2D conversion(double a,double b){
-        return new Vector2D(X*a, Y*b);
+//        return new Vector2D(X*a, Y*b);        //TODO: 이미지 전체 비율에 문제가 있습니다. 일단 주석처리 해두겠습니다.
+        return new Vector2D(X, Y);
     }
     public Vector2D inverse(){
         return new Vector2D(-X,-Y);

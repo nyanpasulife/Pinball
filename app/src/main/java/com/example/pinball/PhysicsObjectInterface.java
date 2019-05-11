@@ -15,6 +15,4 @@ public interface PhysicsObjectInterface {
     void setBitmap(Bitmap bitmap);
     double getRadius();
     Vector2D getMaterialPoint();
-
-
 }

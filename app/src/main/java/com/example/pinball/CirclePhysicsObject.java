@@ -5,6 +5,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Paint;
+import android.util.Log;
 
 import java.util.ArrayList;
 
@@ -14,31 +15,34 @@ public class CirclePhysicsObject implements PhysicsObjectInterface{
     private double radius;
     private Bitmap image;
     private Vector2D velocity = new Vector2D(0,0);
+    private ArrayList<Vector2D> colliderTest = new ArrayList<>();
+    Vector2D collisionPoint = new Vector2D(0, 0);
+    double m = 1;
+
+    boolean flag = true;
 
     public CirclePhysicsObject (Vector2D position, Bitmap bitmap){
         materialPoint = position;
         image = bitmap;
 
-        radius = bitmap.getWidth() / 2.0;
+        radius = image.getWidth() / 2.0;
     }
 
     @Override
     public void collisionCheck(PhysicsObjectInterface x) {
-        if(x instanceof CirclePhysicsObject){
-            CirclePhysicsObject other = (CirclePhysicsObject)x;
-            if(calculateDistance(this.materialPoint, other.getMaterialPoint()) <= (this.radius + other.getRadius())){
-                act();
-            }
-        }
+        if(x instanceof CirclePhysicsObject) {
+            CirclePhysicsObject other = (CirclePhysicsObject) x;
 
-        if(x instanceof PolygonPhysicsObject){
-            PolygonPhysicsObject other = (PolygonPhysicsObject) x;
-            if(calculateDistance(this.materialPoint, other.getMaterialPoint()) <= (this.radius + other.getRadius())){
-                if(isCollidedWithRect(other)){
-                    act();
-                }
+            double distance = distance(this.materialPoint, other.getMaterialPoint());
+            if(distance <= this.radius + other.radius){
+                Log.d("debug", "collision");
             }
         }
+    }
+
+    private double getForce(CirclePhysicsObject other) {
+        double j = 1 * velocity.plus(other.velocity).getSize() / (1/m + 1/other.m);
+        return j/m;
     }
 
     @Override
@@ -48,17 +52,31 @@ public class CirclePhysicsObject implements PhysicsObjectInterface{
 
     @Override
     public void act() {
-        //TODO
+//        addGravitation(new Vector2D(0, 1));
+        materialPoint = materialPoint.plus(velocity);
     }
 
     @Override
     public void paint(Canvas c, double widthRate, double heightRate) {
-        //TODO
+        Paint imagePaint = new Paint();
+        Matrix matrix = new Matrix();
+
+        Vector2D conMaterialPoint = materialPoint.conversion(widthRate, heightRate);
+        ArrayList<Vector2D> conVertexVectors = new ArrayList<>();
+        for(Vector2D v : colliderTest){
+            conVertexVectors.add(v.conversion(widthRate, heightRate));
+        }
+        matrix.setTranslate((float)(materialPoint.X - radius), (float)(materialPoint.Y - radius));
+        c.drawBitmap(image, matrix, imagePaint);
+
+        Paint paint = new Paint();
+        paint.setColor(Color.RED);
+        c.drawCircle((float)collisionPoint.X, (float)collisionPoint.Y, 10, paint);
     }
 
     @Override
     public void convertBitmap(double widthRate, double heightRate) {        // ???
-        image= Bitmap.createBitmap(image, 0,0, (int)(Math.round(image.getWidth()*widthRate)),(int)(Math.round(image.getHeight()*heightRate)));
+        image= Bitmap.createBitmap(image, 0,0, (int)(Math.round(image.getWidth())*widthRate),(int)(Math.round(image.getHeight()*heightRate)));
     }
 
     @Override
@@ -81,7 +99,7 @@ public class CirclePhysicsObject implements PhysicsObjectInterface{
         return materialPoint;
     }
 
-    private double calculateDistance(Vector2D a, Vector2D b){
+    private double distance(Vector2D a, Vector2D b){
         return Math.sqrt(Math.pow(a.X - b.X, 2) + Math.pow(a.Y - b.Y, 2));
     }
 

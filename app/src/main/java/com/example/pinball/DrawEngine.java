@@ -4,6 +4,7 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.os.Build;
+import android.util.DisplayMetrics;
 import android.view.SurfaceHolder;
 
 import java.util.ArrayList;
@@ -34,6 +35,7 @@ public class DrawEngine extends Thread {
                 c.drawColor(Color.BLACK);
                 synchronized (MSurfaceHolder) {
                     for(PhysicsObjectInterface e : GameObjectsList){
+                        e.act();
                         e.paint(c,WidthRate, HeightRate);
                     }
                 }
@@ -61,9 +63,8 @@ public class DrawEngine extends Thread {
             Bitmap tempB = e.getBitmap();
             int scaledWidth = (int) Math.round(tempB.getWidth()*WidthRate);
             int scaledHeight = (int) Math.round(tempB.getHeight()*HeightRate);
-            tempB = Bitmap.createScaledBitmap(tempB, scaledWidth, scaledHeight,true);
+            //tempB = Bitmap.createScaledBitmap(tempB, scaledWidth, scaledHeight,true);     // TODO: 이미지 전체 비율에 문제가 있습니다. 일단 주석처리 해두겠습니다.
             e.setBitmap(tempB);
-
         }
     }
 }
