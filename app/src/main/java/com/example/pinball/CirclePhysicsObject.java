@@ -30,14 +30,47 @@ public class CirclePhysicsObject implements PhysicsObjectInterface{
 
     @Override
     public void collisionCheck(PhysicsObjectInterface x) {
-        if(x instanceof CirclePhysicsObject) {
-            CirclePhysicsObject other = (CirclePhysicsObject) x;
+        if(x instanceof CirclePhysicsObject){
+            CirclePhysicsObject other = (CirclePhysicsObject)x;
 
             double distance = distance(this.materialPoint, other.getMaterialPoint());
-            if(distance <= this.radius + other.radius){
-                Log.d("debug", "collision");
+
+            if(distance <= this.radius + other.radius && flag == true){
+                other.flag = false;
+                rePositioning(other);
+                other.rePositioning(this);
+                //other.flag = true;
+
+
             }
         }
+
+        if(x instanceof PolygonPhysicsObject){
+            PolygonPhysicsObject other = (PolygonPhysicsObject) x;
+            if(distance(this.materialPoint, other.getMaterialPoint()) <= (this.radius + other.getRadius())){
+                if(isCollidedWithRect(other)){
+                    velocity = velocity.minus(new Vector2D(0, 0.05));
+                }
+            }
+        }
+    }
+
+    private void rePositioning(CirclePhysicsObject other) {
+
+        double otherPositionVX = other.materialPoint.X - this.materialPoint.X;
+        double otherPositionVY = other.materialPoint.Y - this.materialPoint.Y;
+        Log.d("mpx", Double.toString(otherPositionVX));
+        Log.d("mpy", Double.toString(otherPositionVY));
+
+        this.collisionPoint = new Vector2D(otherPositionVX, otherPositionVY);
+        double scalar = distance(this.materialPoint, other.materialPoint) * this.radius / (this.radius + other.radius);
+        this.collisionPoint.reSize(scalar);
+
+        Log.d("collision x", Double.toString(collisionPoint.X));
+        Log.d("collision y", Double.toString(collisionPoint.Y));
+
+        other.materialPoint.X += this.collisionPoint.X / this.radius;
+        other.materialPoint.Y += this.collisionPoint.Y / this.radius;
     }
 
     private double getForce(CirclePhysicsObject other) {
