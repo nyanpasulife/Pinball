@@ -2,7 +2,6 @@ package com.example.pinball;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.util.Log;
@@ -37,8 +36,8 @@ public class CirclePhysicsObject implements PhysicsObjectInterface{
 
             if(distance <= this.radius + other.radius && flag == true){
                 other.flag = false;
-                rePositioning(other);
-                other.rePositioning(this);
+                moveByCollision(other);
+                other.moveByCollision(this);
                 other.flag = true;
 
 //                moveByCollision(other);
@@ -55,7 +54,7 @@ public class CirclePhysicsObject implements PhysicsObjectInterface{
         }
     }
 
-    private void rePositioning(CirclePhysicsObject other) {
+    private void moveByCollision(CirclePhysicsObject other) {
 
         double otherPositionVX = other.materialPoint.X - this.materialPoint.X;
         double otherPositionVY = other.materialPoint.Y - this.materialPoint.Y;
@@ -69,9 +68,12 @@ public class CirclePhysicsObject implements PhysicsObjectInterface{
         Log.d("collision x", Double.toString(collisionPoint.X));
         Log.d("collision y", Double.toString(collisionPoint.Y));
 
+
+        //repositioning
         other.materialPoint.X += this.collisionPoint.X / this.radius;
         other.materialPoint.Y += this.collisionPoint.Y / this.radius;
 
+        //update velocity
         other.velocity.X += this.collisionPoint.X / this.radius;
         other.velocity.Y += this.collisionPoint.Y / this.radius;
     }
@@ -104,10 +106,6 @@ public class CirclePhysicsObject implements PhysicsObjectInterface{
         }
         matrix.setTranslate((float)(materialPoint.X - radius), (float)(materialPoint.Y - radius));
         c.drawBitmap(image, matrix, imagePaint);
-
-        Paint paint = new Paint();
-        paint.setColor(Color.RED);
-        c.drawCircle((float)collisionPoint.X, (float)collisionPoint.Y, 10, paint);
     }
 
     @Override
