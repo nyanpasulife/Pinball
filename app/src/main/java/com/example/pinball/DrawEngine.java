@@ -56,7 +56,7 @@ public class DrawEngine extends Thread {
         GameObjectsList = list;
     }
 
-    public void convertDraw(double width, double height){
+    /*public void convertDraw(double width, double height){
         WidthRate = width / 720;
         HeightRate = height / 1280;
         for(PhysicsObjectInterface e : GameObjectsList){
@@ -66,5 +66,5 @@ public class DrawEngine extends Thread {
             //tempB = Bitmap.createScaledBitmap(tempB, scaledWidth, scaledHeight,true);     // TODO: 이미지 전체 비율에 문제가 있습니다. 일단 주석처리 해두겠습니다.
             e.setBitmap(tempB);
         }
-    }
+    }*/
 }
