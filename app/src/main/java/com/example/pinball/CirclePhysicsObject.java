@@ -2,6 +2,7 @@ package com.example.pinball;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.util.Log;
@@ -29,58 +30,19 @@ public class CirclePhysicsObject implements PhysicsObjectInterface{
 
     @Override
     public void collisionCheck(PhysicsObjectInterface x) {
-        if(x instanceof CirclePhysicsObject){
-            CirclePhysicsObject other = (CirclePhysicsObject)x;
+        if(x instanceof CirclePhysicsObject) {
+            CirclePhysicsObject other = (CirclePhysicsObject) x;
 
             double distance = distance(this.materialPoint, other.getMaterialPoint());
-
-            if(distance <= this.radius + other.radius && flag == true){
-                other.flag = false;
-                moveByCollision(other);
-                other.moveByCollision(this);
-                other.flag = true;
-
-//                moveByCollision(other);
+            if(distance <= this.radius + other.radius){
+                Log.d("debug", "collision");
             }
         }
-
-        if(x instanceof PolygonPhysicsObject){
-            PolygonPhysicsObject other = (PolygonPhysicsObject) x;
-            if(distance(this.materialPoint, other.getMaterialPoint()) <= (this.radius + other.getRadius())){
-                if(isCollidedWithRect(other)){
-                    velocity = velocity.minus(new Vector2D(0, 0.05));
-                }
-            }
-        }
-    }
-
-    private void moveByCollision(CirclePhysicsObject other) {
-
-        double otherPositionVX = other.materialPoint.X - this.materialPoint.X;
-        double otherPositionVY = other.materialPoint.Y - this.materialPoint.Y;
-        Log.d("mpx", Double.toString(otherPositionVX));
-        Log.d("mpy", Double.toString(otherPositionVY));
-
-        this.collisionPoint = new Vector2D(otherPositionVX, otherPositionVY);
-        double scalar = distance(this.materialPoint, other.materialPoint) * this.radius / (this.radius + other.radius);
-        this.collisionPoint.reSize(scalar);
-
-        Log.d("collision x", Double.toString(collisionPoint.X));
-        Log.d("collision y", Double.toString(collisionPoint.Y));
-
-
-        //repositioning
-        other.materialPoint.X += this.collisionPoint.X / this.radius;
-        other.materialPoint.Y += this.collisionPoint.Y / this.radius;
-
-        //update velocity
-        other.velocity.X += this.collisionPoint.X / this.radius;
-        other.velocity.Y += this.collisionPoint.Y / this.radius;
     }
 
     private double getForce(CirclePhysicsObject other) {
-        double j = 1 * velocity.minus(other.velocity).getSize() / (1/m + 1/other.m);
-        return j/m / 100;
+        double j = 1 * velocity.plus(other.velocity).getSize() / (1/m + 1/other.m);
+        return j/m;
     }
 
     @Override
@@ -106,6 +68,10 @@ public class CirclePhysicsObject implements PhysicsObjectInterface{
         }
         matrix.setTranslate((float)(materialPoint.X - radius), (float)(materialPoint.Y - radius));
         c.drawBitmap(image, matrix, imagePaint);
+
+        Paint paint = new Paint();
+        paint.setColor(Color.RED);
+        c.drawCircle((float)collisionPoint.X, (float)collisionPoint.Y, 10, paint);
     }
 
     @Override
