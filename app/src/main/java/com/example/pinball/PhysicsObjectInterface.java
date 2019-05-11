@@ -12,6 +12,4 @@ public interface PhysicsObjectInterface {
     void paint(Canvas c,double widthRate,double heightRate);
     double getRadius();
     Vector2D getMaterialPoint();
-
-
 }

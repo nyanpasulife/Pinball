@@ -1,11 +1,17 @@
 package com.example.pinball;
 
+import android.util.Log;
+
 import java.util.ArrayList;
 
 public class PhysicsEngine extends Thread{
     boolean Run = false;
+<<<<<<< HEAD
     static Vector2D gravity = new Vector2D(0,0);
     private ArrayList<PhysicsObjectInterface> GameMovableObjectsList = new ArrayList<>();
+=======
+    static Vector2D gravity = new Vector2D(0,0.001);
+>>>>>>> origin/master
     private ArrayList<PhysicsObjectInterface> GameObjectsList = new ArrayList<>();
 
     PhysicsEngine(ArrayList<PhysicsObjectInterface> movePack, ArrayList<PhysicsObjectInterface> pack){
@@ -23,16 +29,19 @@ public class PhysicsEngine extends Thread{
                     }
                 }
                 e.addGravitation(gravity);
-                e.act();
             }
 
             try {
+<<<<<<< HEAD
                 this.wait(10000);
+=======
+                this.wait(5);
+>>>>>>> origin/master
             }catch (Exception e){}
         }
     }
 
-        // 두 오브젝트가 충돌하면 두 오브젝트의 행동함수를 호출하는 함수
+    // 두 오브젝트가 충돌하면 두 오브젝트의 행동함수를 호출하는 함수
 
 
     //쓰레드가 작동하는지에 관한 논리값을 입력받는다.
