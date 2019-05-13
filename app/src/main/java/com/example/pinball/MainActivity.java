@@ -26,38 +26,44 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         setGameInside();
     }
-    void setGameInside(){
+
+    void setGameInside() {
         PhysicsView gameView = findViewById(R.id.game_inside);
 
-        ArrayList<PhysicsObjectInterface> movePack = new ArrayList<>();
-        ArrayList<PhysicsObjectInterface> pack = new ArrayList<>();
+        ArrayList<PhysicsObject> movePack = new ArrayList<>();
+        ArrayList<PhysicsObject> pack = new ArrayList<>();
 
-<<<<<<< HEAD
 
         BitmapFactory.Options originOp = new BitmapFactory.Options();
         originOp.inJustDecodeBounds = true;
 
-        Bitmap img1= BitmapFactory.decodeResource(getResources(), R.drawable.bitmap);
-        PolygonPhysicsObject a = new PolygonPhysicsObject(new Vector2D(300,300),100,100,img1);
-        movePack.add(a);
-        pack.add(a);
-        //Bitmap img2= BitmapFactory.decodeResource(getResources(), R.drawable.floor);
-        // b = new PolygonPhysicsObject(new Vector2D(0,1100),img2,false);
-        //pack.add(b);
-=======
-        Bitmap img1= BitmapFactory.decodeResource(getResources(), R.drawable.image);
-        CirclePhysicsObject a = new CirclePhysicsObject(new Vector2D(screenWidth / 2.2,0),img1);
-        pack.add(a);
-        Bitmap img2= BitmapFactory.decodeResource(getResources(), R.drawable.image3);
-        CirclePhysicsObject b = new CirclePhysicsObject(new Vector2D(screenWidth / 2,720),img2);
-        pack.add(b);
-//        Bitmap img4= BitmapFactory.decodeResource(getResources(), R.drawable.image4);
-//        CirclePhysicsObject d = new CirclePhysicsObject(new Vector2D(screenWidth / 1.7,300),img4);
-//        pack.add(d);
-        Bitmap img3= BitmapFactory.decodeResource(getResources(), R.drawable.image2);
-        PolygonPhysicsObject c = new PolygonPhysicsObject(new Vector2D(screenWidth / 2,screenHeight),img3);
+        Bitmap rect = BitmapFactory.decodeResource(getResources(), R.drawable.bitmap1);
+        Bitmap circle = BitmapFactory.decodeResource(getResources(), R.drawable.image);
+        Bitmap floorRect = BitmapFactory.decodeResource(getResources(), R.drawable.floor);
+
+
+        PolygonPhysicsObject rect1 = new PolygonPhysicsObject(new Vector2D(500, 300), 40, 100, rect);
+        movePack.add(rect1);
+        pack.add(rect1);
+
+        PolygonPhysicsObject rect2 = new PolygonPhysicsObject(new Vector2D(1000, 900), 100, 100, rect);
+        movePack.add(rect2);
+        pack.add(rect2);
+
+        CirclePhysicsObject circle1 = new CirclePhysicsObject(new Vector2D(550, 0), 50, circle);
+        movePack.add(circle1);
+        pack.add(circle1);
+
+        CirclePhysicsObject circle2 = new CirclePhysicsObject(new Vector2D(1000, 1000), 200, circle);
+        movePack.add(circle2);
+        pack.add(circle2);
+
+        PolygonPhysicsObject floor = new PolygonPhysicsObject(new Vector2D(800, 2000), 1500, 300, floorRect, false);
+        pack.add(floor);
+        PolygonPhysicsObject c = new PolygonPhysicsObject(new Vector2D(100, 1000), 200, 3000, floorRect, false);
         pack.add(c);
->>>>>>> origin/master
+        PolygonPhysicsObject d = new PolygonPhysicsObject(new Vector2D(1400, 1000), 200, 3000, floorRect, false);
+        pack.add(d);
 
         gameView.setGameObjectsList(pack);
         gameView.setGameMovableObjectsList(movePack);

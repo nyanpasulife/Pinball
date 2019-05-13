@@ -8,24 +8,26 @@ import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.provider.ContactsContract;
+import android.provider.Settings;
 import android.support.annotation.RequiresApi;
 import android.util.Log;
 
 import java.util.ArrayList;
 
-public class PolygonPhysicsObject implements PhysicsObjectInterface {
+public class PolygonPhysicsObject extends PhysicsObject {
     boolean MovingObject = true; // 물체가 움직이는지 여부
+    boolean Collided = false; // 물체가 충돌될경우 act 함수가 호출될때까지 true 상태가 유지됨.
 
     Vector2D MaterialPoint; //물체의 무게중심(질점)
+    ArrayList<Vector2D> OriginVertexVectors = new ArrayList<>(); //회전되지 않은 고유의 도형 모양. 회전당 발생하는 오차를 줄이기 위해 회전은 항상 본래 모양에서 계산됨.
     ArrayList<Vector2D> VertexVectors = new ArrayList<>(); // 중심점을 기준으로 꼭지점까지의 벡터들 ,p0 ~ pn-1 , 반드시 예각이 없는 다면체여야함.
-    ArrayList<Vector2D> PerpendicularsOfSides = new ArrayList<>(); //각 변과 수직인 법선벡터들, p1 ~ pn
     double SuperRange; //사각형을 감싸는 원의 반지름
     Bitmap Image; //비트맵 이미지.
 
     Vector2D Velocity = new Vector2D(0, 0);
     double Rotation = 0;
     double RotationSpeed = 0; //양수:반시계방향 음수:시계방향
-    double InverseOfMass = 0.05; // 질량의 역수
+    double InverseOfMass = 0.001; // 질량의 역수
     double InverseOfI; //관성모멘트의 역수. 복잡한 도형은 근사값만 사용.
 
     Matrix MMatrix = new Matrix();
@@ -37,23 +39,9 @@ public class PolygonPhysicsObject implements PhysicsObjectInterface {
         MaterialPoint = position;
         Image = bitmap;
         resizeBitmapToOrigin(width, height);
-        double wHalf = width / 2;
-        double hHalf = height / 2;
+        makeComputedDataFromBitmap(width, height);
 
-        VertexVectors.add(new Vector2D(-wHalf, -hHalf));
-        VertexVectors.add(new Vector2D(wHalf, -hHalf));
-        VertexVectors.add(new Vector2D(wHalf, hHalf));
-        VertexVectors.add(new Vector2D(-wHalf, hHalf));
-
-        ImagePaintVector = VertexVectors.get(0);
-
-        PerpendicularsOfSides.add(new Vector2D(0, -1));
-        PerpendicularsOfSides.add(new Vector2D(1, 0));
-        PerpendicularsOfSides.add(new Vector2D(0, 1));
-        PerpendicularsOfSides.add(new Vector2D(-1, 0));
-
-        SuperRange = Math.sqrt(width * width + height * height);
-        InverseOfI = (3 * InverseOfMass) / (width * width + height * height);
+        RotationSpeed =0.4;
     }
 
     PolygonPhysicsObject(Vector2D position, double width, double height, Bitmap bitmap, boolean moveBool) {
@@ -63,8 +51,28 @@ public class PolygonPhysicsObject implements PhysicsObjectInterface {
         InverseOfI = 0;
     }
 
-    public void resizeBitmapToOrigin(double width, double height) {
+    void resizeBitmapToOrigin(double width, double height) {
         Image = Bitmap.createScaledBitmap(Image, (int) width, (int) height, false);
+    }
+
+    void makeComputedDataFromBitmap(double width, double height){
+        double wHalf = width / 2;
+        double hHalf = height / 2;
+
+        OriginVertexVectors.add(new Vector2D(-wHalf, -hHalf));
+        OriginVertexVectors.add(new Vector2D(wHalf, -hHalf));
+        OriginVertexVectors.add(new Vector2D(wHalf, hHalf));
+        OriginVertexVectors.add(new Vector2D(-wHalf, hHalf));
+
+        VertexVectors.add(new Vector2D(-wHalf, -hHalf));
+        VertexVectors.add(new Vector2D(wHalf, -hHalf));
+        VertexVectors.add(new Vector2D(wHalf, hHalf));
+        VertexVectors.add(new Vector2D(-wHalf, hHalf));
+
+        ImagePaintVector = VertexVectors.get(0);
+
+        SuperRange = Math.sqrt(width * width + height * height);
+        InverseOfI = (12 * InverseOfMass) / (width * width + height * height);
     }
 
     //비트맵을 받고 따로 충돌영역을 커스터마이징 하는 생성자 추가바람...
@@ -72,117 +80,72 @@ public class PolygonPhysicsObject implements PhysicsObjectInterface {
 
     @Override
     public void collisionCheck(PhysicsObjectInterface other) {
-
-        double rangeEachOthers = MaterialPoint.minus(other.getMaterialPoint()).getSize();
         if (MaterialPoint.minus(other.getMaterialPoint()).getSize() + 0.02 <= SuperRange + other.getRadius()) {
             collisionCheck2(other);
         }
-
-
     }
 
     public void collisionCheck2(PhysicsObjectInterface other) {
-        double collisionDepth;
-        Vector2D collisionPoint;
-
         if (other instanceof PolygonPhysicsObject) {
             PolygonPhysicsObject otherPol = (PolygonPhysicsObject) other;
-            GJK gjkResult = new GJK(this, otherPol);
-
-            /*PolygonPhysicsObject otherPol = (PolygonPhysicsObject) other;
-            Vector2D otherMP =otherPol.MaterialPoint;
-            int otherPolSize = otherPol.VertexVectors.size();
-            boolean breakBool = false;
-            for(Vector2D myVertexV : VertexVectors){
-                Vector2D myV = MaterialPoint.plus(myVertexV);
-                for(int j=0;j<otherPolSize;j++){
-                    Vector2D otherVertexV = otherPol.VertexVectors.get(j);
-                    Vector2D otherV = otherMP.plus(otherVertexV);
-                    Vector2D compareV = myV.minus(otherV);
-
-                    Vector2D otherPerpendicular = otherPol.PerpendicularsOfSides.get(j);
-                    double comparedValue = otherPerpendicular.dotProduct(compareV);
-                    if(comparedValue >=0){ break; }
-
-                    if(collisionDepth ==-4000){
-                        collisionDepth= Math.abs(comparedValue);
-                    }
-                    else if(collisionDepth >= Math.abs(comparedValue)){
-                        collisionDepth = Math.abs(comparedValue); //comparedValue 중에 작은값이 충돌깊이이다.
-                   }
-
-                    if(j == otherPolSize-1){
-                        betweenPolygonCollided(myV, otherPerpendicular, collisionDepth,otherPol);
-                        breakBool = true;
-                        break;
-                    }
-                }
-                if(breakBool){break;}
-            }*/
+            GJK gjk = new GJK(this, otherPol);
+            if(gjk.EPADepth >0){
+                this.Collided = true;
+                otherPol.Collided =true;
+                betweenPolygonCollided(gjk.CollisionPoint,gjk.EPANormalVector,gjk.EPADepth,otherPol);
+            }
         }
-        //else if(){}
+        //else if(other instanceof )
     }
 
 
     public void betweenPolygonCollided(Vector2D collisionPoint, Vector2D collisionDirection, double collisionDepth, PolygonPhysicsObject other) { //충돌점, 충돌점에서 충돌방향, 충돌깊이, 다른 폴리곤 오브젝트
         double impulse = 0;
-        Vector2D n = collisionDirection;
+        Vector2D n = collisionDirection.inverse();
 
         if (other.MovingObject == true) {
-            //
-
-
-            //두 물체를 중심점에서 질량의 역수 비율만큼 떨어트린다.
-
-
-            //두 물체 사이에 작용하는 충격력을 구하고 각각 addImpulse 를 호출해서 두 폴리곤의 속력과 각속도를 바꾼다.
-            /*Vector2D AMtoP = collisionPoint.minus(MaterialPoint);
-            Vector2D normalAngularThis = AMtoP.getNormalVector();//A의 각속도 방향
-
-
-            Vector2D BMtoP = collisionPoint.minus(other.MaterialPoint);
-            Vector2D normalAngularOther = BMtoP.getNormalVector(); //B의 각속도 방향
-
-            Vector2D velocityAatP = Velocity.plus(normalAngularThis.constantProduct(RotationSpeed));
-            Vector2D velocityBatP = other.Velocity.plus(normalAngularOther.constantProduct(other.RotationSpeed));
-            Vector2D vAB = velocityAatP.minus(velocityBatP);
-            double impulseFormulaNumerator = vAB.constantProduct(-2).dotProduct(n);
-
-            double denominator1 = n.dotProduct(n.constantProduct(InverseOfMass + other.InverseOfMass));
-            double denominator2 = normalAngularThis.dotProduct(n)*normalAngularThis.dotProduct(n)*InverseOfMass;
-            double denominator3 = normalAngularOther.dotProduct(n)*normalAngularOther.dotProduct(n)*other.InverseOfMass;
-            double impulseFormulaDenominator = denominator1 + denominator2 + denominator3;
-
-            impulse = impulseFormulaNumerator / impulseFormulaDenominator;
-            this.addImpulse(impulse,collisionDirection,normalAngularThis);
-            other.addImpulse(0-impulse,collisionDirection,normalAngularOther);*/
 
         } else { //other.MovingObject != false
             //자신을 충돌지점에서 충돌 깊이만큼 빼낸다.
-            Vector2D collisionDepthVector = collisionDirection.constantProduct(collisionDepth);
-            MaterialPoint.plus(collisionDepthVector);
+            Vector2D collisionDepthVector = n.constantProduct(collisionDepth*1.05);
+            MaterialPoint = MaterialPoint.plus(collisionDepthVector);
 
             //자신에게 작용하는 충격력을 구하고 addImpulse 로 이동 방향을 정한다. 상대의 질량이 무한이라고 가정.
             Vector2D AMtoP = collisionPoint.minus(MaterialPoint);
             Vector2D normalAngularThis = AMtoP.getNormalVector();//A의 각속도 방향
 
-            Vector2D velocityAatP = Velocity.plus(normalAngularThis.constantProduct(RotationSpeed));
+            Vector2D velocityAatP = getVelocityAtP(collisionPoint);
             Vector2D vAB = velocityAatP;
-            double impulseFormulaNumerator = vAB.constantProduct(-2).dotProduct(n);
 
+            double impulseFormulaNumerator = vAB.constantProduct(-1.8).dotProduct(n);
             double denominator1 = n.dotProduct(n.constantProduct(InverseOfMass));
-            double denominator2 = normalAngularThis.dotProduct(n) * normalAngularThis.dotProduct(n) * InverseOfMass;
+            double denominator2 = normalAngularThis.dotProduct(n) * normalAngularThis.dotProduct(n) * InverseOfI;
             double impulseFormulaDenominator = denominator1 + denominator2;
 
             impulse = impulseFormulaNumerator / impulseFormulaDenominator;
-            this.addImpulse(impulse, collisionDirection, normalAngularThis);
+            double frictionForceScalar = getFrictionForce(impulse);
+
+            this.addImpulseAndFriction(impulse, n, normalAngularThis, frictionForceScalar);
         }
     }
 
-    public void addImpulse(double impulse, Vector2D collisionDirection, Vector2D normalAngular) {
-        Vector2D n = collisionDirection;
-        Velocity = Velocity.plus(n.constantProduct(impulse * InverseOfMass));
-        RotationSpeed = RotationSpeed + (normalAngular.dotProduct(n.constantProduct(impulse)) * InverseOfI);
+    double getFrictionForce(double impulse){
+        double frictionForce = (0.001)*(1/InverseOfMass); //마찰력은 수직항력에 비례, 수직항력 = -중력, 중력은 질량에 비례.
+        return frictionForce;
+    }
+
+    protected void addImpulseAndFriction(double impulse, Vector2D n, Vector2D normalAngular, double frictionForceScalar) {
+        Vector2D VelocityVariation = n.constantProduct(impulse * InverseOfMass);
+        Velocity = Velocity.plus(VelocityVariation);
+        double RotationSpeedVariation = (180 / Math.PI) * (normalAngular.dotProduct(n.constantProduct(impulse)) * InverseOfI);
+        RotationSpeed = RotationSpeed + RotationSpeedVariation;
+
+        /*Vector2D VelocityVariation_P = VelocityVariation.plus(normalAngular.constantProduct(RotationSpeedVariation));
+        Vector2D frictionDirection_P = VelocityVariation_P.reSize(1).inverse();
+        Vector2D verbN = n.getNormalVector();
+        Vector2D realFrictionDirection = verbN.constantProduct(verbN.dotProduct(frictionDirection_P)).reSize(1);
+        Vector2D realFriction = realFrictionDirection.constantProduct(frictionForceScalar);
+        Velocity = Velocity.plus(realFriction);*/
     }
 
     @Override
@@ -192,16 +155,35 @@ public class PolygonPhysicsObject implements PhysicsObjectInterface {
 
     @Override
     public void act() {
-        MaterialPoint = MaterialPoint.plus(new Vector2D(0, 0.0001));
-        //MaterialPoint = MaterialPoint.plus(Velocity);
-        //Vector2D FirstPoint = MaterialPoint.plus(VertexVectors.get(0));
-        /*Rotation +=RotationSpeed;
+        MaterialPoint = MaterialPoint.plus(Velocity);
+        Rotation +=RotationSpeed;
         if(Rotation <0 || Rotation >360);{
             Rotation = Rotation %360;
         }
-        for(Vector2D e : VertexVectors){
-            e.rotate(RotationSpeed);
-        */
+        rotateVertexes();
+
+        Collided = false;  //Collided 가 true 인 순간은 충돌시부터 act 이전까지만. 이를 이용해 PhysicsEngine 에서 충돌한 상태의 물체에는 중력을 더하지 않음.
+
+    }
+
+    @Override
+    protected Vector2D getVelocityAtP(Vector2D collisionPoint) {
+        if(MovingObject ==true) {
+            Vector2D AMtoP = collisionPoint.minus(MaterialPoint);
+            Vector2D normalAngularThis = AMtoP.getNormalVector();//A의 각속도 방향
+            return Velocity.plus(normalAngularThis.constantProduct(RotationSpeed * (Math.PI / 180)));
+        }
+        return new Vector2D(0,0);
+    }
+
+    void rotateVertexes(){
+        ArrayList<Vector2D> newVertexVectors = new ArrayList<>();
+        for (int i = 0; i < OriginVertexVectors.size(); i++) {
+            newVertexVectors.add(OriginVertexVectors.get(i).rotate(Rotation));
+        }
+        synchronized (VertexVectors){
+            VertexVectors = newVertexVectors;
+        }
     }
 
 
@@ -209,14 +191,16 @@ public class PolygonPhysicsObject implements PhysicsObjectInterface {
     public void paint(Canvas c, double widthRate, double heightRate) {
         Vector2D imagePaintPoint = getImagePaintPoint();
         MMatrix.setTranslate((float) imagePaintPoint.X, (float) imagePaintPoint.Y);
-        MMatrix.postRotate((float) Rotation);
+        MMatrix.postRotate((float) Rotation,(float)MaterialPoint.X,(float)MaterialPoint.Y);
         c.drawBitmap(Image, MMatrix, new Paint());
 
         Paint paint = new Paint();
         paint.setColor(Color.RED);
-        for (Vector2D v : VertexVectors) {
-            Vector2D otherPoint = MaterialPoint.plus(v);
-            c.drawLine((float) MaterialPoint.X, (float) MaterialPoint.Y, (float) otherPoint.X, (float) otherPoint.Y, paint);
+        synchronized (VertexVectors) {
+            for (Vector2D v : VertexVectors) {
+                Vector2D otherPoint = MaterialPoint.plus(v);
+                c.drawLine((float) MaterialPoint.X, (float) MaterialPoint.Y, (float) otherPoint.X, (float) otherPoint.Y, paint);
+            }
         }
     }
 
@@ -241,4 +225,25 @@ public class PolygonPhysicsObject implements PhysicsObjectInterface {
     public Vector2D getMaterialPoint() {
         return MaterialPoint;
     }
+
+    @Override
+    protected void setMaterialPoint(Vector2D mP) {
+        MaterialPoint = mP;
+    }
+
+    @Override
+    protected boolean isMovingObject() {
+        return MovingObject;
+    }
+
+    @Override
+    protected double getInverseOfMass() {
+        return InverseOfMass;
+    }
+
+    @Override
+    protected double getInverseOfI() {
+        return InverseOfI;
+    }
+
 }

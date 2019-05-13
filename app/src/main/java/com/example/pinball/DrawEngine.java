@@ -13,13 +13,13 @@ import java.util.ArrayList;
 public class DrawEngine extends Thread {
     private boolean Run = false; //Run == true 여야 그리는 행동이 작동함.
     private SurfaceHolder MSurfaceHolder; // 이 객체를 이용해 SurefaceView에 그림을 그릴 수 있음.
-    private ArrayList<PhysicsObjectInterface> GameObjectsList = new ArrayList<>();
+    private ArrayList<PhysicsObject> GameObjectsList = new ArrayList<>();
 
     double WidthRate ;
     double HeightRate;
 
     //생성자 : SurfaceHolder 를 받아와 자신의 인스턴스 변수로 저장한다.
-    public DrawEngine(SurfaceHolder holder, ArrayList<PhysicsObjectInterface> pack) {
+    public DrawEngine(SurfaceHolder holder, ArrayList<PhysicsObject> pack) {
         MSurfaceHolder = holder;
         GameObjectsList = pack;
     }
@@ -34,8 +34,7 @@ public class DrawEngine extends Thread {
                 c = MSurfaceHolder.lockCanvas(null);
                 c.drawColor(Color.BLACK);
                 synchronized (MSurfaceHolder) {
-                    for(PhysicsObjectInterface e : GameObjectsList){
-                        e.act();
+                    for(PhysicsObject e : GameObjectsList){
                         e.paint(c,WidthRate, HeightRate);
                     }
                 }
@@ -52,7 +51,7 @@ public class DrawEngine extends Thread {
         Run = b;
     }
 
-    public void setGameObjectsList(ArrayList<PhysicsObjectInterface> list){
+    public void setGameObjectsList(ArrayList<PhysicsObject> list){
         GameObjectsList = list;
     }
 
