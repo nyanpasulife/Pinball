@@ -36,19 +36,39 @@ public class Vector2D {
         return new Vector2D(X *ratio,Y*ratio);
     }
     public Vector2D getNormalVector(){
-        return new Vector2D(-Y,X).reSize(1);
-    }
-    public Vector2D rotate(double angle){
-        Vector2D returnVector = new Vector2D(0,0);
-        returnVector.X = Math.cos(angle)*X - Math.sin(angle)*Y;
-        returnVector.Y = Math.sin(angle)*X + Math.cos(angle)*Y;
+        Vector2D returnVector = new Vector2D(-Y,X);
+        returnVector = returnVector.reSize(1);
         return returnVector;
+    } //90도 회전한 정규벡터
+    public Vector2D rotate(double angle){
+        double radianAngle = (Math.PI / 180) * angle;
+        Vector2D returnVector = new Vector2D(0,0);
+        returnVector.X = Math.cos(radianAngle)*X - Math.sin(radianAngle)*Y;
+        returnVector.Y = Math.sin(radianAngle)*X + Math.cos(radianAngle)*Y;
+        return returnVector;
+    }
+    public Vector2D rotateDotByPivot(double angle, Vector2D pivot){
+        Vector2D IRVector = this.minus(pivot);
+        IRVector = IRVector.rotate(angle);
+        return pivot.plus(IRVector);
     }
     public Vector2D tripleCrossProduct(Vector2D other1, Vector2D other2){
         Vector2D A = this;
         Vector2D B = other1;
         Vector2D C = other2;
         return B.constantProduct(C.dotProduct(A)).minus(A.constantProduct(C.dotProduct(B))).reSize(1);
+    }
+
+    public LinearLine getLinearLine(Vector2D other){ //두 벡터가 정점일때, 그 두점을 지나는 일차방정식을 구함.
+        double a =this.X;  double b = this.Y;  double c = other.X;  double d = other.Y;
+        if(a==c){
+            return new LinearNoYLine(a);
+        }
+        else {
+            double A = (b - d) / (a - c);
+            double B = ((a * d) - (b * c)) / (a - c);
+            return new LinearEquation(A, B);
+        }
     }
 
     @Override

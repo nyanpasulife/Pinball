@@ -11,8 +11,8 @@ public class PhysicsView extends SurfaceView implements SurfaceHolder.Callback{
 
     private DrawEngine DrawThread;
     private PhysicsEngine PhysicsThread;
-    private ArrayList<PhysicsObjectInterface> GameMovableObjectsList = new ArrayList<>();
-    private ArrayList<PhysicsObjectInterface> GameObjectsList = new ArrayList<>();
+    private ArrayList<PhysicsObject> GameMovableObjectsList = new ArrayList<>();
+    private ArrayList<PhysicsObject> GameObjectsList = new ArrayList<>();
 
     public PhysicsView(Context context){
         super(context);
@@ -69,10 +69,10 @@ public class PhysicsView extends SurfaceView implements SurfaceHolder.Callback{
         }
     }
 
-    public void setGameObjectsList(ArrayList<PhysicsObjectInterface> list){
+    public void setGameObjectsList(ArrayList<PhysicsObject> list){
         GameObjectsList = list;
     }
-    public void setGameMovableObjectsList(ArrayList<PhysicsObjectInterface> list){
+    public void setGameMovableObjectsList(ArrayList<PhysicsObject> list){
         GameMovableObjectsList = list;
     }
 }

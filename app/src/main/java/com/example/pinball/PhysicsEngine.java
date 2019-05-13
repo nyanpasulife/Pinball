@@ -6,15 +6,11 @@ import java.util.ArrayList;
 
 public class PhysicsEngine extends Thread{
     boolean Run = false;
-<<<<<<< HEAD
-    static Vector2D gravity = new Vector2D(0,0);
-    private ArrayList<PhysicsObjectInterface> GameMovableObjectsList = new ArrayList<>();
-=======
-    static Vector2D gravity = new Vector2D(0,0.001);
->>>>>>> origin/master
-    private ArrayList<PhysicsObjectInterface> GameObjectsList = new ArrayList<>();
+    private ArrayList<PhysicsObject> GameMovableObjectsList = new ArrayList<>();
+    private ArrayList<PhysicsObject> GameObjectsList = new ArrayList<>();
+    static Vector2D gravity = new Vector2D(0,0.1);
 
-    PhysicsEngine(ArrayList<PhysicsObjectInterface> movePack, ArrayList<PhysicsObjectInterface> pack){
+    PhysicsEngine(ArrayList<PhysicsObject> movePack, ArrayList<PhysicsObject> pack){
         GameMovableObjectsList = movePack;
         GameObjectsList = pack;
     }
@@ -22,21 +18,21 @@ public class PhysicsEngine extends Thread{
     @Override
     public void run() {
         while(Run){
-            for(PhysicsObjectInterface e :GameMovableObjectsList){
-                for(PhysicsObjectInterface other : GameObjectsList){ //그리드가 추가되면 수정되어야하는 부분. 현재는 모든 오브젝트에 대해 충돌 검사를 하도록 작성되어있음.
-                    if(e != other){
+            for(PhysicsObject e :GameMovableObjectsList){
+                for(PhysicsObject other : GameObjectsList){ //그리드가 추가되면 수정되어야하는 부분. 현재는 모든 오브젝트에 대해 충돌 검사를 하도록 작성되어있음.
+                    if(e != other & e.Collided ==false){
                         e.collisionCheck(other);
                     }
                 }
-                e.addGravitation(gravity);
+                if(e.Collided ==false) {
+                    e.addGravitation(gravity); //본래는 바닥면과 충돌할때만 수직항력에 의해 중력이 없어지지만, 프로그래밍의 편의성을 위하여 충돌된 물체는 그 계산 차례에 중력은 고려하지 않음.
+                }
+                e.act();
             }
 
             try {
-<<<<<<< HEAD
-                this.wait(10000);
-=======
-                this.wait(5);
->>>>>>> origin/master
+                Thread.sleep(10);
+
             }catch (Exception e){}
         }
     }
@@ -52,10 +48,10 @@ public class PhysicsEngine extends Thread{
     public class Grid{
 
     }
-    public void setGameObjectsList(ArrayList<PhysicsObjectInterface> list){
+    public void setGameObjectsList(ArrayList<PhysicsObject> list){
         GameObjectsList = list;
     }
-    public void setGameMovableObjectsList(ArrayList<PhysicsObjectInterface> list){
+    public void setGameMovableObjectsList(ArrayList<PhysicsObject> list){
         GameMovableObjectsList = list;
     }
 
