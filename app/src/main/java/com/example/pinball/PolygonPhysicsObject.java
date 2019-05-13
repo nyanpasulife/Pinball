@@ -5,12 +5,6 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Paint;
-import android.graphics.drawable.Drawable;
-import android.os.Build;
-import android.provider.ContactsContract;
-import android.provider.Settings;
-import android.support.annotation.RequiresApi;
-import android.util.Log;
 
 import java.util.ArrayList;
 
@@ -40,8 +34,6 @@ public class PolygonPhysicsObject extends PhysicsObject {
         Image = bitmap;
         resizeBitmapToOrigin(width, height);
         makeComputedDataFromBitmap(width, height);
-
-        RotationSpeed =0.4;
     }
 
     PolygonPhysicsObject(Vector2D position, double width, double height, Bitmap bitmap, boolean moveBool) {
@@ -79,13 +71,16 @@ public class PolygonPhysicsObject extends PhysicsObject {
 
 
     @Override
-    public void collisionCheck(PhysicsObjectInterface other) {
+    public boolean collisionCheck(PhysicsObject other) {
         if (MaterialPoint.minus(other.getMaterialPoint()).getSize() + 0.02 <= SuperRange + other.getRadius()) {
-            collisionCheck2(other);
+            if(collisionCheck2(other)){
+                return true;
+            }
         }
+        return false;
     }
 
-    public void collisionCheck2(PhysicsObjectInterface other) {
+    public boolean collisionCheck2(PhysicsObject other) {
         if (other instanceof PolygonPhysicsObject) {
             PolygonPhysicsObject otherPol = (PolygonPhysicsObject) other;
             GJK gjk = new GJK(this, otherPol);
@@ -93,9 +88,10 @@ public class PolygonPhysicsObject extends PhysicsObject {
                 this.Collided = true;
                 otherPol.Collided =true;
                 betweenPolygonCollided(gjk.CollisionPoint,gjk.EPANormalVector,gjk.EPADepth,otherPol);
+                return true;
             }
         }
-        //else if(other instanceof )
+        return false;
     }
 
 
@@ -134,7 +130,7 @@ public class PolygonPhysicsObject extends PhysicsObject {
         return frictionForce;
     }
 
-    protected void addImpulseAndFriction(double impulse, Vector2D n, Vector2D normalAngular, double frictionForceScalar) {
+    public void addImpulseAndFriction(double impulse, Vector2D n, Vector2D normalAngular, double frictionForceScalar) {
         Vector2D VelocityVariation = n.constantProduct(impulse * InverseOfMass);
         Velocity = Velocity.plus(VelocityVariation);
         double RotationSpeedVariation = (180 / Math.PI) * (normalAngular.dotProduct(n.constantProduct(impulse)) * InverseOfI);
@@ -245,5 +241,19 @@ public class PolygonPhysicsObject extends PhysicsObject {
     protected double getInverseOfI() {
         return InverseOfI;
     }
+
+    @Override
+    public Vector2D getVelocity() {
+        return Velocity;
+    }
+
+    @Override
+    public void setVelocity(Vector2D v) {
+        Velocity =v;
+    }
+
+    protected double getRotation(){return Rotation;}
+
+    protected void setRotation(double r){Rotation = r;}
 
 }

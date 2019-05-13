@@ -25,7 +25,7 @@ public class CirclePhysicsObject extends PhysicsObject {
     Vector2D collisionDirection = new Vector2D(0, 0);
     double collisionDepth = 0;
 
-    double m = 1;
+    //double m = 1;
 
     boolean flag = true;
 
@@ -50,19 +50,33 @@ public class CirclePhysicsObject extends PhysicsObject {
     }
 
     @Override
-    public void collisionCheck(PhysicsObjectInterface x) {
+    public boolean collisionCheck(PhysicsObject x) {
         if (x instanceof CirclePhysicsObject) {
             CirclePhysicsObject other = (CirclePhysicsObject) x;
 
             double distance = distance(this.materialPoint, other.getMaterialPoint());
 
-            if (distance <= this.radius + other.radius && flag == true) {
-                other.flag = false;
+            if (distance <= this.radius + other.radius) {
+                /*other.flag = false;
                 moveByCollision(other);
-                other.moveByCollision(this);
+                other.moveByCollision(this);  구버전 코드
                 other.flag = true;
 
-                moveByCollision(other);
+                moveByCollision(other);*/
+
+                //other에서 this의 중점으로 향하는 벡터를 만들고, 그 벡터의 크기를 절반으로 줄였을 때, 도달하는 위치의 점이 충돌 지점.
+                Vector2D OtherToThisVector= this.materialPoint.minus(other.getMaterialPoint());
+                OtherToThisVector = OtherToThisVector.reSize(0.5);
+                collisionPoint = other.getMaterialPoint().plus(OtherToThisVector);
+
+                // 충돌 깊이 = distance - {(distance - this.r) + (distance - other.r)} = this.r + other.r -distance
+                collisionDepth = this.radius + other.radius - distance;
+
+                // 충돌 방향 = OtherToThisVector 의 정규(normal) 벡터
+                collisionDirection = OtherToThisVector.reSize(1);
+
+                outDepth_getImpuse(this,other,collisionPoint,collisionDirection,collisionDepth); //충격 공식
+                return true;
             }
         }
 
@@ -71,9 +85,11 @@ public class CirclePhysicsObject extends PhysicsObject {
             if (true) { // TODO 본래: distance(this.materialPoint, other.getMaterialPoint()) <= (this.radius + other.getRadius())
                 if (isCollidedWithRect(other)) {
                     outDepth_getImpuse(this,other,collisionPoint,collisionDirection,collisionDepth);
+                    return true;
                 }
             }
         }
+        return false;
     }
 
 
@@ -101,10 +117,10 @@ public class CirclePhysicsObject extends PhysicsObject {
         other.velocity.Y += this.collisionPoint.Y / this.radius;
     }
 
-    private double getForce(CirclePhysicsObject other) {
+   /* private double getForce(CirclePhysicsObject other) {
         double j = 1 * velocity.minus(other.velocity).getSize() / (1 / m + 1 / other.m);
         return j / m / 100;
-    }
+    }*/
 
     @Override
     public void addGravitation(Vector2D gravity) {
@@ -252,7 +268,7 @@ public class CirclePhysicsObject extends PhysicsObject {
     }
 
     @Override
-    protected void addImpulseAndFriction(double impulse, Vector2D n, Vector2D normalAngularA, double frictionForceScalar) {
+    public void addImpulseAndFriction(double impulse, Vector2D n, Vector2D normalAngularA, double frictionForceScalar) {
         Vector2D impulseVector = n.constantProduct(impulse * InverseOfMass);
         velocity = velocity.plus(impulseVector);
     }
@@ -275,6 +291,16 @@ public class CirclePhysicsObject extends PhysicsObject {
     @Override
     protected double getInverseOfI() {
         return 0;
+    }
+
+    @Override
+    public Vector2D getVelocity() {
+        return velocity;
+    }
+
+    @Override
+    public void setVelocity(Vector2D v) {
+        velocity = v;
     }
 
     @Override
