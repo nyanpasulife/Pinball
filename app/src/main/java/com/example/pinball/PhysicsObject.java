@@ -11,7 +11,7 @@ abstract public class PhysicsObject implements PhysicsObjectInterface {
         //인덱스 0,1은 절대좌표계에서 AABB 가 있을때, 한 정점과 가장 가까운 변에 속한 두 점을 리턴함. 변이 동일한 거리면 인덱스순으로 반환.
         //인덱스 2는 점과 변이 수직하는 점, 인덱스 3은 수직교점의 방향벡터.
         public static Vector2D[] getClosedAABBSideWithDot(Vector2D dot, ArrayList<Vector2D> AABB) {
-            //TODO 받은 변의 벡터정보가 실제 AABB에 근사한지 확인하는 체크 필요
+            //TODO 받은 변의 벡터정보가 실제 AABB에 근사한지 확인하는 체크 필요. 현재는 무조건 맞다는 가정에 코드가 제작되어있음.
             double[] AABBxy = get_AABB_XY(AABB);
             double leastX = AABBxy[0], greatestX = AABBxy[1], leastY = AABBxy[2], greatestY = AABBxy[3]; //사각형 꼭지점 정보.
 
@@ -142,7 +142,20 @@ abstract public class PhysicsObject implements PhysicsObjectInterface {
         }
     }
 
-    protected abstract void addImpulseAndFriction(double impulse, Vector2D n, Vector2D normalAngularA, double frictionForceScalar);
+    public abstract void addImpulseAndFriction(double impulse, Vector2D n, Vector2D normalAngularA, double frictionForceScalar);
+
+    //public abstract void addImpulseAndFriction(double impulse, Vector2D n, double frictionForceScalar); //물리엔진 외부에서 물리 정보를 모르지만 충격량을 주고싶을때 사용.
+
+    public void everyTick(){
+        // 게임상에서 오브젝트가 매 틱마다 행동하는 것은 이 메소드를 오버라이드.
+    }
+
+    public void gameCollided(PhysicsObject other){
+        // 게임상에서 충돌할시 벌어지는 일을 구현하려면 이 메소드를 오버라이드.
+    }
+
+
+    abstract public boolean collisionCheck(PhysicsObject other);
 
     protected abstract void setMaterialPoint(Vector2D mP);
 
@@ -151,6 +164,11 @@ abstract public class PhysicsObject implements PhysicsObjectInterface {
     protected abstract double getInverseOfMass();
 
     protected abstract double getInverseOfI();
+
+    public abstract Vector2D getVelocity();
+
+    public abstract void setVelocity(Vector2D v);
+
 
     protected abstract Vector2D getVelocityAtP(Vector2D collisionPoint);
 }

@@ -4,7 +4,7 @@ import android.content.MutableContextWrapper;
 
 public class Vector2D {
     double X, Y;
-    Vector2D(double x, double y){
+    public Vector2D(double x, double y){
         X = x;
         Y = y;
     }
