@@ -9,7 +9,7 @@ import com.example.pinball.Vector2D;
 public class Flipper extends RectanglePhysicsObject {
     final static int COUNTER_CLOCK = 0;
     final static int CLOCK = 1;
-    final static double POWER = 15;
+    final static double POWER = 20000;
 
     final static int ROTATE_SPEED = 2;
     final static int ROTATE_ANGLE = 60;
@@ -77,7 +77,7 @@ public class Flipper extends RectanglePhysicsObject {
         if(PoweredBool){
             double angle = getRotation();
             Vector2D n = new Vector2D(0,-1).rotate(angle);
-            Vector2D powerVector = n.constantProduct(POWER);
+            Vector2D powerVector = n.constantProduct(POWER).constantProduct(other.getInverseOfMass());
             Vector2D newVelocity = other.getVelocity().plus(powerVector);
             other.setVelocity(newVelocity);
             int haha=1;

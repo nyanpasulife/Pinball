@@ -274,7 +274,7 @@ public class CirclePhysicsObject extends PhysicsObject {
     }
 
     @Override
-    protected void setMaterialPoint(Vector2D mP) {
+    public void setMaterialPoint(Vector2D mP) {
         materialPoint = mP;
     }
 
@@ -284,7 +284,7 @@ public class CirclePhysicsObject extends PhysicsObject {
     }
 
     @Override
-    protected double getInverseOfMass() {
+    public double getInverseOfMass() {
         return InverseOfMass;
     }
 
