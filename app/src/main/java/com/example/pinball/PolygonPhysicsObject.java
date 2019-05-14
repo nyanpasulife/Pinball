@@ -223,7 +223,7 @@ public class PolygonPhysicsObject extends PhysicsObject {
     }
 
     @Override
-    protected void setMaterialPoint(Vector2D mP) {
+    public void setMaterialPoint(Vector2D mP) {
         MaterialPoint = mP;
     }
 
@@ -233,7 +233,7 @@ public class PolygonPhysicsObject extends PhysicsObject {
     }
 
     @Override
-    protected double getInverseOfMass() {
+    public double getInverseOfMass() {
         return InverseOfMass;
     }
 
@@ -254,6 +254,9 @@ public class PolygonPhysicsObject extends PhysicsObject {
 
     protected double getRotation(){return Rotation;}
 
-    protected void setRotation(double r){Rotation = r;}
+    protected void setRotation(double r){
+        rotateVertexes();
+        Rotation = r;
+    }
 
 }

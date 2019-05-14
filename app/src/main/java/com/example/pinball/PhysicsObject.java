@@ -157,11 +157,11 @@ abstract public class PhysicsObject implements PhysicsObjectInterface {
 
     abstract public boolean collisionCheck(PhysicsObject other);
 
-    protected abstract void setMaterialPoint(Vector2D mP);
+    public abstract void setMaterialPoint(Vector2D mP);
 
     protected abstract boolean isMovingObject();
 
-    protected abstract double getInverseOfMass();
+    public abstract double getInverseOfMass();
 
     protected abstract double getInverseOfI();
 
@@ -169,6 +169,6 @@ abstract public class PhysicsObject implements PhysicsObjectInterface {
 
     public abstract void setVelocity(Vector2D v);
 
-
     protected abstract Vector2D getVelocityAtP(Vector2D collisionPoint);
+
 }
