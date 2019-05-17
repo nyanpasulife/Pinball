@@ -1,4 +1,4 @@
-package com.example.pinball;
+package com.example.pinball.Physics;
 
 import android.content.Context;
 import android.util.AttributeSet;
@@ -11,7 +11,7 @@ public class PhysicsView extends SurfaceView implements SurfaceHolder.Callback{
 
     private DrawEngine DrawThread;
     private PhysicsEngine PhysicsThread;
-    private ArrayList<PhysicsObject> GameMovableObjectsList = new ArrayList<>();
+    private ArrayList<PhysicsObject> MovableList = new ArrayList<>();
     private ArrayList<PhysicsObject> GameObjectsList = new ArrayList<>();
 
     public PhysicsView(Context context){
@@ -19,14 +19,14 @@ public class PhysicsView extends SurfaceView implements SurfaceHolder.Callback{
         SurfaceHolder holder = getHolder();
         holder.addCallback(this);
         DrawThread = new DrawEngine(holder, GameObjectsList);
-        PhysicsThread = new PhysicsEngine(GameMovableObjectsList, GameObjectsList);
+        PhysicsThread = new PhysicsEngine(MovableList, GameObjectsList);
     }
     public PhysicsView(Context context, AttributeSet attr){
         super(context, attr);
         SurfaceHolder holder = getHolder();
         holder.addCallback(this);
         DrawThread = new DrawEngine(holder, GameObjectsList);
-        PhysicsThread = new PhysicsEngine(GameMovableObjectsList, GameObjectsList);
+        PhysicsThread = new PhysicsEngine(MovableList, GameObjectsList);
     }
 
     public DrawEngine getDrawEngine(){
@@ -72,7 +72,20 @@ public class PhysicsView extends SurfaceView implements SurfaceHolder.Callback{
     public void setGameObjectsList(ArrayList<PhysicsObject> list){
         GameObjectsList = list;
     }
-    public void setGameMovableObjectsList(ArrayList<PhysicsObject> list){
-        GameMovableObjectsList = list;
+    public void setMovableList(ArrayList<PhysicsObject> list){
+        MovableList = list;
+    }
+
+    public void pushObjects(ArrayList<PhysicsObject> list) {
+        synchronized (GameObjectsList) { synchronized (MovableList){
+            for (PhysicsObject e : list) {
+                if (e.MovingObject == true) {
+                    GameObjectsList.add(e);
+                    MovableList.add(e);
+                } else if (e.MovingObject == false) {
+                    GameObjectsList.add(e);
+                }
+            }
+        }}
     }
 }

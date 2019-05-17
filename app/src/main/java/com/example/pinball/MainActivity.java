@@ -7,7 +7,11 @@ import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.View;
 
+import com.example.pinball.GameCharacter.TestCharacter;
 import com.example.pinball.GameObjectCodes.Flipper;
+import com.example.pinball.Physics.PhysicsObject;
+import com.example.pinball.Physics.PhysicsView;
+import com.example.pinball.Physics.Vector2D;
 
 import java.util.ArrayList;
 
@@ -38,55 +42,24 @@ public class MainActivity extends AppCompatActivity {
         ArrayList<PhysicsObject> movePack = new ArrayList<>();
         ArrayList<PhysicsObject> pack = new ArrayList<>();
 
-
         Bitmap rect = BitmapFactory.decodeResource(getResources(), R.drawable.bitmap1);
         Bitmap circle = BitmapFactory.decodeResource(getResources(), R.drawable.image);
         Bitmap floorRect = BitmapFactory.decodeResource(getResources(), R.drawable.floor);
-
-
-        PolygonPhysicsObject rect1 = new PolygonPhysicsObject(new Vector2D(500, 300), 40, 100, rect);
-        movePack.add(rect1);
-        pack.add(rect1);
-
-        PolygonPhysicsObject rect2 = new PolygonPhysicsObject(new Vector2D(1000, 900), 100, 100, rect);
-        movePack.add(rect2);
-        pack.add(rect2);
 
         flipper1 = new Flipper(new Vector2D(200,1500),0,900,80,floorRect);
         flipper2 = new Flipper(new Vector2D(1200,1500),1,900,80,floorRect);
         pack.add(flipper1);
         pack.add(flipper2);
 
-        CirclePhysicsObject circle1 = new CirclePhysicsObject(new Vector2D(550, 300), 25, circle);
-        movePack.add(circle1);
-        pack.add(circle1);
-
-        CirclePhysicsObject circle2 = new CirclePhysicsObject(new Vector2D(550, 1000), 100, circle);
-        movePack.add(circle2);
-        pack.add(circle2);
-
-        CirclePhysicsObject circle3 = new CirclePhysicsObject(new Vector2D(300, 700), 100, circle);
-        movePack.add(circle3);
-        pack.add(circle3);
-
-        PolygonPhysicsObject floor1 = new PolygonPhysicsObject(new Vector2D(800, 2000), 1500, 300, floorRect, false);
-        pack.add(floor1);
-        PolygonPhysicsObject floor2 = new PolygonPhysicsObject(new Vector2D(100, 1000), 200, 3000, floorRect, false);
-        pack.add(floor2);
-        PolygonPhysicsObject floor3 = new PolygonPhysicsObject(new Vector2D(1300, 1000), 200, 3000, floorRect, false);
-        pack.add(floor3);
-        PolygonPhysicsObject floor4 = new PolygonPhysicsObject(new Vector2D(800, 100), 1500, 300, floorRect, false);
-        pack.add(floor4);
-
-
-
-
         gameView.setGameObjectsList(pack);
-        gameView.setGameMovableObjectsList(movePack);
+        gameView.setMovableList(movePack);
         gameView.getDrawEngine().setGameObjectsList(pack);
 
         gameView.getPhysicsEngine().setGameObjectsList(pack);
         gameView.getPhysicsEngine().setGameMovableObjectsList(movePack);
+
+        TestCharacter hi = new TestCharacter(getResources());
+        hi.setCharOnView(0,gameView);
     }
 
 

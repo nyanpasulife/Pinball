@@ -1,10 +1,7 @@
-package com.example.pinball;
+package com.example.pinball.Physics;
 
-import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.os.Build;
-import android.util.DisplayMetrics;
 import android.view.SurfaceHolder;
 
 import java.util.ArrayList;
