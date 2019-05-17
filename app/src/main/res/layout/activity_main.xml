@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <com.example.pinball.PhysicsView
+    <com.example.pinball.Physics.PhysicsView
         android:id="@+id/game_inside"
         android:layout_width="400dp"
         android:layout_height="1980px"

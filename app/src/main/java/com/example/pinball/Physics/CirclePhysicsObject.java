@@ -1,4 +1,4 @@
-package com.example.pinball;
+package com.example.pinball.Physics;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -75,16 +75,16 @@ public class CirclePhysicsObject extends PhysicsObject {
                 // 충돌 방향 = OtherToThisVector 의 정규(normal) 벡터
                 collisionDirection = OtherToThisVector.reSize(1);
 
-                outDepth_getImpuse(this,other,collisionPoint,collisionDirection,collisionDepth); //충격 공식
+                outDepth_makeImpulse(this,other,collisionPoint,collisionDirection,collisionDepth); //충격 공식
                 return true;
             }
         }
 
         if (x instanceof PolygonPhysicsObject) {
             PolygonPhysicsObject other = (PolygonPhysicsObject) x;
-            if (true) { // TODO 본래: distance(this.materialPoint, other.getMaterialPoint()) <= (this.radius + other.getRadius())
+            if (distance(this.materialPoint, other.getMaterialPoint()) <= (this.radius + other.getRadius())) {
                 if (isCollidedWithRect(other)) {
-                    outDepth_getImpuse(this,other,collisionPoint,collisionDirection,collisionDepth);
+                    outDepth_makeImpulse(this,other,collisionPoint,collisionDirection,collisionDepth);
                     return true;
                 }
             }

@@ -1,4 +1,4 @@
-package com.example.pinball;
+package com.example.pinball.Physics;
 
 import java.util.ArrayList;
 

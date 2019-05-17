@@ -1,4 +1,4 @@
-package com.example.pinball;
+package com.example.pinball.Physics;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -9,7 +9,6 @@ import android.graphics.Paint;
 import java.util.ArrayList;
 
 public class PolygonPhysicsObject extends PhysicsObject {
-    boolean MovingObject = true; // 물체가 움직이는지 여부
     boolean Collided = false; // 물체가 충돌될경우 act 함수가 호출될때까지 true 상태가 유지됨.
 
     Vector2D MaterialPoint; //물체의 무게중심(질점)
@@ -84,50 +83,12 @@ public class PolygonPhysicsObject extends PhysicsObject {
         if (other instanceof PolygonPhysicsObject) {
             PolygonPhysicsObject otherPol = (PolygonPhysicsObject) other;
             GJK gjk = new GJK(this, otherPol);
-            if(gjk.EPADepth >0){
-                this.Collided = true;
-                otherPol.Collided =true;
-                betweenPolygonCollided(gjk.CollisionPoint,gjk.EPANormalVector,gjk.EPADepth,otherPol);
+            if(gjk.GJKResult ==true){
+                outDepth_makeImpulse(this,other,gjk.CollisionPoint,gjk.EPANormalVector.inverse(),gjk.EPADepth);
                 return true;
             }
         }
         return false;
-    }
-
-
-    public void betweenPolygonCollided(Vector2D collisionPoint, Vector2D collisionDirection, double collisionDepth, PolygonPhysicsObject other) { //충돌점, 충돌점에서 충돌방향, 충돌깊이, 다른 폴리곤 오브젝트
-        double impulse = 0;
-        Vector2D n = collisionDirection.inverse();
-
-        if (other.MovingObject == true) {
-
-        } else { //other.MovingObject != false
-            //자신을 충돌지점에서 충돌 깊이만큼 빼낸다.
-            Vector2D collisionDepthVector = n.constantProduct(collisionDepth*1.05);
-            MaterialPoint = MaterialPoint.plus(collisionDepthVector);
-
-            //자신에게 작용하는 충격력을 구하고 addImpulse 로 이동 방향을 정한다. 상대의 질량이 무한이라고 가정.
-            Vector2D AMtoP = collisionPoint.minus(MaterialPoint);
-            Vector2D normalAngularThis = AMtoP.getNormalVector();//A의 각속도 방향
-
-            Vector2D velocityAatP = getVelocityAtP(collisionPoint);
-            Vector2D vAB = velocityAatP;
-
-            double impulseFormulaNumerator = vAB.constantProduct(-1.8).dotProduct(n);
-            double denominator1 = n.dotProduct(n.constantProduct(InverseOfMass));
-            double denominator2 = normalAngularThis.dotProduct(n) * normalAngularThis.dotProduct(n) * InverseOfI;
-            double impulseFormulaDenominator = denominator1 + denominator2;
-
-            impulse = impulseFormulaNumerator / impulseFormulaDenominator;
-            double frictionForceScalar = getFrictionForce(impulse);
-
-            this.addImpulseAndFriction(impulse, n, normalAngularThis, frictionForceScalar);
-        }
-    }
-
-    double getFrictionForce(double impulse){
-        double frictionForce = (0.001)*(1/InverseOfMass); //마찰력은 수직항력에 비례, 수직항력 = -중력, 중력은 질량에 비례.
-        return frictionForce;
     }
 
     public void addImpulseAndFriction(double impulse, Vector2D n, Vector2D normalAngular, double frictionForceScalar) {
@@ -141,7 +102,7 @@ public class PolygonPhysicsObject extends PhysicsObject {
         Vector2D verbN = n.getNormalVector();
         Vector2D realFrictionDirection = verbN.constantProduct(verbN.dotProduct(frictionDirection_P)).reSize(1);
         Vector2D realFriction = realFrictionDirection.constantProduct(frictionForceScalar);
-        Velocity = Velocity.plus(realFriction);*/
+        Velocity = Velocity.plus(realFriction);*/ // TODO 마찰 미구현상태
     }
 
     @Override
@@ -157,8 +118,6 @@ public class PolygonPhysicsObject extends PhysicsObject {
             Rotation = Rotation %360;
         }
         rotateVertexes();
-
-        Collided = false;  //Collided 가 true 인 순간은 충돌시부터 act 이전까지만. 이를 이용해 PhysicsEngine 에서 충돌한 상태의 물체에는 중력을 더하지 않음.
 
     }
 

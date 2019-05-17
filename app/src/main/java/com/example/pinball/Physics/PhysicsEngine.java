@@ -1,6 +1,4 @@
-package com.example.pinball;
-
-import android.util.Log;
+package com.example.pinball.Physics;
 
 import java.util.ArrayList;
 

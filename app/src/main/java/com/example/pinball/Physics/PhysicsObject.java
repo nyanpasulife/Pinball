@@ -1,9 +1,10 @@
-package com.example.pinball;
+package com.example.pinball.Physics;
 
 import java.util.ArrayList;
 
 abstract public class PhysicsObject implements PhysicsObjectInterface {
     boolean Collided = false; //
+    boolean MovingObject =true;
 
 
     static public class UtilFunc {
@@ -97,7 +98,7 @@ abstract public class PhysicsObject implements PhysicsObjectInterface {
         }
     }
 
-    static public void outDepth_getImpuse(PhysicsObject a, PhysicsObject b, Vector2D collisionPoint, Vector2D CollisionDirection, double collisionDepth) { //물체 A, B ,충돌점, 충돌점에서 충돌방향, 충돌깊이
+    static public void outDepth_makeImpulse(PhysicsObject a, PhysicsObject b, Vector2D collisionPoint, Vector2D CollisionDirection, double collisionDepth) { //물체 A, B ,충돌점, 충돌점에서 충돌방향, 충돌깊이
         double impulse = 0;
         Vector2D n = CollisionDirection.reSize(1);
 
