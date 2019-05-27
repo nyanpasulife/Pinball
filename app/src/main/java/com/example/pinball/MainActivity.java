@@ -5,11 +5,20 @@ import android.graphics.BitmapFactory;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
+import android.view.View;
+
+import com.example.pinball.GameCharacter.TestCharacter;
+import com.example.pinball.GameObjectCodes.Flipper;
+import com.example.pinball.Physics.PhysicsObject;
+import com.example.pinball.Physics.PhysicsView;
+import com.example.pinball.Physics.Vector2D;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class MainActivity extends AppCompatActivity {
+
+    Flipper flipper1;
+    Flipper flipper2;
 
     private int screenWidth, screenHeight;
 
@@ -26,28 +35,38 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         setGameInside();
     }
-    void setGameInside(){
+
+    void setGameInside() {
         PhysicsView gameView = findViewById(R.id.game_inside);
 
-        ArrayList<PhysicsObjectInterface> pack = new ArrayList<>();
+        ArrayList<PhysicsObject> movePack = new ArrayList<>();
+        ArrayList<PhysicsObject> pack = new ArrayList<>();
 
-        Bitmap img1= BitmapFactory.decodeResource(getResources(), R.drawable.image);
-        CirclePhysicsObject a = new CirclePhysicsObject(new Vector2D(screenWidth / 2.9,0),img1);
-        pack.add(a);
-        Bitmap img2= BitmapFactory.decodeResource(getResources(), R.drawable.image3);
-        CirclePhysicsObject b = new CirclePhysicsObject(new Vector2D(screenWidth / 2,720),img2);
-        pack.add(b);
-//        Bitmap img4= BitmapFactory.decodeResource(getResources(), R.drawable.image4);
-//        CirclePhysicsObject d = new CirclePhysicsObject(new Vector2D(screenWidth / 1.7,300),img4);
-//        pack.add(d);
-        Bitmap img3= BitmapFactory.decodeResource(getResources(), R.drawable.image2);
-        PolygonPhysicsObject c = new PolygonPhysicsObject(new Vector2D(screenWidth / 2,screenHeight),img3);
-        pack.add(c);
+        Bitmap rect = BitmapFactory.decodeResource(getResources(), R.drawable.bitmap1);
+        Bitmap circle = BitmapFactory.decodeResource(getResources(), R.drawable.image);
+        Bitmap floorRect = BitmapFactory.decodeResource(getResources(), R.drawable.floor);
+
+        flipper1 = new Flipper(new Vector2D(200,1500),0,900,80,floorRect);
+        flipper2 = new Flipper(new Vector2D(1200,1500),1,900,80,floorRect);
+        pack.add(flipper1);
+        pack.add(flipper2);
 
         gameView.setGameObjectsList(pack);
+        gameView.setMovableList(movePack);
         gameView.getDrawEngine().setGameObjectsList(pack);
 
         gameView.getPhysicsEngine().setGameObjectsList(pack);
+        gameView.getPhysicsEngine().setGameMovableObjectsList(movePack);
+
+        TestCharacter hi = new TestCharacter(getResources());
+        hi.setCharOnView(0,gameView);
     }
 
+
+    public void onclickLeft(View view){
+        flipper1.powered();
+    }
+    public void onclickRight(View view){
+        flipper2.powered();
+    }
 }
