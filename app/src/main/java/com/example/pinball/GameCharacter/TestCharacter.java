@@ -14,7 +14,7 @@ public class TestCharacter extends GameCharacter {
     public TestCharacter(Resources res){
         super(res);
 
-        Bitmap rect = BitmapFactory.decodeResource(MResource, R.drawable.bitmap1);
+        Bitmap rect = BitmapFactory.decodeResource(MResource, R.drawable.image);
         Bitmap circle = BitmapFactory.decodeResource(MResource, R.drawable.image);
         Bitmap floorRect = BitmapFactory.decodeResource(MResource, R.drawable.floor);
 

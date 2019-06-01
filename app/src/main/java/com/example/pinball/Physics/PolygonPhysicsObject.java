@@ -11,7 +11,7 @@ import java.util.ArrayList;
 public class PolygonPhysicsObject extends PhysicsObject {
     boolean Collided = false; // 물체가 충돌될경우 act 함수가 호출될때까지 true 상태가 유지됨.
 
-    Vector2D MaterialPoint; //물체의 무게중심(질점)
+    public Vector2D MaterialPoint; //물체의 무게중심(질점)
     ArrayList<Vector2D> OriginVertexVectors = new ArrayList<>(); //회전되지 않은 고유의 도형 모양. 회전당 발생하는 오차를 줄이기 위해 회전은 항상 본래 모양에서 계산됨.
     ArrayList<Vector2D> VertexVectors = new ArrayList<>(); // 중심점을 기준으로 꼭지점까지의 벡터들 ,p0 ~ pn-1 , 반드시 예각이 없는 다면체여야함.
     double SuperRange; //사각형을 감싸는 원의 반지름

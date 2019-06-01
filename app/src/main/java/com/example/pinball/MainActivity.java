@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
         ArrayList<PhysicsObject> movePack = new ArrayList<>();
         ArrayList<PhysicsObject> pack = new ArrayList<>();
 
-        Bitmap rect = BitmapFactory.decodeResource(getResources(), R.drawable.bitmap1);
+        Bitmap rect = BitmapFactory.decodeResource(getResources(), R.drawable.frect);
         Bitmap circle = BitmapFactory.decodeResource(getResources(), R.drawable.image);
         Bitmap floorRect = BitmapFactory.decodeResource(getResources(), R.drawable.floor);
 
