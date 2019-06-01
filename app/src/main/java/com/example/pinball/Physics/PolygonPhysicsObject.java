@@ -15,58 +15,19 @@ public class PolygonPhysicsObject extends PhysicsObject {
     ArrayList<Vector2D> OriginVertexVectors = new ArrayList<>(); //회전되지 않은 고유의 도형 모양. 회전당 발생하는 오차를 줄이기 위해 회전은 항상 본래 모양에서 계산됨.
     ArrayList<Vector2D> VertexVectors = new ArrayList<>(); // 중심점을 기준으로 꼭지점까지의 벡터들 ,p0 ~ pn-1 , 반드시 예각이 없는 다면체여야함.
     double SuperRange; //사각형을 감싸는 원의 반지름
-    Bitmap Image; //비트맵 이미지.
 
     Vector2D Velocity = new Vector2D(0, 0);
     double Rotation = 0;
     double RotationSpeed = 0; //양수:반시계방향 음수:시계방향
-    double InverseOfMass = 0.001; // 질량의 역수
+    double InverseOfMass = 0.0001; // 질량의 역수
     double InverseOfI; //관성모멘트의 역수. 복잡한 도형은 근사값만 사용.
 
     Matrix MMatrix = new Matrix();
     Paint MPaint = new Paint();
     Vector2D ImagePaintVector;
 
-    //비트맵을 받아 비트맵을 감싸는 오브젝트 생성
-    PolygonPhysicsObject(Vector2D position, double width, double height, Bitmap bitmap) {
-        MaterialPoint = position;
-        Image = bitmap;
-        resizeBitmapToOrigin(width, height);
-        makeComputedDataFromBitmap(width, height);
-    }
 
-    PolygonPhysicsObject(Vector2D position, double width, double height, Bitmap bitmap, boolean moveBool) {
-        this(position, width, height, bitmap);
-        MovingObject = moveBool;
-        InverseOfMass = 0;
-        InverseOfI = 0;
-    }
 
-    void resizeBitmapToOrigin(double width, double height) {
-        Image = Bitmap.createScaledBitmap(Image, (int) width, (int) height, false);
-    }
-
-    void makeComputedDataFromBitmap(double width, double height){
-        double wHalf = width / 2;
-        double hHalf = height / 2;
-
-        OriginVertexVectors.add(new Vector2D(-wHalf, -hHalf));
-        OriginVertexVectors.add(new Vector2D(wHalf, -hHalf));
-        OriginVertexVectors.add(new Vector2D(wHalf, hHalf));
-        OriginVertexVectors.add(new Vector2D(-wHalf, hHalf));
-
-        VertexVectors.add(new Vector2D(-wHalf, -hHalf));
-        VertexVectors.add(new Vector2D(wHalf, -hHalf));
-        VertexVectors.add(new Vector2D(wHalf, hHalf));
-        VertexVectors.add(new Vector2D(-wHalf, hHalf));
-
-        ImagePaintVector = VertexVectors.get(0);
-
-        SuperRange = Math.sqrt(width * width + height * height);
-        InverseOfI = (12 * InverseOfMass) / (width * width + height * height);
-    }
-
-    //비트맵을 받고 따로 충돌영역을 커스터마이징 하는 생성자 추가바람...
 
 
     @Override
@@ -147,7 +108,9 @@ public class PolygonPhysicsObject extends PhysicsObject {
         Vector2D imagePaintPoint = getImagePaintPoint();
         MMatrix.setTranslate((float) imagePaintPoint.X, (float) imagePaintPoint.Y);
         MMatrix.postRotate((float) Rotation,(float)MaterialPoint.X,(float)MaterialPoint.Y);
-        c.drawBitmap(Image, MMatrix, new Paint());
+        if(Image != null){
+            tryPaint(c);
+        }
 
         Paint paint = new Paint();
         paint.setColor(Color.RED);
@@ -159,17 +122,16 @@ public class PolygonPhysicsObject extends PhysicsObject {
         }
     }
 
+    private void tryPaint(Canvas c) {
+        try{
+            c.drawBitmap(Image, MMatrix, MPaint);
+        }catch (Exception e){}
+    }
+
     public Vector2D getImagePaintPoint() {
         return MaterialPoint.plus(ImagePaintVector);
     }
 
-    public Bitmap getBitmap() {
-        return Image;
-    }
-
-    public void setBitmap(Bitmap bitmap) {
-        Image = bitmap;
-    }
 
     @Override
     public double getRadius() {

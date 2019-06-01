@@ -42,21 +42,13 @@ public class MainActivity extends AppCompatActivity {
         ArrayList<PhysicsObject> movePack = new ArrayList<>();
         ArrayList<PhysicsObject> pack = new ArrayList<>();
 
-        Bitmap rect = BitmapFactory.decodeResource(getResources(), R.drawable.bitmap1);
-        Bitmap circle = BitmapFactory.decodeResource(getResources(), R.drawable.image);
         Bitmap floorRect = BitmapFactory.decodeResource(getResources(), R.drawable.floor);
 
-        flipper1 = new Flipper(new Vector2D(200,1500),0,900,80,floorRect);
-        flipper2 = new Flipper(new Vector2D(1200,1500),1,900,80,floorRect);
+        flipper1 = new Flipper(new Vector2D(400,2000),0,300,50,floorRect);
+        flipper2 = new Flipper(new Vector2D(1100,2000),1,300,50,floorRect);
         pack.add(flipper1);
         pack.add(flipper2);
 
-        gameView.setGameObjectsList(pack);
-        gameView.setMovableList(movePack);
-        gameView.getDrawEngine().setGameObjectsList(pack);
-
-        gameView.getPhysicsEngine().setGameObjectsList(pack);
-        gameView.getPhysicsEngine().setGameMovableObjectsList(movePack);
 
         TestCharacter hi = new TestCharacter(getResources());
         hi.setCharOnView(0,gameView);

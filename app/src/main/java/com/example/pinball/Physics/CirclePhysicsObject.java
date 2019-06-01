@@ -17,8 +17,6 @@ public class CirclePhysicsObject extends PhysicsObject {
     private double InverseOfMass = 0.001;
     private double InverseOfI = 0;
 
-    private Bitmap image;
-
     private Vector2D velocity = new Vector2D(0, 0);
     private ArrayList<Vector2D> colliderTest = new ArrayList<>();
     Vector2D collisionPoint = new Vector2D(0, 0);
@@ -34,19 +32,15 @@ public class CirclePhysicsObject extends PhysicsObject {
 
     public CirclePhysicsObject(Vector2D position, Bitmap bitmap) {
         materialPoint = position;
-        image = bitmap;
-        radius = image.getWidth() / 2.0;
+        setBitmap(bitmap);
+        radius = bitmap.getWidth() / 2.0;
     }
 
     public CirclePhysicsObject(Vector2D position, int r, Bitmap bitmap) {
         materialPoint = position;
-        image = bitmap;
-        resizeBitmapToOrigin(r);
-        radius = image.getWidth() / 2.0;
-    }
-
-    void resizeBitmapToOrigin(int r) { //TODO Bitmap을 drawble로 올리면 px 값이 아닌 dp 값이 적용되어서 강제로 px 값으로 변환하는게 규격 통일에 나을것 같습니다. (아예 오브젝트를 생성할때 픽셀 크기를 지정.)
-        image = Bitmap.createScaledBitmap(image, r*2, r*2, false);
+        setBitmap(bitmap);
+        resizeBitmap(r*2);
+        radius = r;
     }
 
     @Override
@@ -80,8 +74,8 @@ public class CirclePhysicsObject extends PhysicsObject {
             }
         }
 
-        if (x instanceof PolygonPhysicsObject) {
-            PolygonPhysicsObject other = (PolygonPhysicsObject) x;
+        if (x instanceof RectanglePhysicsObject) {
+            RectanglePhysicsObject other = (RectanglePhysicsObject) x;
             if (distance(this.materialPoint, other.getMaterialPoint()) <= (this.radius + other.getRadius())) {
                 if (isCollidedWithRect(other)) {
                     outDepth_makeImpulse(this,other,collisionPoint,collisionDirection,collisionDepth);
@@ -141,20 +135,12 @@ public class CirclePhysicsObject extends PhysicsObject {
             conVertexVectors.add(v.conversion(widthRate, heightRate));
         }*/
         matrix.setTranslate((float) (materialPoint.X - radius), (float) (materialPoint.Y - radius));
-        c.drawBitmap(image, matrix, imagePaint);
+        c.drawBitmap(Image, matrix, imagePaint);
     }
 
 
     public void convertBitmap(double widthRate, double heightRate) {        // ???
-        image = Bitmap.createBitmap(image, 0, 0, (int) (Math.round(image.getWidth()) * widthRate), (int) (Math.round(image.getHeight() * heightRate)));
-    }
-
-    public Bitmap getBitmap() {
-        return image;
-    }
-
-    public void setBitmap(Bitmap bitmap) {
-        image = bitmap;
+        Image = Bitmap.createBitmap(Image, 0, 0, (int) (Math.round(Image.getWidth()) * widthRate), (int) (Math.round(Image.getHeight() * heightRate)));
     }
 
     @Override
@@ -171,7 +157,7 @@ public class CirclePhysicsObject extends PhysicsObject {
         return Math.sqrt(Math.pow(a.X - b.X, 2) + Math.pow(a.Y - b.Y, 2));
     }
 
-    private boolean isCollidedWithRect(PolygonPhysicsObject other) {
+    private boolean isCollidedWithRect(RectanglePhysicsObject other) {
         boolean result = false;
 
         //collider setting
