@@ -11,22 +11,21 @@ public class PhysicsView extends SurfaceView implements SurfaceHolder.Callback{
 
     private DrawEngine DrawThread;
     private PhysicsEngine PhysicsThread;
-    private ArrayList<PhysicsObject> MovableList = new ArrayList<>();
-    private ArrayList<PhysicsObject> GameObjectsList = new ArrayList<>();
+    private GameData Data = new GameData();
 
     public PhysicsView(Context context){
         super(context);
         SurfaceHolder holder = getHolder();
         holder.addCallback(this);
-        DrawThread = new DrawEngine(holder, GameObjectsList);
-        PhysicsThread = new PhysicsEngine(MovableList, GameObjectsList);
+        DrawThread = new DrawEngine(holder, Data);
+        PhysicsThread = new PhysicsEngine(Data);
     }
     public PhysicsView(Context context, AttributeSet attr){
         super(context, attr);
         SurfaceHolder holder = getHolder();
         holder.addCallback(this);
-        DrawThread = new DrawEngine(holder, GameObjectsList);
-        PhysicsThread = new PhysicsEngine(MovableList, GameObjectsList);
+        DrawThread = new DrawEngine(holder, Data);
+        PhysicsThread = new PhysicsEngine(Data);
     }
 
     public DrawEngine getDrawEngine(){
@@ -69,23 +68,17 @@ public class PhysicsView extends SurfaceView implements SurfaceHolder.Callback{
         }
     }
 
-    public void setGameObjectsList(ArrayList<PhysicsObject> list){
-        GameObjectsList = list;
-    }
-    public void setMovableList(ArrayList<PhysicsObject> list){
-        MovableList = list;
-    }
 
     public void pushObjects(ArrayList<PhysicsObject> list) {
-        synchronized (GameObjectsList) { synchronized (MovableList){
+        synchronized (Data) {
             for (PhysicsObject e : list) {
                 if (e.MovingObject == true) {
-                    GameObjectsList.add(e);
-                    MovableList.add(e);
+                    Data.getGameObjectsList().add(e);
+                    Data.getMovableList().add(e);
                 } else if (e.MovingObject == false) {
-                    GameObjectsList.add(e);
+                    Data.getGameObjectsList().add(e);
                 }
             }
-        }}
+        }
     }
 }

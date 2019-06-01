@@ -1,10 +1,14 @@
 package com.example.pinball.Physics;
 
+import android.graphics.Bitmap;
+
 import java.util.ArrayList;
 
 abstract public class PhysicsObject implements PhysicsObjectInterface {
     boolean Collided = false; //
     boolean MovingObject =true;
+    Bitmap Image;
+
 
 
     static public class UtilFunc {
@@ -96,6 +100,20 @@ abstract public class PhysicsObject implements PhysicsObjectInterface {
             returnArray[3] = greatestY;
             return returnArray;
         }
+    }
+
+    public void setBitmap(Bitmap bitmap) {
+        Image = bitmap;
+    }
+    protected Bitmap getBitmap() {
+        return Image;
+    }
+
+    void resizeBitmap(double width, double height) {
+        Image = Bitmap.createScaledBitmap(Image, (int) width, (int) height, false);
+    }
+    void resizeBitmap(double size) {
+        resizeBitmap(size,size);
     }
 
     static public void outDepth_makeImpulse(PhysicsObject a, PhysicsObject b, Vector2D collisionPoint, Vector2D CollisionDirection, double collisionDepth) { //물체 A, B ,충돌점, 충돌점에서 충돌방향, 충돌깊이
