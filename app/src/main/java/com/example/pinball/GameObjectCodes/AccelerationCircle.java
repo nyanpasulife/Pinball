@@ -20,4 +20,9 @@ public class AccelerationCircle extends CirclePhysicsObject {
     public AccelerationCircle(Vector2D position, int r, int id, Resources resources, boolean move) {
         super(position, r, id, resources, move);
     }
+
+//    public void addImpulseAndFriction(double impulse, Vector2D n, Vector2D normalAngularA, double frictionForceScalar) {
+//        Vector2D impulseVector = n.constantProduct(impulse * 2.0 * getInverseOfMass());
+//        setVelocity(getVelocity().plus(impulseVector));
+//    }
 }

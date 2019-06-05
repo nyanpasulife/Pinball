@@ -40,20 +40,20 @@ public abstract class GameCharacter {
             obj.setMaterialPoint(tmpVector);
             otherObjects.add(obj);
         }
-        Flipper tmp = flippers.get(0);
-        tmp.setRotation(tmp.getRotation() + 180);
-        tmp = flippers.get(1);
-        tmp.setRotation(tmp.getRotation() + 180);
+//        Flipper tmp = flippers.get(0);
+//        tmp.setRotation(tmp.getRotation() + 180);
+//        tmp = flippers.get(1);
+//        tmp.setRotation(tmp.getRotation() + 180);
         return otherObjects;
     }
 
     public void setCharOnView(int position, PhysicsView view){
         if(position == 0) {
-            view.pushObjects(GameObjectList);
+            view.pushObjects(getOtherObjectList());
 //            view.setFlipper(flippers.get(0), flippers.get(1));
         }
         else if(position == 1){
-            view.pushObjects(getOtherObjectList());
+            view.pushObjects(GameObjectList);
         }
     }
 }

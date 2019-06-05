@@ -42,7 +42,7 @@ public class CharacterWarrior extends GameCharacter {
         CirclePhysicsObject circle2 = new CirclePhysicsObject(new Vector2D(550, 1000), 100, fCir);
         CirclePhysicsObject circle3 = new CirclePhysicsObject(new Vector2D(300, 700), 100, fCir);*/
 
-        CirclePhysicsObject ball = new CirclePhysicsObject(new Vector2D(720,1), 50, cBall, MResource);
+        CirclePhysicsObject ball = new CirclePhysicsObject(new Vector2D(800,400), 50, cBall, MResource);
 
         Flipper flipper1 = new Flipper(new Vector2D(540, 2350), 100 , 250, 75, bFlipper, MResource);
         Flipper flipper2 = new Flipper(new Vector2D(1440-540, 2350), 100 , 250, 75, bFlipper, MResource);
@@ -84,7 +84,7 @@ public class CharacterWarrior extends GameCharacter {
 //        GameObjectList.add(circle1);
 //        GameObjectList.add(circle2);
 //        GameObjectList.add(circle3);
-//        GameObjectList.add(obj1);
+        GameObjectList.add(obj1);
         GameObjectList.add(obj2);
         GameObjectList.add(obj3);
         GameObjectList.add(obj4);

@@ -20,4 +20,7 @@ public class AccelerationBlock extends RectanglePhysicsObject {
     public AccelerationBlock(Vector2D position, double width, double height, int id, Resources rsc, boolean move) {
         super(position, width, height, id, rsc, move);
     }
+    public void setRotation(double r){
+        super.setRotation(r);
+    }
 }

@@ -28,7 +28,10 @@ public class PhysicsEngine extends Thread {
                             }
                 }
                 if (e.Collided == false) {
-                    e.addGravitation(gravity); //본래는 바닥면과 충돌할때만 수직항력에 의해 중력이 없어지지만, 프로그래밍의 편의성을 위하여 충돌된 물체는 그 계산 차례에 중력은 고려하지 않음.
+                    if(true)//e.getMaterialPoint().getY() > (2560/2))
+                        e.addGravitation(gravity); //본래는 바닥면과 충돌할때만 수직항력에 의해 중력이 없어지지만, 프로그래밍의 편의성을 위하여 충돌된 물체는 그 계산 차례에 중력은 고려하지 않음.
+                    else
+                        e.addGravitation(gravity.inverse());
                 }
                 e.act();
             }

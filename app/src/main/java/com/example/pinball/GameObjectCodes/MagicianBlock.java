@@ -10,7 +10,10 @@ public class MagicianBlock extends RectanglePhysicsObject {
    /* public MagicianBlock(Vector2D position, double width, double height, Bitmap bitmap) {
         super(position, width, height, bitmap);
     }*/
-   public MagicianBlock(Vector2D position, double width, double height, int id, Resources resources) {
-       super(position, width, height, id, resources);
+   public MagicianBlock(Vector2D position, double width, double height, int id, Resources resources, boolean move) {
+       super(position, width, height, id, resources, move);
+   }
+   public void setRotation(double r){
+       super.setRotation(r);
    }
 }

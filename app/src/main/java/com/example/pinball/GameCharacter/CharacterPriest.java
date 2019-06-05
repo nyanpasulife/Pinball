@@ -12,7 +12,6 @@ import com.example.pinball.GameObjectCodes.HealerBlock;
 import com.example.pinball.GameObjectCodes.ReductionBlock;
 import com.example.pinball.GameObjectCodes.ReductionCircle;
 import com.example.pinball.GameObjectCodes.RefractionBlock;
-import com.example.pinball.GameObjectCodes.WarriorBlock;
 import com.example.pinball.Physics.CirclePhysicsObject;
 import com.example.pinball.Physics.Vector2D;
 import com.example.pinball.R;
@@ -24,8 +23,7 @@ public class CharacterPriest extends GameCharacter {
     public CharacterPriest(Resources res) {
         super(res);
 
-        int bDefault = R.drawable.block_default;      //  f: fixed
-//        Bitmap fCir = BitmapFactory.decodeResource(MResource, R.drawable.circle);
+        int bDefault = R.drawable.block_default;
         int bhealer = R.drawable.block_healer;
         int bReduction = R.drawable.block_reduction;
         int bAccel = R.drawable.block_acceleration;
@@ -35,21 +33,11 @@ public class CharacterPriest extends GameCharacter {
         int cBall = R.drawable.ball;
         int bFlipper = R.drawable.flipper_left;
 
-       /* PolygonPhysicsObject rect1 = new DefaultBlock(new Vector2D(500, 300), 50, 150, fRect);
-
-        PolygonPhysicsObject rect2 = new DefaultBlock(new Vector2D(1000, 900), 200, 100, fRect);
-
-        CirclePhysicsObject circle1 = new CirclePhysicsObject(new Vector2D(550, 300), 25, fCir);
-        CirclePhysicsObject circle2 = new CirclePhysicsObject(new Vector2D(550, 1000), 100, fCir);
-        CirclePhysicsObject circle3 = new CirclePhysicsObject(new Vector2D(300, 700), 100, fCir);*/
-
-        CirclePhysicsObject ball = new CirclePhysicsObject(new Vector2D(720,1), 50, cBall, MResource);
+        CirclePhysicsObject ball = new CirclePhysicsObject(new Vector2D(800,400), 50, cBall, MResource);
 
         Flipper flipper1 = new Flipper(new Vector2D(540, 2350), 100 , 250, 75, bFlipper, MResource);
         Flipper flipper2 = new Flipper(new Vector2D(1440-540, 2350), 100 , 250, 75, bFlipper, MResource);
         flipper2.setRotation(180);
-
-//        Flipper flipper1 = new Flipper(new Vector2D(200, 200), 100 , 100, 200, bFlipper);
 
         DefaultBlock obj1 = new DefaultBlock(new Vector2D(0-50,2400), 800,800, bDefault, MResource, false);
         obj1.setRotation(40);
@@ -71,20 +59,14 @@ public class CharacterPriest extends GameCharacter {
         ReductionCircle obj11 = new ReductionCircle(new Vector2D(600,1500), 50,cReduction, MResource, false);
         ReductionBlock obj12 = new ReductionBlock(new Vector2D(1440 - 400,1950), 300,75,bReduction, MResource, false);
 
-        HealerBlock obj13 = new HealerBlock(new Vector2D(355, 2290), 50, 100, bhealer, MResource, false);
+        HealerBlock obj13 = new HealerBlock(new Vector2D(1200, 2140), 100, 100, bhealer, MResource, false);
         obj13.setRotation(-40);
 
         DefaultBlock outColliderBottom_forTest = new DefaultBlock(new Vector2D(750, 2560+75), 1500, 150, bDefault, MResource, false);
         DefaultBlock outColliderLeft = new DefaultBlock(new Vector2D(0-75, 1700), 150, 1186, bDefault, MResource, false);
         DefaultBlock outColliderRight = new DefaultBlock(new Vector2D(1440+75, 1700), 150, 1186, bDefault, MResource, false);
-//        PolygonPhysicsObject floor4 = new DefaultBlock(new Vector2D(750, -100), 1500, 200, fRect, false);
 
         GameObjectList.add(ball);
-//        GameObjectList.add(rect1);
-//        GameObjectList.add(rect2);
-//        GameObjectList.add(circle1);
-//        GameObjectList.add(circle2);
-//        GameObjectList.add(circle3);
         GameObjectList.add(obj1);
         GameObjectList.add(obj2);
         GameObjectList.add(obj3);
@@ -97,7 +79,7 @@ public class CharacterPriest extends GameCharacter {
         GameObjectList.add(obj10);
         GameObjectList.add(obj11);
         GameObjectList.add(obj12);
-//        GameObjectList.add(obj13);
+        GameObjectList.add(obj13);
 
 
         GameObjectList.add(outColliderLeft);

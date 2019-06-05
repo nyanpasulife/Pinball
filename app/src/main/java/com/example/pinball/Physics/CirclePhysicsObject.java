@@ -291,10 +291,8 @@ public class CirclePhysicsObject extends PhysicsObject {
 
     @Override
     public void addImpulseAndFriction(double impulse, Vector2D n, Vector2D normalAngularA, double frictionForceScalar) {
-        if(InverseOfMass != 0) {
-            Vector2D impulseVector = n.constantProduct(impulse * InverseOfMass);
-            velocity = velocity.plus(impulseVector);
-        }
+        Vector2D impulseVector = n.constantProduct(impulse * InverseOfMass);
+        velocity = velocity.plus(impulseVector);
     }
 
     @Override
