@@ -17,9 +17,12 @@ import com.example.pinball.Physics.PolygonPhysicsObject;
 import com.example.pinball.Physics.Vector2D;
 import com.example.pinball.R;
 
+import java.util.Random;
+
 public class CharacterWarrior extends GameCharacter {
 
     private int life = 5;
+    private Random xgen = new Random();
 
     public CharacterWarrior(Resources res) {
         super(res);
@@ -32,7 +35,9 @@ public class CharacterWarrior extends GameCharacter {
         int cReduction = R.drawable.circle_reduction;
         int cAccel = R.drawable.circle_acceleration;
         int cBall = R.drawable.ball;
-        int bFlipper = R.drawable.flipper_left;
+
+        int leftFlipper = R.drawable.flipper_left;
+        int rightFlipper = R.drawable.flipper_right;
 
        /* PolygonPhysicsObject rect1 = new DefaultBlock(new Vector2D(500, 300), 50, 150, fRect);
 
@@ -42,11 +47,10 @@ public class CharacterWarrior extends GameCharacter {
         CirclePhysicsObject circle2 = new CirclePhysicsObject(new Vector2D(550, 1000), 100, fCir);
         CirclePhysicsObject circle3 = new CirclePhysicsObject(new Vector2D(300, 700), 100, fCir);*/
 
-        CirclePhysicsObject ball = new CirclePhysicsObject(new Vector2D(800,400), 50, cBall, MResource);
+        CirclePhysicsObject ball = new CirclePhysicsObject(new Vector2D(xgen.nextInt(1240)+100,1290), 48, cBall, MResource);
 
-        Flipper flipper1 = new Flipper(new Vector2D(540, 2350), 100 , 250, 75, bFlipper, MResource);
-        Flipper flipper2 = new Flipper(new Vector2D(1440-540, 2350), 100 , 250, 75, bFlipper, MResource);
-        flipper2.setRotation(180);
+        Flipper flipper1 = new Flipper(new Vector2D(540, 2350), 0 , 250, 75, leftFlipper, MResource);
+        Flipper flipper2 = new Flipper(new Vector2D(1440-540, 2350), 1 , 250, 75, rightFlipper, MResource);
 
         DefaultBlock obj1 = new DefaultBlock(new Vector2D(0-50,2400), 800,800, bDefault, MResource, false);
         obj1.setRotation(40);
@@ -114,5 +118,8 @@ public class CharacterWarrior extends GameCharacter {
 
     public int getLife(){
         return life;
+    }
+    public void loseLife(){
+        life--;
     }
 }

@@ -28,6 +28,9 @@ public abstract class GameCharacter {
     public int getLife(){
         return life;
     }
+    public void loseLife(){
+        life--;
+    }
 
     private ArrayList<PhysicsObject> getOtherObjectList(){
         ArrayList<PhysicsObject> otherObjects = new ArrayList<>();
@@ -50,10 +53,10 @@ public abstract class GameCharacter {
     public void setCharOnView(int position, PhysicsView view){
         if(position == 0) {
             view.pushObjects(getOtherObjectList());
-//            view.setFlipper(flippers.get(0), flippers.get(1));
         }
         else if(position == 1){
             view.pushObjects(GameObjectList);
+            view.setFlipper(flippers.get(0), flippers.get(1));
         }
     }
 }

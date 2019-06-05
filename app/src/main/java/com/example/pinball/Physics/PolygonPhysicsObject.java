@@ -52,9 +52,9 @@ public class PolygonPhysicsObject extends PhysicsObject {
         return false;
     }
 
-    public void addImpulseAndFriction(double impulse, Vector2D n, Vector2D normalAngular, double frictionForceScalar) {
+    public void addImpulseAndFriction(double impulse, Vector2D n, Vector2D normalAngular, double frictionForceScalar, PhysicsObject other) {
         Vector2D VelocityVariation = n.constantProduct(impulse * InverseOfMass);
-        Velocity = Velocity.plus(VelocityVariation);
+//        Velocity = Velocity.plus(VelocityVariation);
         double RotationSpeedVariation = (180 / Math.PI) * (normalAngular.dotProduct(n.constantProduct(impulse)) * InverseOfI);
         RotationSpeed = RotationSpeed + RotationSpeedVariation;
 

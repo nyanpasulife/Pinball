@@ -8,6 +8,11 @@ import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.util.Log;
 
+import com.example.pinball.GameObjectCodes.AccelerationBlock;
+import com.example.pinball.GameObjectCodes.ArcherCircle;
+import com.example.pinball.GameObjectCodes.ReductionBlock;
+import com.example.pinball.GameObjectCodes.ReductionCircle;
+
 import java.util.ArrayList;
 
 public class CirclePhysicsObject extends PhysicsObject {
@@ -113,7 +118,7 @@ public class CirclePhysicsObject extends PhysicsObject {
             RectanglePhysicsObject other = (RectanglePhysicsObject) x;
             if (distance(this.materialPoint, other.getMaterialPoint()) <= (this.radius + other.getRadius())) {
                 if (isCollidedWithRect(other)) {
-                    outDepth_makeImpulse(this,other,collisionPoint,collisionDirection,collisionDepth);
+                    outDepth_makeImpulse(this, other, collisionPoint, collisionDirection, collisionDepth);
                     return true;
                 }
             }
@@ -290,7 +295,11 @@ public class CirclePhysicsObject extends PhysicsObject {
     }
 
     @Override
-    public void addImpulseAndFriction(double impulse, Vector2D n, Vector2D normalAngularA, double frictionForceScalar) {
+    public void addImpulseAndFriction(double impulse, Vector2D n, Vector2D normalAngularA, double frictionForceScalar, PhysicsObject other) {
+        if(other instanceof ArcherCircle || other instanceof AccelerationBlock)
+            impulse *= 1.5;
+        else if(other instanceof ReductionCircle || other instanceof ReductionBlock)
+            impulse *= 0.5;
         Vector2D impulseVector = n.constantProduct(impulse * InverseOfMass);
         velocity = velocity.plus(impulseVector);
     }

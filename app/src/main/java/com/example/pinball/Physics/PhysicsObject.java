@@ -9,8 +9,6 @@ abstract public class PhysicsObject implements PhysicsObjectInterface {
     boolean MovingObject =true;
     Bitmap Image;
 
-
-
     static public class UtilFunc {
 
         //인덱스 0,1은 절대좌표계에서 AABB 가 있을때, 한 정점과 가장 가까운 변에 속한 두 점을 리턴함. 변이 동일한 거리면 인덱스순으로 반환.
@@ -143,10 +141,10 @@ abstract public class PhysicsObject implements PhysicsObjectInterface {
         impulse = impulseFormulaNumerator / impulseFormulaDenominator;
         double frictionForceScalar = 0;  // TODO 미구현
 
-        a.addImpulseAndFriction(impulse, n, normalAngularA, frictionForceScalar);
+        a.addImpulseAndFriction(impulse, n, normalAngularA, frictionForceScalar, b);
         if(b.isMovingObject())
         {
-            b.addImpulseAndFriction(-impulse, n, normalAngularB, frictionForceScalar);
+            b.addImpulseAndFriction(-impulse, n, normalAngularB, frictionForceScalar, a);
         }
     }
 
@@ -161,7 +159,7 @@ abstract public class PhysicsObject implements PhysicsObjectInterface {
         }
     }
 
-    public abstract void addImpulseAndFriction(double impulse, Vector2D n, Vector2D normalAngularA, double frictionForceScalar);
+    public abstract void addImpulseAndFriction(double impulse, Vector2D n, Vector2D normalAngularA, double frictionForceScalar, PhysicsObject other);
 
     //public abstract void addImpulseAndFriction(double impulse, Vector2D n, double frictionForceScalar); //물리엔진 외부에서 물리 정보를 모르지만 충격량을 주고싶을때 사용.
 

@@ -68,6 +68,7 @@ public class GameView extends PhysicsView {
                 break;
             default:
                 Log.d("debug", "select error");
+                break;
         }
         switch(otherCharacterId){
             case 1:

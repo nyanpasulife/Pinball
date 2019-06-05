@@ -50,9 +50,10 @@ public class GamePlayActivity extends AppCompatActivity {
         //otherCharacter = getOtherCharacter();     //TODO: Network
         otherCharacter = 1;
         gv = findViewById(R.id.game_view);
+        gv.setCharacterId(playerCharacter, otherCharacter);
+
         left = gv.getLeftFlipper();
         right = gv.getRightFlipper();
-        gv.setCharacterId(playerCharacter, otherCharacter);
 
         playerLifeText = findViewById(R.id.playerLife);
         otherLifeText = findViewById(R.id.otherLife);

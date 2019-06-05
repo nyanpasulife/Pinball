@@ -15,9 +15,12 @@ import com.example.pinball.Physics.CirclePhysicsObject;
 import com.example.pinball.Physics.Vector2D;
 import com.example.pinball.R;
 
+import java.util.Random;
+
 public class CharacterArcher extends GameCharacter {
 
     private int life = 4;
+    private Random xgen = new Random();
 
     public CharacterArcher(Resources res) {
         super(res);
@@ -30,12 +33,13 @@ public class CharacterArcher extends GameCharacter {
         int cReduction = R.drawable.circle_reduction;
         int cAccel = R.drawable.circle_acceleration;
         int cBall = R.drawable.ball;
-        int bFlipper = R.drawable.flipper_left;
+        int leftFlipper = R.drawable.flipper_left;
+        int rightFlipper = R.drawable.flipper_right;
 
-        CirclePhysicsObject ball = new CirclePhysicsObject(new Vector2D(800,400), 50, cBall, MResource);
+        CirclePhysicsObject ball = new CirclePhysicsObject(new Vector2D(xgen.nextInt(1240)+100,1290), 48, cBall, MResource);
 
-        Flipper flipper1 = new Flipper(new Vector2D(540, 2350), 100 , 250, 75, bFlipper, MResource);
-        Flipper flipper2 = new Flipper(new Vector2D(1440-540, 2350), 100 , 250, 75, bFlipper, MResource);
+        Flipper flipper1 = new Flipper(new Vector2D(540, 2350), 0 , 250, 75, leftFlipper, MResource);
+        Flipper flipper2 = new Flipper(new Vector2D(1440-540, 2350), 1 , 250, 75, rightFlipper, MResource);
         flipper2.setRotation(180);
 
         DefaultBlock obj1 = new DefaultBlock(new Vector2D(0-50,2400), 800,800, bDefault, MResource, false);
@@ -84,6 +88,9 @@ public class CharacterArcher extends GameCharacter {
 
         GameObjectList.add(flipper1);
         GameObjectList.add(flipper2);
+
+        flippers.add(flipper1);
+        flippers.add(flipper2);
     }
 
     public int getLife(){

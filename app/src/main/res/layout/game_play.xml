@@ -47,6 +47,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@android:color/transparent"
+            android:onClick="onLeftClicked"
             android:shadowColor="@android:color/transparent" />
 
         <Button
@@ -55,6 +56,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@android:color/transparent"
+            android:onClick="onRightClicked"
             android:shadowColor="@android:color/transparent" />
     </LinearLayout>
 
