@@ -1,5 +1,6 @@
 package com.example.pinball.GameObjectCodes;
 
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 
 import com.example.pinball.Physics.PhysicsObject;
@@ -19,8 +20,8 @@ public class Flipper extends RectanglePhysicsObject {
 
     int PivotStatus;
 
-    public Flipper(Vector2D position, int pivotDirection, double width, double height, Bitmap bitmap) {
-        super(position, width, height, bitmap, false);
+    public Flipper(Vector2D position, int pivotDirection, double width, double height, int id, Resources resources) {
+        super(position, width, height, id, resources, false);
         PivotStatus = pivotDirection;
 
     }
@@ -83,5 +84,13 @@ public class Flipper extends RectanglePhysicsObject {
             int haha=1;
         }
 
+    }
+
+    public void setRotation(double r){
+        super.setRotation(r);
+    }
+
+    public double getRotation(){
+        return super.getRotation();
     }
 }

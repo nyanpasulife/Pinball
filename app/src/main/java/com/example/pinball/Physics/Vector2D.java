@@ -80,4 +80,11 @@ public class Vector2D {
         }
     }
 
+    public double getX() {
+        return X;
+    }
+
+    public double getY() {
+        return Y;
+    }
 }

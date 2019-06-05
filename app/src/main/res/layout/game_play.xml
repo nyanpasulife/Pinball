@@ -4,14 +4,39 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    >
 
     <com.example.pinball.GameView
         android:id="@+id/game_view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="1440px"
+        android:layout_height="2560px"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/left"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@android:color/transparent"
+            android:onClick="onLeftClicked"
+            android:shadowColor="@android:color/transparent" />
+
+        <Button
+            android:id="@+id/right"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@android:color/transparent"
+            android:onClick="onRightClicked"
+            android:shadowColor="@android:color/transparent" />
+    </LinearLayout>
 
 
 </android.support.constraint.ConstraintLayout>

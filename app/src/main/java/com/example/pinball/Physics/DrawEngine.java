@@ -10,15 +10,15 @@ import java.util.ArrayList;
 public class DrawEngine extends Thread {
     private boolean Run = false; //Run == true 여야 그리는 행동이 작동함.
     private SurfaceHolder MSurfaceHolder; // 이 객체를 이용해 SurefaceView에 그림을 그릴 수 있음.
-    private ArrayList<PhysicsObject> GameObjectsList = new ArrayList<>();
+    GameData Data;
 
     double WidthRate ;
     double HeightRate;
 
     //생성자 : SurfaceHolder 를 받아와 자신의 인스턴스 변수로 저장한다.
-    public DrawEngine(SurfaceHolder holder, ArrayList<PhysicsObject> pack) {
+    public DrawEngine(SurfaceHolder holder, GameData data) {
         MSurfaceHolder = holder;
-        GameObjectsList = pack;
+        Data = data;
     }
 
     //run 함수. 쓰레드가 종료되기 전까지 SurfaceView 에 지속적으로 그림을 그린다.
@@ -29,9 +29,9 @@ public class DrawEngine extends Thread {
             Canvas c = null;
             try {
                 c = MSurfaceHolder.lockCanvas(null);
-                c.drawColor(Color.BLACK);
+                c.drawColor(Color.WHITE);
                 synchronized (MSurfaceHolder) {
-                    for(PhysicsObject e : GameObjectsList){
+                    for(PhysicsObject e : Data.getGameObjectsList()){
                         e.paint(c,WidthRate, HeightRate);
                     }
                 }
@@ -46,10 +46,6 @@ public class DrawEngine extends Thread {
     //쓰레드가 작동하는지에 관한 논리값을 입력받는다.
     public void setRunning(boolean b) {
         Run = b;
-    }
-
-    public void setGameObjectsList(ArrayList<PhysicsObject> list){
-        GameObjectsList = list;
     }
 
     /*public void convertDraw(double width, double height){
