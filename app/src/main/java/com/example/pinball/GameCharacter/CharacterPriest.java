@@ -84,7 +84,7 @@ public class CharacterPriest extends GameCharacter {
 
         GameObjectList.add(outColliderLeft);
         GameObjectList.add(outColliderRight);
-        GameObjectList.add(outColliderBottom_forTest);
+//        GameObjectList.add(outColliderBottom_forTest);
 
         GameObjectList.add(flipper1);
         GameObjectList.add(flipper2);

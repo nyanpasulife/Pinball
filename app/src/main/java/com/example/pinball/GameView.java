@@ -26,7 +26,7 @@ import java.util.ArrayList;
 /**     GamePlayActivity 위에 올릴 Game 화면    **/
 
 public class GameView extends PhysicsView {
-    private GameCharacter player, otherOne;
+    protected GameCharacter player, otherOne;
     ArrayList<PhysicsObjectInterface> gameObjectSet = new ArrayList<>();
 
     int playerCharacterId;

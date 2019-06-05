@@ -99,7 +99,7 @@ public class CharacterWarrior extends GameCharacter {
         GameObjectList.add(obj13);
         GameObjectList.add(outColliderLeft);
         GameObjectList.add(outColliderRight);
-        GameObjectList.add(outColliderBottom_forTest);
+//        GameObjectList.add(outColliderBottom_forTest);
         GameObjectList.add(flipper1);
         GameObjectList.add(flipper2);
 //        GameObjectList.add(floor4);

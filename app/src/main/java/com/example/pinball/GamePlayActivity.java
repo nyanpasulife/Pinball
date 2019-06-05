@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.TextView;
 
 import com.example.pinball.GameObjectCodes.Flipper;
 
@@ -21,6 +22,9 @@ public class GamePlayActivity extends AppCompatActivity {
     private View 	decorView;
     private int	uiOption;
     Flipper left, right;
+    private int playerLife, otherLife;
+
+    private TextView playerLifeText, otherLifeText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +53,14 @@ public class GamePlayActivity extends AppCompatActivity {
         left = gv.getLeftFlipper();
         right = gv.getRightFlipper();
         gv.setCharacterId(playerCharacter, otherCharacter);
+
+        playerLifeText = findViewById(R.id.playerLife);
+        otherLifeText = findViewById(R.id.otherLife);
+
+        playerLife = gv.player.getLife();
+        otherLife = gv.otherOne.getLife();
+        playerLifeText.setText("LIFE: " + Integer.toString(playerLife));
+        otherLifeText.setText("LIFE: " + Integer.toString(otherLife));
     }
 
     public void onLeftClicked(View v){
