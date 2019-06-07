@@ -53,8 +53,8 @@ public class CharacterPriest extends GameCharacter {
         DefaultBlock obj5 = new DefaultBlock(new Vector2D(1480-50,1985 + 800), 800,800, bDefault, MResource, false);
         obj5.setRotation(-40);
 
-        RefractionBlock obj6 = new RefractionBlock(new Vector2D(1440-200,1800), 300,50,bRefraction, MResource, false);
-        RefractionBlock obj7 = new RefractionBlock(new Vector2D(1440-400,1600), 300,50,bRefraction, MResource, false);
+//        RefractionBlock obj6 = new RefractionBlock(new Vector2D(1440-200,1800), 300,50,bRefraction, MResource, false);
+//        RefractionBlock obj7 = new RefractionBlock(new Vector2D(1440-400,1600), 300,50,bRefraction, MResource, false);
 
         AccelerationBlock obj8 = new AccelerationBlock(new Vector2D(350,1750), 400, 75, bAccel, MResource, false);
         AccelerationCircle obj9 = new AccelerationCircle(new Vector2D(500,1950), 75,cAccel, MResource, false);
@@ -63,7 +63,7 @@ public class CharacterPriest extends GameCharacter {
         ReductionCircle obj11 = new ReductionCircle(new Vector2D(600,1500), 50,cReduction, MResource, false);
         ReductionBlock obj12 = new ReductionBlock(new Vector2D(1440 - 400,1950), 300,75,bReduction, MResource, false);
 
-        HealerBlock obj13 = new HealerBlock(new Vector2D(1200, 2140), 100, 100, bhealer, MResource, false);
+        HealerBlock obj13 = new HealerBlock(new Vector2D(1200, 2140), 500, 500, bhealer, MResource, false);
         obj13.setRotation(-40);
 
         DefaultBlock outColliderBottom_forTest = new DefaultBlock(new Vector2D(750, 2560+75), 1500, 150, bDefault, MResource, false);
@@ -76,8 +76,8 @@ public class CharacterPriest extends GameCharacter {
         GameObjectList.add(obj3);
         GameObjectList.add(obj4);
         GameObjectList.add(obj5);
-        GameObjectList.add(obj6);
-        GameObjectList.add(obj7);
+//        GameObjectList.add(obj6);
+//        GameObjectList.add(obj7);
         GameObjectList.add(obj8);
         GameObjectList.add(obj9);
         GameObjectList.add(obj10);
@@ -93,8 +93,10 @@ public class CharacterPriest extends GameCharacter {
         GameObjectList.add(flipper1);
         GameObjectList.add(flipper2);
 
-        flippers.add(flipper1);
-        flippers.add(flipper2);
+        interactWithUser.add(flipper1);
+        interactWithUser.add(flipper2);
+        interactWithUser.add(obj13);
+        interactWithUser.add(null);
     }
 
     public int getLife(){
@@ -103,7 +105,8 @@ public class CharacterPriest extends GameCharacter {
     public void loseLife(){
         life--;
     }
-    public void skill(){
-        //TODO
+    public void addLife(){
+        life++;
+        playView.updateLife(life, this);
     }
 }

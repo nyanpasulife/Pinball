@@ -63,15 +63,15 @@ public class CharacterWarrior extends GameCharacter {
         DefaultBlock obj5 = new DefaultBlock(new Vector2D(1480-50,1985 + 800), 800,800, bDefault, MResource, false);
         obj5.setRotation(-40);
 
-        RefractionBlock obj6 = new RefractionBlock(new Vector2D(100,1450), 200,50,bRefraction, MResource, false);
-        RefractionBlock obj7 = new RefractionBlock(new Vector2D(1440-150,1600), 300,50,bRefraction, MResource, false);
+//        RefractionBlock obj6 = new RefractionBlock(new Vector2D(100,1450), 200,50,bRefraction, MResource, false);
+//        RefractionBlock obj7 = new RefractionBlock(new Vector2D(1440-150,1600), 300,50,bRefraction, MResource, false);
 
         AccelerationCircle obj8 = new AccelerationCircle(new Vector2D(550,1280+130), 100,cAccel, MResource, false);
         AccelerationCircle obj9 = new AccelerationCircle(new Vector2D(1440-200,1280+130), 75,cAccel, MResource, false);
-        AccelerationCircle obj10 = new AccelerationCircle(new Vector2D(600,1280+550), 60,cAccel, MResource,false);
+        AccelerationCircle obj10 = new AccelerationCircle(new Vector2D(300,1280+550), 60,cAccel, MResource,false);
 
         ReductionCircle obj11 = new ReductionCircle(new Vector2D(1440 - 500,1500), 50,cReduction, MResource, false);
-        ReductionBlock obj12 = new ReductionBlock(new Vector2D(1440 - 375,1900), 400,100,bReduction, MResource, false);
+        ReductionBlock obj12 = new ReductionBlock(new Vector2D(1440 - 375,1900), 300,75,bReduction, MResource, false);
         obj12.setRotation(-40);
 
         WarriorBlock obj13 = new WarriorBlock(new Vector2D(355, 2290), 300, 100, bWarrior, MResource, false);
@@ -93,8 +93,8 @@ public class CharacterWarrior extends GameCharacter {
         GameObjectList.add(obj3);
         GameObjectList.add(obj4);
         GameObjectList.add(obj5);
-        GameObjectList.add(obj6);
-        GameObjectList.add(obj7);
+//        GameObjectList.add(obj6);
+//        GameObjectList.add(obj7);
         GameObjectList.add(obj8);
         GameObjectList.add(obj9);
         GameObjectList.add(obj10);
@@ -108,13 +108,11 @@ public class CharacterWarrior extends GameCharacter {
         GameObjectList.add(flipper2);
 //        GameObjectList.add(floor4);
 
-        flippers.add(flipper1);
-        flippers.add(flipper2);
+        interactWithUser.add(flipper1);
+        interactWithUser.add(flipper2);
+        interactWithUser.add(obj13);
+        interactWithUser.add(null);
 }
-
-    public void skill(){
-
-    }
 
     public int getLife(){
         return life;

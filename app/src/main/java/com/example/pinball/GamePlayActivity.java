@@ -4,12 +4,15 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.TextView;
 
+import com.example.pinball.GameCharacter.GameCharacter;
 import com.example.pinball.GameObjectCodes.Flipper;
 
 /**     게임플레이 activity. GameView를 Inflate    **/
@@ -25,6 +28,12 @@ public class GamePlayActivity extends AppCompatActivity {
     private int playerLife, otherLife;
 
     private TextView playerLifeText, otherLifeText;
+    public Handler lifeTextHandler = new Handler(){
+        public void handleMessage(Message message){
+            updateLife(message.arg1, (GameCharacter)message.obj);
+            Log.d("tag", Integer.toString(message.arg1));
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,8 +57,9 @@ public class GamePlayActivity extends AppCompatActivity {
         Bundle bundle = intent.getExtras();
         playerCharacter = bundle.getInt("character");
         //otherCharacter = getOtherCharacter();     //TODO: Network
-        otherCharacter = 1;
+        otherCharacter = 4;
         gv = findViewById(R.id.game_view);
+        gv.setActivity(this);
         gv.setCharacterId(playerCharacter, otherCharacter);
 
         left = gv.getLeftFlipper();
@@ -69,5 +79,12 @@ public class GamePlayActivity extends AppCompatActivity {
     }
     public void onRightClicked(View v){
         right.powered();
+    }
+
+    public void updateLife(int newLife, GameCharacter character){
+        if(character == gv.player)
+            playerLifeText.setText("LIFE: " + Integer.toString(newLife));
+        else if(character == gv.otherOne)
+            otherLifeText.setText("LIFE: " + Integer.toString(newLife));
     }
 }

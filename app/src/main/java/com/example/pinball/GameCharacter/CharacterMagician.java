@@ -86,8 +86,10 @@ public class CharacterMagician extends GameCharacter {
         GameObjectList.add(flipper1);
         GameObjectList.add(flipper2);
 
-        flippers.add(flipper1);
-        flippers.add(flipper2);
+        interactWithUser.add(flipper1);
+        interactWithUser.add(flipper2);
+        interactWithUser.add(obj13);
+        interactWithUser.add(obj14);
     }
 
     public int getLife(){
@@ -95,8 +97,5 @@ public class CharacterMagician extends GameCharacter {
     }
     public void loseLife(){
         life--;
-    }
-    public void skill(){
-        //TODO
     }
 }

@@ -52,8 +52,8 @@ public class CharacterArcher extends GameCharacter {
         DefaultBlock obj5 = new DefaultBlock(new Vector2D(1480-50,1985 + 800), 800,800, bDefault, MResource, false);
         obj5.setRotation(-40);
 
-        RefractionBlock obj6 = new RefractionBlock(new Vector2D(150,1400), 300,50,bRefraction, MResource, false);
-        RefractionBlock obj7 = new RefractionBlock(new Vector2D(1440-150,1600), 300,50,bRefraction, MResource, false);
+//        RefractionBlock obj6 = new RefractionBlock(new Vector2D(150,1400), 300,50,bRefraction, MResource, false);
+//        RefractionBlock obj7 = new RefractionBlock(new Vector2D(1440-150,1600), 300,50,bRefraction, MResource, false);
 
         AccelerationBlock obj8 = new AccelerationBlock(new Vector2D(1000,1850), 350, 75, bAccel, MResource, false);
         AccelerationCircle obj9 = new AccelerationCircle(new Vector2D(700,1950), 50,cAccel, MResource, false);
@@ -73,8 +73,8 @@ public class CharacterArcher extends GameCharacter {
         GameObjectList.add(obj3);
         GameObjectList.add(obj4);
         GameObjectList.add(obj5);
-        GameObjectList.add(obj6);
-        GameObjectList.add(obj7);
+//        GameObjectList.add(obj6);
+//        GameObjectList.add(obj7);
         GameObjectList.add(obj8);
         GameObjectList.add(obj9);
         GameObjectList.add(obj11);
@@ -89,14 +89,13 @@ public class CharacterArcher extends GameCharacter {
         GameObjectList.add(flipper1);
         GameObjectList.add(flipper2);
 
-        flippers.add(flipper1);
-        flippers.add(flipper2);
+        interactWithUser.add(flipper1);
+        interactWithUser.add(flipper2);
+        interactWithUser.add(obj13);
+        interactWithUser.add(null);
     }
 
     public int getLife(){
         return life;
-    }
-    public void skill(){
-        //TODO
     }
 }

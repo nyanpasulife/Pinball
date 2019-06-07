@@ -1,25 +1,21 @@
 package com.example.pinball;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Color;
+import android.os.Handler;
+import android.os.Message;
+import android.os.Messenger;
 import android.util.AttributeSet;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
 
 import com.example.pinball.GameCharacter.CharacterArcher;
 import com.example.pinball.GameCharacter.CharacterMagician;
 import com.example.pinball.GameCharacter.CharacterPriest;
 import com.example.pinball.GameCharacter.CharacterWarrior;
 import com.example.pinball.GameCharacter.GameCharacter;
-import com.example.pinball.GameCharacter.TestCharacter;
-import com.example.pinball.GameObjectCodes.DefaultBlock;
+import com.example.pinball.GameObjectCodes.CharacterObj;
 import com.example.pinball.GameObjectCodes.Flipper;
 import com.example.pinball.Physics.PhysicsObjectInterface;
 import com.example.pinball.Physics.PhysicsView;
-import com.example.pinball.Physics.Vector2D;
 
 import java.util.ArrayList;
 
@@ -28,11 +24,15 @@ import java.util.ArrayList;
 public class GameView extends PhysicsView {
     protected GameCharacter player, otherOne;
     ArrayList<PhysicsObjectInterface> gameObjectSet = new ArrayList<>();
+    private GamePlayActivity gamePlayActivity;
 
     int playerCharacterId;
     int otherCharacterId;
 
     private Flipper left, right;
+
+    private ArrayList<CharacterObj> characterObjs = new ArrayList<>();
+    Handler handler;
 
     public GameView(Context context){
         super(context);
@@ -89,6 +89,11 @@ public class GameView extends PhysicsView {
 
         player.setCharOnView(0, this);
         otherOne.setCharOnView(1, this);
+
+        characterObjs.get(0).setUser(player);
+        characterObjs.get(2).setUser(otherOne);
+
+        handler = gamePlayActivity.lifeTextHandler;
     }
 
     public void setFlipper(Flipper flipperL, Flipper flipperR){
@@ -102,5 +107,24 @@ public class GameView extends PhysicsView {
 
     public Flipper getRightFlipper(){
         return right;
+    }
+
+    public void setCharacterObject(CharacterObj a, CharacterObj b){
+        characterObjs.add(a);
+        characterObjs.add(b);
+    }
+
+    public void setActivity(GamePlayActivity activity){
+        gamePlayActivity = activity;
+    }
+
+    public void updateLife(int newLife, GameCharacter character){
+//        Message message = handler.obtainMessage(newLife, character);
+//        message.sendToTarget();
+        Message message = new Message();
+        message.arg1 = newLife;
+        message.obj = character;
+        handler.sendMessage(message);
+        Log.d("view", Integer.toString(newLife));
     }
 }

@@ -7,6 +7,7 @@ import android.util.AttributeSet;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
+import com.example.pinball.GameObjectCodes.CharacterObj;
 import com.example.pinball.GameObjectCodes.Flipper;
 
 import java.util.ArrayList;
@@ -87,4 +88,7 @@ public class PhysicsView extends SurfaceView implements SurfaceHolder.Callback{
     }
 
     public void setFlipper(Flipper flipperL, Flipper flipperR){}
+
+    public void setCharacterObject(CharacterObj physicsObject, CharacterObj physicsObject1) {
+    }
 }

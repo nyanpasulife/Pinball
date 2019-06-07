@@ -2,8 +2,10 @@ package com.example.pinball.GameCharacter;
 
 import android.content.res.Resources;
 
+import com.example.pinball.GameObjectCodes.CharacterObj;
 import com.example.pinball.GameObjectCodes.Flipper;
 import com.example.pinball.GamePlayActivity;
+import com.example.pinball.GameView;
 import com.example.pinball.Physics.PhysicsObject;
 import com.example.pinball.Physics.PhysicsView;
 import com.example.pinball.Physics.Vector2D;
@@ -18,7 +20,9 @@ public abstract class GameCharacter {
 
     ArrayList<PhysicsObject> GameObjectList = new ArrayList<>();
     Resources MResource;
-    ArrayList<Flipper> flippers = new ArrayList<>();
+    ArrayList<PhysicsObject> interactWithUser = new ArrayList<>(); // 0: Flipper left, 1: Flipper Right, 2: character block
+
+    GameView playView;
 
     GameCharacter(Resources res){
         MResource = res;
@@ -51,12 +55,15 @@ public abstract class GameCharacter {
     }
 
     public void setCharOnView(int position, PhysicsView view){
+        playView = (GameView)view;
         if(position == 0) {
             view.pushObjects(getOtherObjectList());
+            view.setCharacterObject((CharacterObj)interactWithUser.get(2), (CharacterObj)interactWithUser.get(3));
         }
         else if(position == 1){
             view.pushObjects(GameObjectList);
-            view.setFlipper(flippers.get(0), flippers.get(1));
+            view.setFlipper((Flipper)interactWithUser.get(0), (Flipper)interactWithUser.get(1));
+            view.setCharacterObject((CharacterObj)interactWithUser.get(2), (CharacterObj)interactWithUser.get(3));
         }
     }
 }

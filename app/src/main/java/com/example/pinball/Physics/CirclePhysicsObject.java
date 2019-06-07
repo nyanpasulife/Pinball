@@ -297,9 +297,9 @@ public class CirclePhysicsObject extends PhysicsObject {
     @Override
     public void addImpulseAndFriction(double impulse, Vector2D n, Vector2D normalAngularA, double frictionForceScalar, PhysicsObject other) {
         if(other instanceof ArcherCircle || other instanceof AccelerationBlock)
-            impulse *= 1.5;
+            impulse *= 1.2;
         else if(other instanceof ReductionCircle || other instanceof ReductionBlock)
-            impulse *= 0.5;
+            impulse *= 0.8;
         Vector2D impulseVector = n.constantProduct(impulse * InverseOfMass);
         velocity = velocity.plus(impulseVector);
     }
