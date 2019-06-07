@@ -25,6 +25,9 @@ public class DeadLine extends RectanglePhysicsObject implements CharacterObj{
             if(other.getRadius() < 48){
                 ((Ball) other).resize(48);
             }
+            if(other.getInverseOfMass() < 0.001){
+                ((Ball)other).setInverseOfMass(0.001);
+            }
         }
     }
 

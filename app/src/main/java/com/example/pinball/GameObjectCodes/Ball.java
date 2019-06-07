@@ -25,4 +25,8 @@ public class Ball extends CirclePhysicsObject {
         resizeBitmap(r * 2);
     }
 
+    public void setInverseOfMass(double m){
+        InverseOfMass = m;
+    }
+
 }

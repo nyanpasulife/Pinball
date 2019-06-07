@@ -57,7 +57,7 @@ public class GamePlayActivity extends AppCompatActivity {
         Bundle bundle = intent.getExtras();
         playerCharacter = bundle.getInt("character");
         //otherCharacter = getOtherCharacter();     //TODO: Network
-        otherCharacter = 4;
+        otherCharacter = 1;
         gv = findViewById(R.id.game_view);
         gv.setActivity(this);
         gv.setCharacterId(playerCharacter, otherCharacter);

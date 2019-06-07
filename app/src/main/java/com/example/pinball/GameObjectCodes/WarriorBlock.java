@@ -27,9 +27,12 @@ public class WarriorBlock extends RectanglePhysicsObject implements CharacterObj
         skill();
     }
     public void skill(){
-        //flipper power set
-        Flipper flipper = (Flipper) user.getInteractWithUsers().get(0);
 
+    }
+    public void skill(PhysicsObject other){
+        if(other instanceof Ball){
+            ((Ball)other).setInverseOfMass(other.getInverseOfMass() * 0.6);
+        }
     }
 
     @Override
@@ -39,6 +42,6 @@ public class WarriorBlock extends RectanglePhysicsObject implements CharacterObj
 
     public void gameCollided(PhysicsObject other){
         super.gameCollided(other);
-        skill();
+        skill(other);
     }
 }
