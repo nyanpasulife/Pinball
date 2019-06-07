@@ -4,6 +4,8 @@ import android.content.res.Resources;
 
 import com.example.pinball.GameObjectCodes.AccelerationBlock;
 import com.example.pinball.GameObjectCodes.AccelerationCircle;
+import com.example.pinball.GameObjectCodes.Ball;
+import com.example.pinball.GameObjectCodes.DeadLine;
 import com.example.pinball.GameObjectCodes.DefaultBlock;
 import com.example.pinball.GameObjectCodes.Flipper;
 import com.example.pinball.GameObjectCodes.MagicianBlock;
@@ -32,11 +34,10 @@ public class CharacterMagician extends GameCharacter {
         int leftFlipper = R.drawable.flipper_left;
         int rightFlipper = R.drawable.flipper_right;
 
-        CirclePhysicsObject ball = new CirclePhysicsObject(new Vector2D(xgen.nextInt(1240)+100,1290), 48, cBall, MResource);
+        Ball ball = new Ball(new Vector2D(xgen.nextInt(1240)+100,1290), 48, cBall, MResource);
 
         Flipper flipper1 = new Flipper(new Vector2D(540, 2350), 0 , 250, 75, leftFlipper, MResource);
         Flipper flipper2 = new Flipper(new Vector2D(1440-540, 2350), 1 , 250, 75, rightFlipper, MResource);
-        flipper2.setRotation(180);
 
         DefaultBlock obj1 = new DefaultBlock(new Vector2D(0-50,2400), 800,800, bDefault, MResource, false);
         obj1.setRotation(40);
@@ -56,12 +57,12 @@ public class CharacterMagician extends GameCharacter {
         ReductionCircle obj11 = new ReductionCircle(new Vector2D(600,1500), 50,cReduction, MResource, false);
         ReductionCircle obj12 = new ReductionCircle(new Vector2D(1440 - 200,1300), 75,cReduction, MResource, false);
 
-        MagicianBlock obj13 = new MagicianBlock(new Vector2D(1440-50, 1700), 300, 75, bmagician, MResource, false);
+        MagicianBlock obj13 = new MagicianBlock(new Vector2D(1440-50, 1500), 300, 75, bmagician, MResource, false);
         obj13.setRotation(40);
         MagicianBlock obj14 = new MagicianBlock(new Vector2D(50, 1500), 300, 75, bmagician, MResource, false);
         obj14.setRotation(-40);
 
-        DefaultBlock outColliderBottom_forTest = new DefaultBlock(new Vector2D(750, 2560+75), 1500, 150, bDefault, MResource, false);
+        DeadLine deadLine = new DeadLine(new Vector2D(750, -200), 1500, 150, bDefault, MResource, false);
         DefaultBlock outColliderLeft = new DefaultBlock(new Vector2D(0-75, 1700), 150, 1186, bDefault, MResource, false);
         DefaultBlock outColliderRight = new DefaultBlock(new Vector2D(1440+75, 1700), 150, 1186, bDefault, MResource, false);
 
@@ -81,7 +82,7 @@ public class CharacterMagician extends GameCharacter {
 
         GameObjectList.add(outColliderLeft);
         GameObjectList.add(outColliderRight);
-//        GameObjectList.add(outColliderBottom_forTest);
+        GameObjectList.add(deadLine);
 
         GameObjectList.add(flipper1);
         GameObjectList.add(flipper2);
@@ -90,6 +91,7 @@ public class CharacterMagician extends GameCharacter {
         interactWithUser.add(flipper2);
         interactWithUser.add(obj13);
         interactWithUser.add(obj14);
+        interactWithUser.add(deadLine);
     }
 
     public int getLife(){
@@ -97,5 +99,6 @@ public class CharacterMagician extends GameCharacter {
     }
     public void loseLife(){
         life--;
+        playView.updateLife(life, this);
     }
 }

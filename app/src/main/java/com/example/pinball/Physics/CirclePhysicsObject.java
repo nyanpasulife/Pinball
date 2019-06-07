@@ -20,8 +20,8 @@ public class CirclePhysicsObject extends PhysicsObject {
     private boolean MovingObject = true;
 
     private Vector2D materialPoint;
-    private double radius;
-    private double InverseOfMass = 0.001;
+    protected double radius;
+    protected double InverseOfMass = 0.001;
     private double InverseOfI = 0;
 
     private Vector2D velocity = new Vector2D(0, 0);
@@ -180,7 +180,7 @@ public class CirclePhysicsObject extends PhysicsObject {
     }
 
 
-    public void convertBitmap(double widthRate, double heightRate) {        // ???
+    public void convertBitmap(double widthRate, double heightRate) {
         Image = Bitmap.createBitmap(Image, 0, 0, (int) (Math.round(Image.getWidth()) * widthRate), (int) (Math.round(Image.getHeight() * heightRate)));
     }
 

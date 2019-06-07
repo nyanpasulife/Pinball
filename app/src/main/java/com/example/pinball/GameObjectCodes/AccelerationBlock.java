@@ -3,6 +3,7 @@ package com.example.pinball.GameObjectCodes;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 
+import com.example.pinball.Physics.PhysicsObject;
 import com.example.pinball.Physics.RectanglePhysicsObject;
 import com.example.pinball.Physics.Vector2D;
 
@@ -23,4 +24,9 @@ public class AccelerationBlock extends RectanglePhysicsObject {
     public void setRotation(double r){
         super.setRotation(r);
     }
+
+//    public void gameCollided(PhysicsObject other){
+//        super.gameCollided(other);
+//        other.getVelocity().reSize(getVelocity().getSize() * 2);
+//    }
 }

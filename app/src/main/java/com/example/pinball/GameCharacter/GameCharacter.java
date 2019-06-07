@@ -58,12 +58,16 @@ public abstract class GameCharacter {
         playView = (GameView)view;
         if(position == 0) {
             view.pushObjects(getOtherObjectList());
-            view.setCharacterObject((CharacterObj)interactWithUser.get(2), (CharacterObj)interactWithUser.get(3));
+            view.setCharacterObject((CharacterObj)interactWithUser.get(2), (CharacterObj)interactWithUser.get(3), (CharacterObj)interactWithUser.get(4));
         }
         else if(position == 1){
             view.pushObjects(GameObjectList);
             view.setFlipper((Flipper)interactWithUser.get(0), (Flipper)interactWithUser.get(1));
-            view.setCharacterObject((CharacterObj)interactWithUser.get(2), (CharacterObj)interactWithUser.get(3));
+            view.setCharacterObject((CharacterObj)interactWithUser.get(2), (CharacterObj)interactWithUser.get(3), (CharacterObj)interactWithUser.get(4));
         }
+    }
+
+    public ArrayList<PhysicsObject> getInteractWithUsers(){
+        return interactWithUser;
     }
 }

@@ -91,7 +91,9 @@ public class GameView extends PhysicsView {
         otherOne.setCharOnView(1, this);
 
         characterObjs.get(0).setUser(player);
-        characterObjs.get(2).setUser(otherOne);
+        characterObjs.get(2).setUser(player);
+        characterObjs.get(3).setUser(otherOne);
+        characterObjs.get(5).setUser(otherOne);
 
         handler = gamePlayActivity.lifeTextHandler;
     }
@@ -109,9 +111,10 @@ public class GameView extends PhysicsView {
         return right;
     }
 
-    public void setCharacterObject(CharacterObj a, CharacterObj b){
+    public void setCharacterObject(CharacterObj a, CharacterObj b, CharacterObj deadLine){
         characterObjs.add(a);
         characterObjs.add(b);
+        characterObjs.add(deadLine);
     }
 
     public void setActivity(GamePlayActivity activity){

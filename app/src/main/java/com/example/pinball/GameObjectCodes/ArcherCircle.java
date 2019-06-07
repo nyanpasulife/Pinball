@@ -2,10 +2,12 @@ package com.example.pinball.GameObjectCodes;
 
 import android.content.res.Resources;
 import android.graphics.Bitmap;
+import android.util.Log;
 
 import com.example.pinball.GameCharacter.CharacterArcher;
 import com.example.pinball.GameCharacter.GameCharacter;
 import com.example.pinball.Physics.CirclePhysicsObject;
+import com.example.pinball.Physics.PhysicsObject;
 import com.example.pinball.Physics.Vector2D;
 
 public class ArcherCircle extends CirclePhysicsObject implements CharacterObj{
@@ -26,14 +28,22 @@ public class ArcherCircle extends CirclePhysicsObject implements CharacterObj{
     }
 
     public void skill(){
-        //get other obj
-        //make obj velocity = 0
-        //flipper 비활성화
-        //
+
+    }
+    public void skill(PhysicsObject other) {
+        if (other instanceof Ball) {
+            Ball bOther = (Ball) other;
+            bOther.resize(bOther.getRadius() * 0.8);
+        }
     }
 
     @Override
     public void setUser(GameCharacter u) {
         user = (CharacterArcher) u;
+    }
+
+    public void gameCollided(PhysicsObject other){
+        super.gameCollided(other);
+        skill(other);
     }
 }

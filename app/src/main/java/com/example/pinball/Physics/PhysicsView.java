@@ -89,6 +89,6 @@ public class PhysicsView extends SurfaceView implements SurfaceHolder.Callback{
 
     public void setFlipper(Flipper flipperL, Flipper flipperR){}
 
-    public void setCharacterObject(CharacterObj physicsObject, CharacterObj physicsObject1) {
+    public void setCharacterObject(CharacterObj physicsObject, CharacterObj physicsObject1, CharacterObj deadLine) {
     }
 }

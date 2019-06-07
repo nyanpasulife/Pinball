@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 
 import com.example.pinball.GameCharacter.CharacterMagician;
 import com.example.pinball.GameCharacter.GameCharacter;
+import com.example.pinball.Physics.PhysicsObject;
 import com.example.pinball.Physics.RectanglePhysicsObject;
 import com.example.pinball.Physics.Vector2D;
 
@@ -21,16 +22,24 @@ public class MagicianBlock extends RectanglePhysicsObject implements CharacterOb
    public void setRotation(double r){
        super.setRotation(r);
    }
-   public void act(){
-       super.act();
-   }
    public void skill(){
-       //get other obj
-       //get position and set new position
+   }
+   public void skill(PhysicsObject other){
+       int x = 50;
+       if(other.getMaterialPoint().getX() > 720){
+           other.setMaterialPoint(new Vector2D(x, other.getMaterialPoint().getY()-150));
+       }
+       else
+           other.setMaterialPoint(new Vector2D(1440-x, other.getMaterialPoint().getY()-150));
    }
 
     @Override
     public void setUser(GameCharacter u) {
         user = (CharacterMagician) u;
+    }
+
+    public void gameCollided(PhysicsObject other){
+        super.gameCollided(other);
+        skill(other);
     }
 }

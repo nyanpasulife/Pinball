@@ -110,7 +110,7 @@ abstract public class PhysicsObject implements PhysicsObjectInterface {
     void resizeBitmap(double width, double height) {
         Image = Bitmap.createScaledBitmap(Image, (int) width, (int) height, false);
     }
-    void resizeBitmap(double size) {
+    protected void resizeBitmap(double size) {
         resizeBitmap(size,size);
     }
 
