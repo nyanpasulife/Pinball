@@ -1,4 +1,4 @@
-package com.example.pinball.Physics;
+package com.example.pinball.Engines;
 
 public class Vector2D {
     double X, Y;
@@ -80,4 +80,11 @@ public class Vector2D {
         }
     }
 
+    public double getX() {
+        return X;
+    }
+
+    public double getY() {
+        return Y;
+    }
 }

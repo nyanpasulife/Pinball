@@ -1,4 +1,4 @@
-package com.example.pinball.Physics;
+package com.example.pinball.Engines;
 
 interface LinearLine{
     LinearLine getPerpLineFromDot(Vector2D dot);

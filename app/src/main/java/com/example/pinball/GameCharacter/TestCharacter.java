@@ -4,11 +4,11 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
-import com.example.pinball.Physics.CirclePhysicsObject;
-import com.example.pinball.Physics.PolygonPhysicsObject;
+import com.example.pinball.Engines.CirclePhysicsObject;
+import com.example.pinball.Engines.PolygonPhysicsObject;
 import com.example.pinball.R;
-import com.example.pinball.Physics.RectanglePhysicsObject;
-import com.example.pinball.Physics.Vector2D;
+import com.example.pinball.Engines.RectanglePhysicsObject;
+import com.example.pinball.Engines.Vector2D;
 
 public class TestCharacter extends GameCharacter {
     public TestCharacter(Resources res){
@@ -30,14 +30,29 @@ public class TestCharacter extends GameCharacter {
         PolygonPhysicsObject floor3 = new RectanglePhysicsObject(new Vector2D(1300, 1000), 200, 3000, floorRect, false);
         PolygonPhysicsObject floor4 = new RectanglePhysicsObject(new Vector2D(800, 100), 1500, 300, floorRect, false);
 
-        //GameObjectList.add(rect1);
-        //GameObjectList.add(rect2);
-        //GameObjectList.add(circle1);
+        GameObjectList.add(rect1);
+        GameObjectList.add(rect2);
+        GameObjectList.add(circle1);
         GameObjectList.add(circle2);
-        //GameObjectList.add(circle3);
+        GameObjectList.add(circle3);
         GameObjectList.add(floor1);
-        //GameObjectList.add(floor2);
-        //GameObjectList.add(floor3);
-        //GameObjectList.add(floor4);
+        GameObjectList.add(floor2);
+        GameObjectList.add(floor3);
+        GameObjectList.add(floor4);
+    }
+
+    @Override
+    public void charAct(String actCall) {
+
+    }
+
+    @Override
+    public void getLeftFlipper() {
+
+    }
+
+    @Override
+    public void getRightFlipper() {
+
     }
 }

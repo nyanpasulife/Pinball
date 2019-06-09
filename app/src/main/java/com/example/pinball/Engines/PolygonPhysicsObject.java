@@ -1,6 +1,5 @@
-package com.example.pinball.Physics;
+package com.example.pinball.Engines;
 
-import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Matrix;
@@ -104,7 +103,7 @@ public class PolygonPhysicsObject extends PhysicsObject {
 
 
     @Override
-    public void paint(Canvas c, double widthRate, double heightRate) {
+    public void paint(Canvas c) {
         Vector2D imagePaintPoint = getImagePaintPoint();
         MMatrix.setTranslate((float) imagePaintPoint.X, (float) imagePaintPoint.Y);
         MMatrix.postRotate((float) Rotation,(float)MaterialPoint.X,(float)MaterialPoint.Y);

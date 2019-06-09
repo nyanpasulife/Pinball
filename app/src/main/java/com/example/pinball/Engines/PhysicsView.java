@@ -1,4 +1,4 @@
-package com.example.pinball.Physics;
+package com.example.pinball.Engines;
 
 import android.content.Context;
 import android.util.AttributeSet;
@@ -9,23 +9,30 @@ import java.util.ArrayList;
 
 public class PhysicsView extends SurfaceView implements SurfaceHolder.Callback{
 
-    private DrawEngine DrawThread;
-    private PhysicsEngine PhysicsThread;
-    private GameData Data = new GameData();
+    boolean Run = false;
+    protected DrawEngine DrawThread;
+    public PhysicsEngine PhysicsThread;
+    protected GameData Data = new GameData();
 
     public PhysicsView(Context context){
         super(context);
-        SurfaceHolder holder = getHolder();
-        holder.addCallback(this);
-        DrawThread = new DrawEngine(holder, Data);
-        PhysicsThread = new PhysicsEngine(Data);
     }
     public PhysicsView(Context context, AttributeSet attr){
         super(context, attr);
-        SurfaceHolder holder = getHolder();
-        holder.addCallback(this);
-        DrawThread = new DrawEngine(holder, Data);
-        PhysicsThread = new PhysicsEngine(Data);
+    }
+
+    public void startThreads(){
+        if(DrawThread ==null) {
+            PhysicsThread = new PhysicsEngine(Data);
+            PhysicsThread.setRunning(true);
+            PhysicsThread.start();
+
+            SurfaceHolder holder = getHolder();
+            holder.addCallback(this);
+            DrawThread = new DrawEngine(holder, Data);
+            DrawThread.setRunning(true);
+            DrawThread.start();
+        }
     }
 
     public DrawEngine getDrawEngine(){
@@ -38,11 +45,6 @@ public class PhysicsView extends SurfaceView implements SurfaceHolder.Callback{
 
     @Override
     public void surfaceCreated(SurfaceHolder holder) {
-        DrawThread.setRunning(true);
-        DrawThread.start();
-
-        PhysicsThread.setRunning(true);
-        PhysicsThread.start();
     }
 
     @Override
@@ -50,24 +52,20 @@ public class PhysicsView extends SurfaceView implements SurfaceHolder.Callback{
     }
 
     public void surfaceDestroyed(SurfaceHolder holder){
-        boolean retry = true;
-        DrawThread.setRunning(false);
-        while(retry){
-            try{
-                DrawThread.join();
-                retry = false;
-            }catch(InterruptedException e){}
-        }
-        retry = true;
-        PhysicsThread.setRunning(false);
-        while(retry){
-            try{
-                PhysicsThread.join();
-                retry = false;
-            }catch(InterruptedException e){}
-        }
+        closeTread(DrawThread);
+        closeTread(PhysicsThread);
     }
 
+    protected void closeTread(CustomThread thread) {
+        thread.setRunning(false);
+        boolean retry = true;
+        while (retry) {
+            try {
+                ((Thread)thread).join();
+                retry = false;
+            } catch (InterruptedException e) { }
+        }
+    }
 
     public void pushObjects(ArrayList<PhysicsObject> list) {
         synchronized (Data) {
