@@ -1,10 +1,7 @@
 package com.example.pinball.GameCharacter;
 
 import android.content.res.Resources;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 
-import com.example.pinball.GameObjectCodes.AccelerationBlock;
 import com.example.pinball.GameObjectCodes.AccelerationCircle;
 import com.example.pinball.GameObjectCodes.Ball;
 import com.example.pinball.GameObjectCodes.DeadLine;
@@ -12,11 +9,8 @@ import com.example.pinball.GameObjectCodes.DefaultBlock;
 import com.example.pinball.GameObjectCodes.Flipper;
 import com.example.pinball.GameObjectCodes.ReductionBlock;
 import com.example.pinball.GameObjectCodes.ReductionCircle;
-import com.example.pinball.GameObjectCodes.RefractionBlock;
 import com.example.pinball.GameObjectCodes.WarriorBlock;
-import com.example.pinball.Physics.CirclePhysicsObject;
-import com.example.pinball.Physics.PolygonPhysicsObject;
-import com.example.pinball.Physics.Vector2D;
+import com.example.pinball.Engine.Vector2D;
 import com.example.pinball.R;
 
 import java.util.Random;
@@ -25,6 +19,8 @@ public class CharacterWarrior extends GameCharacter {
 
     private int life = 5;
     private Random xgen = new Random();
+
+    Flipper flipper1, flipper2;
 
     public CharacterWarrior(Resources res) {
         super(res);
@@ -51,8 +47,8 @@ public class CharacterWarrior extends GameCharacter {
 
         Ball ball = new Ball(new Vector2D(xgen.nextInt(1240)+100,1290), 48, cBall, MResource);
 
-        Flipper flipper1 = new Flipper(new Vector2D(540, 2350), 0 , 250, 75, leftFlipper, MResource);
-        Flipper flipper2 = new Flipper(new Vector2D(1440-540, 2350), 1 , 250, 75, rightFlipper, MResource);
+        flipper1 = new Flipper(new Vector2D(540, 2350), 0 , 250, 75, leftFlipper, MResource);
+        flipper2 = new Flipper(new Vector2D(1440-540, 2350), 1 , 250, 75, rightFlipper, MResource);
 
         DefaultBlock obj1 = new DefaultBlock(new Vector2D(0-50,2400), 800,800, bDefault, MResource, false);
         obj1.setRotation(40);
@@ -123,5 +119,15 @@ public class CharacterWarrior extends GameCharacter {
     public void loseLife(){
         life--;
         playView.updateLife(life, this);
+    }
+
+    @Override
+    public void charAct(String key) {
+        if(key =="LeftF"){
+            flipper1.powered();
+        }
+        if(key =="RightF"){
+            flipper2.powered();
+        }
     }
 }

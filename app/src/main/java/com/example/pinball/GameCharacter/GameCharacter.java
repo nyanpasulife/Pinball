@@ -4,11 +4,10 @@ import android.content.res.Resources;
 
 import com.example.pinball.GameObjectCodes.CharacterObj;
 import com.example.pinball.GameObjectCodes.Flipper;
-import com.example.pinball.GamePlayActivity;
 import com.example.pinball.GameView;
-import com.example.pinball.Physics.PhysicsObject;
-import com.example.pinball.Physics.PhysicsView;
-import com.example.pinball.Physics.Vector2D;
+import com.example.pinball.Engine.PhysicsObject;
+import com.example.pinball.Engine.PhysicsView;
+import com.example.pinball.Engine.Vector2D;
 
 import java.util.ArrayList;
 
@@ -70,4 +69,6 @@ public abstract class GameCharacter {
     public ArrayList<PhysicsObject> getInteractWithUsers(){
         return interactWithUser;
     }
+
+    public abstract void charAct(String key);
 }

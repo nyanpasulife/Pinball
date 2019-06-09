@@ -2,15 +2,16 @@ package com.example.pinball.GameObjectCodes;
 
 import android.content.res.Resources;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 
-import com.example.pinball.Physics.CirclePhysicsObject;
-import com.example.pinball.Physics.Vector2D;
+import com.example.pinball.Engine.CirclePhysicsObject;
+import com.example.pinball.Engine.Vector2D;
 
 public class Ball extends CirclePhysicsObject {
 
-    public Ball(Vector2D position, Bitmap bitmap) {
-        super(position, bitmap);
-    }
+//    public Ball(Vector2D position, Bitmap bitmap) {
+//        super(position, bitmap);
+//    }
 
     public Ball(Vector2D position, int r, int id, Resources resources) {
         super(position, r, id, resources);

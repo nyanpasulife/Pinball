@@ -1,4 +1,4 @@
-package com.example.pinball.Physics;
+package com.example.pinball.Engine;
 
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -16,8 +16,6 @@ import com.example.pinball.GameObjectCodes.ReductionCircle;
 import java.util.ArrayList;
 
 public class CirclePhysicsObject extends PhysicsObject {
-
-    private boolean MovingObject = true;
 
     private Vector2D materialPoint;
     protected double radius;
@@ -37,18 +35,35 @@ public class CirclePhysicsObject extends PhysicsObject {
     Paint imagePaint = new Paint();
     Matrix matrix = new Matrix();
 
-    public CirclePhysicsObject(Vector2D position, Bitmap bitmap) {
+    /*public CirclePhysicsObject(Vector2D position, Bitmap bitmap) {
         materialPoint = position;
         setBitmap(bitmap);
         radius = bitmap.getWidth() / 2.0;
     }
 
-    /*public CirclePhysicsObject(Vector2D position, int r, Bitmap bitmap) {
+    public CirclePhysicsObject(Vector2D position, int r, Bitmap bitmap) {
         materialPoint = position;
         setBitmap(bitmap);
         resizeBitmap(r*2);
         radius = r;
+    }
+
+    public CirclePhysicsObject(Vector2D position, int r, Bitmap bitmap, boolean move) {
+        materialPoint = position;
+        setBitmap(bitmap);
+        resizeBitmap(r*2);
+        radius = r;
+        if(move == false) {
+            MovingObject = false;
+        }
     }*/
+
+    public CirclePhysicsObject(Vector2D position, int id, Resources resources) {
+        materialPoint = position;
+        Bitmap bitmap = BitmapFactory.decodeResource(resources, id);
+        setBitmap(bitmap);
+        radius = bitmap.getWidth() / 2.0;
+    }
 
     public CirclePhysicsObject(Vector2D position, int r, int id, Resources resources) {
         materialPoint = position;
@@ -58,28 +73,14 @@ public class CirclePhysicsObject extends PhysicsObject {
         radius = r;
     }
 
-    /*public CirclePhysicsObject(Vector2D position, int r, Bitmap bitmap, boolean move) {
+    public CirclePhysicsObject(Vector2D position, int r, int id, Resources resources, boolean move) {
         materialPoint = position;
+        Bitmap bitmap = BitmapFactory.decodeResource(resources, id);
         setBitmap(bitmap);
         resizeBitmap(r*2);
         radius = r;
-        MovingObject = move;
-        if(MovingObject == false){
-            InverseOfMass = 0;
-            InverseOfI = 0;
-        }
-    }*/
-
-    public CirclePhysicsObject(Vector2D position, int r, int id, Resources rsc, boolean move) {
-        materialPoint = position;
-        Bitmap bitmap = BitmapFactory.decodeResource(rsc, id);
-        setBitmap(bitmap);
-        resizeBitmap(r*2);
-        radius = r;
-        MovingObject = move;
-        if(MovingObject == false){
-            InverseOfMass = 0;
-            InverseOfI = 0;
+        if(move == false) {
+            MovingObject = false;
         }
     }
 
@@ -118,7 +119,7 @@ public class CirclePhysicsObject extends PhysicsObject {
             RectanglePhysicsObject other = (RectanglePhysicsObject) x;
             if (distance(this.materialPoint, other.getMaterialPoint()) <= (this.radius + other.getRadius())) {
                 if (isCollidedWithRect(other)) {
-                    outDepth_makeImpulse(this, other, collisionPoint, collisionDirection, collisionDepth);
+                    outDepth_makeImpulse(this,other,collisionPoint,collisionDirection,collisionDepth);
                     return true;
                 }
             }
@@ -158,8 +159,7 @@ public class CirclePhysicsObject extends PhysicsObject {
 
     @Override
     public void addGravitation(Vector2D gravity) {
-        if(InverseOfMass != 0)
-            velocity = velocity.plus(gravity);
+        velocity = velocity.plus(gravity);
     }
 
     @Override
@@ -169,7 +169,7 @@ public class CirclePhysicsObject extends PhysicsObject {
     }
 
     @Override
-    public void paint(Canvas c, double widthRate, double heightRate) {
+    public void paint(Canvas c) {
 
         /*ArrayList<Vector2D> conVertexVectors = new ArrayList<>();
         for(Vector2D v : colliderTest){
@@ -180,8 +180,17 @@ public class CirclePhysicsObject extends PhysicsObject {
     }
 
 
-    public void convertBitmap(double widthRate, double heightRate) {
+    public void convertBitmap(double widthRate, double heightRate) {        // ???
         Image = Bitmap.createBitmap(Image, 0, 0, (int) (Math.round(Image.getWidth()) * widthRate), (int) (Math.round(Image.getHeight() * heightRate)));
+        Image = Bitmap.createBitmap(Image, 0, 0, (int) (Math.round(Image.getWidth()) * widthRate), (int) (Math.round(Image.getHeight() * heightRate)));
+    }
+
+    public Bitmap getBitmap() {
+        return Image;
+    }
+
+    public void setBitmap(Bitmap bitmap) {
+        Image = bitmap;
     }
 
     @Override
@@ -302,6 +311,11 @@ public class CirclePhysicsObject extends PhysicsObject {
             impulse *= 0.8;
         Vector2D impulseVector = n.constantProduct(impulse * InverseOfMass);
         velocity = velocity.plus(impulseVector);
+    }
+
+    @Override
+    void rotateByPivot(double angle, Vector2D pivot) {
+
     }
 
     @Override

@@ -2,11 +2,10 @@ package com.example.pinball.GameObjectCodes;
 
 import android.content.res.Resources;
 import android.graphics.Bitmap;
-import android.util.Log;
+import android.graphics.BitmapFactory;
 
-import com.example.pinball.Physics.CirclePhysicsObject;
-import com.example.pinball.Physics.PhysicsObject;
-import com.example.pinball.Physics.Vector2D;
+import com.example.pinball.Engine.CirclePhysicsObject;
+import com.example.pinball.Engine.Vector2D;
 
 public class ReductionCircle extends CirclePhysicsObject {
     /*public ReductionCircle(Vector2D position, int r, Bitmap bitmap) {
@@ -16,7 +15,7 @@ public class ReductionCircle extends CirclePhysicsObject {
         super(position, r, bitmap, move);
     }*/
     public ReductionCircle(Vector2D position, int r, int id, Resources resources) {
-        super(position, r, id, resources);
+        super(position, r, resources);
     }
     public ReductionCircle(Vector2D position, int r, int id, Resources resources, boolean move) {
         super(position, r, id, resources, move);

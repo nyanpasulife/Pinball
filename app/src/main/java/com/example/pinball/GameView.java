@@ -3,10 +3,10 @@ package com.example.pinball;
 import android.content.Context;
 import android.os.Handler;
 import android.os.Message;
-import android.os.Messenger;
 import android.util.AttributeSet;
 import android.util.Log;
 
+import com.example.pinball.Engine.Network.NetPhysicsView;
 import com.example.pinball.GameCharacter.CharacterArcher;
 import com.example.pinball.GameCharacter.CharacterMagician;
 import com.example.pinball.GameCharacter.CharacterPriest;
@@ -14,14 +14,14 @@ import com.example.pinball.GameCharacter.CharacterWarrior;
 import com.example.pinball.GameCharacter.GameCharacter;
 import com.example.pinball.GameObjectCodes.CharacterObj;
 import com.example.pinball.GameObjectCodes.Flipper;
-import com.example.pinball.Physics.PhysicsObjectInterface;
-import com.example.pinball.Physics.PhysicsView;
+import com.example.pinball.Engine.PhysicsObjectInterface;
+import com.example.pinball.Engine.PhysicsView;
 
 import java.util.ArrayList;
 
 /**     GamePlayActivity 위에 올릴 Game 화면    **/
 
-public class GameView extends PhysicsView {
+public class GameView extends NetPhysicsView {
     protected GameCharacter player, otherOne;
     ArrayList<PhysicsObjectInterface> gameObjectSet = new ArrayList<>();
     private GamePlayActivity gamePlayActivity;

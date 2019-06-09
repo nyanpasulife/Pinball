@@ -2,14 +2,14 @@ package com.example.pinball.GameObjectCodes;
 
 import android.content.res.Resources;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.example.pinball.GameCharacter.CharacterPriest;
 import com.example.pinball.GameCharacter.GameCharacter;
-import com.example.pinball.Physics.PhysicsObject;
-import com.example.pinball.Physics.RectanglePhysicsObject;
-import com.example.pinball.Physics.Vector2D;
+import com.example.pinball.Engine.PhysicsObject;
+import com.example.pinball.Engine.RectanglePhysicsObject;
+import com.example.pinball.Engine.Vector2D;
 
 public class HealerBlock extends RectanglePhysicsObject implements CharacterObj {
     /*public HealerBlock(Vector2D position, double width, double height, Bitmap bitmap) {

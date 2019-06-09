@@ -4,11 +4,7 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
-import com.example.pinball.Physics.CirclePhysicsObject;
-import com.example.pinball.Physics.PolygonPhysicsObject;
 import com.example.pinball.R;
-import com.example.pinball.Physics.RectanglePhysicsObject;
-import com.example.pinball.Physics.Vector2D;
 
 public class TestCharacter extends GameCharacter {
     public TestCharacter(Resources res){
@@ -40,6 +36,11 @@ public class TestCharacter extends GameCharacter {
 //        GameObjectList.add(floor2);
 //        GameObjectList.add(floor3);
 //        GameObjectList.add(floor4);
+
+    }
+
+    @Override
+    public void charAct(String key) {
 
     }
 }

@@ -1,6 +1,5 @@
-package com.example.pinball.Physics;
+package com.example.pinball.Engine;
 
-import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Matrix;
@@ -25,10 +24,34 @@ public class PolygonPhysicsObject extends PhysicsObject {
     Matrix MMatrix = new Matrix();
     Paint MPaint = new Paint();
     Vector2D ImagePaintVector;
+    Vector2D OriginMPoint;
 
 
+    @Override
+    public void addImpulseAndFriction(double impulse, Vector2D n, Vector2D normalAngularA, double frictionForceScalar, PhysicsObject other) {
+        Vector2D VelocityVariation = n.constantProduct(impulse * InverseOfMass);
+        Velocity = Velocity.plus(VelocityVariation);
+        double RotationSpeedVariation = (180 / Math.PI) * (normalAngularA.dotProduct(n.constantProduct(impulse)) * InverseOfI);
+        RotationSpeed = RotationSpeed + RotationSpeedVariation;
 
+        /*Vector2D VelocityVariation_P = VelocityVariation.plus(normalAngular.constantProduct(RotationSpeedVariation));
+        Vector2D frictionDirection_P = VelocityVariation_P.reSize(1).inverse();
+        Vector2D verbN = n.getNormalVector();
+        Vector2D realFrictionDirection = verbN.constantProduct(verbN.dotProduct(frictionDirection_P)).reSize(1);
+        Vector2D realFriction = realFrictionDirection.constantProduct(frictionForceScalar);
+        Velocity = Velocity.plus(realFriction);*/ // TODO 마찰 미구현상태
+    }
 
+    @Override
+    protected void rotateByPivot(double angle, Vector2D pivot) {
+        setRotation(angle);
+        Vector2D newM = getOriginMPoint().rotateDotByPivot(angle, pivot);
+        setMaterialPoint(newM);
+    }
+
+    public Vector2D getOriginMPoint() {
+        return OriginMPoint;
+    }
 
     @Override
     public boolean collisionCheck(PhysicsObject other) {
@@ -52,9 +75,9 @@ public class PolygonPhysicsObject extends PhysicsObject {
         return false;
     }
 
-    public void addImpulseAndFriction(double impulse, Vector2D n, Vector2D normalAngular, double frictionForceScalar, PhysicsObject other) {
+    public void addImpulseAndFriction(double impulse, Vector2D n, Vector2D normalAngular, double frictionForceScalar) {
         Vector2D VelocityVariation = n.constantProduct(impulse * InverseOfMass);
-//        Velocity = Velocity.plus(VelocityVariation);
+        Velocity = Velocity.plus(VelocityVariation);
         double RotationSpeedVariation = (180 / Math.PI) * (normalAngular.dotProduct(n.constantProduct(impulse)) * InverseOfI);
         RotationSpeed = RotationSpeed + RotationSpeedVariation;
 
@@ -104,7 +127,7 @@ public class PolygonPhysicsObject extends PhysicsObject {
 
 
     @Override
-    public void paint(Canvas c, double widthRate, double heightRate) {
+    public void paint(Canvas c) {
         Vector2D imagePaintPoint = getImagePaintPoint();
         MMatrix.setTranslate((float) imagePaintPoint.X, (float) imagePaintPoint.Y);
         MMatrix.postRotate((float) Rotation,(float)MaterialPoint.X,(float)MaterialPoint.Y);
@@ -112,14 +135,14 @@ public class PolygonPhysicsObject extends PhysicsObject {
             tryPaint(c);
         }
 
-       /* Paint paint = new Paint();
-        paint.setColor(Color.RED);
-        synchronized (VertexVectors) {
-            for (Vector2D v : VertexVectors) {
-                Vector2D otherPoint = MaterialPoint.plus(v);
-                c.drawLine((float) MaterialPoint.X, (float) MaterialPoint.Y, (float) otherPoint.X, (float) otherPoint.Y, paint);
-            }
-        }*/
+//        Paint paint = new Paint();
+//        paint.setColor(Color.RED);
+//        synchronized (VertexVectors) {
+//            for (Vector2D v : VertexVectors) {
+//                Vector2D otherPoint = MaterialPoint.plus(v);
+//                c.drawLine((float) MaterialPoint.X, (float) MaterialPoint.Y, (float) otherPoint.X, (float) otherPoint.Y, paint);
+//            }
+//        }
     }
 
     private void tryPaint(Canvas c) {

@@ -2,12 +2,13 @@ package com.example.pinball.GameObjectCodes;
 
 import android.content.res.Resources;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 
 import com.example.pinball.GameCharacter.CharacterMagician;
 import com.example.pinball.GameCharacter.GameCharacter;
-import com.example.pinball.Physics.PhysicsObject;
-import com.example.pinball.Physics.RectanglePhysicsObject;
-import com.example.pinball.Physics.Vector2D;
+import com.example.pinball.Engine.PhysicsObject;
+import com.example.pinball.Engine.RectanglePhysicsObject;
+import com.example.pinball.Engine.Vector2D;
 
 public class MagicianBlock extends RectanglePhysicsObject implements CharacterObj{
 

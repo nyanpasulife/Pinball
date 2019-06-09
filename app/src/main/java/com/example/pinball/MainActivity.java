@@ -9,9 +9,8 @@ import android.view.View;
 
 import com.example.pinball.GameCharacter.TestCharacter;
 import com.example.pinball.GameObjectCodes.Flipper;
-import com.example.pinball.Physics.PhysicsObject;
-import com.example.pinball.Physics.PhysicsView;
-import com.example.pinball.Physics.Vector2D;
+import com.example.pinball.Engine.PhysicsObject;
+import com.example.pinball.Engine.PhysicsView;
 
 import java.util.ArrayList;
 

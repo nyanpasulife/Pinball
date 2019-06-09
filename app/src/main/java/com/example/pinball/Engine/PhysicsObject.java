@@ -1,13 +1,15 @@
-package com.example.pinball.Physics;
+package com.example.pinball.Engine;
 
 import android.graphics.Bitmap;
 
 import java.util.ArrayList;
 
-abstract public class PhysicsObject implements PhysicsObjectInterface {
-    boolean Collided = false; //
+abstract public class PhysicsObject implements PhysicsObjectInterface{
+    public boolean Collided = false; //
     boolean MovingObject =true;
     Bitmap Image;
+
+
 
     static public class UtilFunc {
 
@@ -171,6 +173,8 @@ abstract public class PhysicsObject implements PhysicsObjectInterface {
         // 게임상에서 충돌할시 벌어지는 일을 구현하려면 이 메소드를 오버라이드.
     }
 
+    abstract void rotateByPivot(double angle, Vector2D pivot);
+
 
     abstract public boolean collisionCheck(PhysicsObject other);
 
@@ -187,5 +191,7 @@ abstract public class PhysicsObject implements PhysicsObjectInterface {
     public abstract void setVelocity(Vector2D v);
 
     protected abstract Vector2D getVelocityAtP(Vector2D collisionPoint);
+
+
 
 }

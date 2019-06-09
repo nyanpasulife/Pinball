@@ -2,13 +2,13 @@ package com.example.pinball.GameObjectCodes;
 
 import android.content.res.Resources;
 import android.graphics.Bitmap;
-import android.util.Log;
+import android.graphics.BitmapFactory;
 
 import com.example.pinball.GameCharacter.CharacterArcher;
 import com.example.pinball.GameCharacter.GameCharacter;
-import com.example.pinball.Physics.CirclePhysicsObject;
-import com.example.pinball.Physics.PhysicsObject;
-import com.example.pinball.Physics.Vector2D;
+import com.example.pinball.Engine.CirclePhysicsObject;
+import com.example.pinball.Engine.PhysicsObject;
+import com.example.pinball.Engine.Vector2D;
 
 public class ArcherCircle extends CirclePhysicsObject implements CharacterObj{
 
