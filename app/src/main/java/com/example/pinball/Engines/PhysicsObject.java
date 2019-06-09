@@ -1,11 +1,11 @@
-package com.example.pinball.Physics;
+package com.example.pinball.Engines;
 
 import android.graphics.Bitmap;
 
 import java.util.ArrayList;
 
-abstract public class PhysicsObject implements PhysicsObjectInterface {
-    boolean Collided = false; //
+abstract public class PhysicsObject implements PhysicsObjectInterface{
+    public boolean Collided = false; //
     boolean MovingObject =true;
     Bitmap Image;
 

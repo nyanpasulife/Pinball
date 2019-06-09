@@ -1,4 +1,4 @@
-package com.example.pinball.Physics;
+package com.example.pinball.Engines;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -128,7 +128,7 @@ public class CirclePhysicsObject extends PhysicsObject {
     }
 
     @Override
-    public void paint(Canvas c, double widthRate, double heightRate) {
+    public void paint(Canvas c) {
 
         /*ArrayList<Vector2D> conVertexVectors = new ArrayList<>();
         for(Vector2D v : colliderTest){
@@ -141,6 +141,15 @@ public class CirclePhysicsObject extends PhysicsObject {
 
     public void convertBitmap(double widthRate, double heightRate) {        // ???
         Image = Bitmap.createBitmap(Image, 0, 0, (int) (Math.round(Image.getWidth()) * widthRate), (int) (Math.round(Image.getHeight() * heightRate)));
+        Image = Bitmap.createBitmap(Image, 0, 0, (int) (Math.round(Image.getWidth()) * widthRate), (int) (Math.round(Image.getHeight() * heightRate)));
+    }
+
+    public Bitmap getBitmap() {
+        return Image;
+    }
+
+    public void setBitmap(Bitmap bitmap) {
+        Image = bitmap;
     }
 
     @Override

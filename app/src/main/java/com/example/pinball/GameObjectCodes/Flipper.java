@@ -2,9 +2,9 @@ package com.example.pinball.GameObjectCodes;
 
 import android.graphics.Bitmap;
 
-import com.example.pinball.Physics.PhysicsObject;
-import com.example.pinball.Physics.RectanglePhysicsObject;
-import com.example.pinball.Physics.Vector2D;
+import com.example.pinball.Engines.PhysicsObject;
+import com.example.pinball.Engines.RectanglePhysicsObject;
+import com.example.pinball.Engines.Vector2D;
 
 public class Flipper extends RectanglePhysicsObject {
     final static int COUNTER_CLOCK = 0;
