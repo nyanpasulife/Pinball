@@ -1,4 +1,4 @@
-package com.example.pinball.GameObjectCodes;
+package com.example.pinball.pinball.GameObjectCodes;
 
 import android.content.res.Resources;
 

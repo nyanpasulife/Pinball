@@ -1,14 +1,14 @@
-package com.example.pinball.GameCharacter;
+package com.example.pinball.pinball.GameCharacter;
 
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 
-import com.example.pinball.GameObjectCodes.CharacterObj;
-import com.example.pinball.GameObjectCodes.Flipper;
-import com.example.pinball.GameView;
 import com.example.pinball.Engine.PhysicsObject;
 import com.example.pinball.Engine.PhysicsView;
 import com.example.pinball.Engine.Vector2D;
+import com.example.pinball.GameObjectCodes.CharacterObj;
+import com.example.pinball.GameObjectCodes.Flipper;
+import com.example.pinball.GameView;
 
 import java.util.ArrayList;
 

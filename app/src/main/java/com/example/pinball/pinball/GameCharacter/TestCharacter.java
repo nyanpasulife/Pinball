@@ -1,10 +1,4 @@
-package com.example.pinball.GameCharacter;
-
-import android.content.res.Resources;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-
-import com.example.pinball.R;
+package com.example.pinball.pinball.GameCharacter;
 
 public class TestCharacter{
 //    public TestCharacter(Resources res){

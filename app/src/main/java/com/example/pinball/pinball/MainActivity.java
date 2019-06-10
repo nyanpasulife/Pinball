@@ -1,4 +1,4 @@
-/*
+package com.example.pinball.pinball;/*
 package com.example.pinball;
 
 import android.graphics.Bitmap;

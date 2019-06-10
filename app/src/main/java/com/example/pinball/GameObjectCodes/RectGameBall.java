@@ -2,8 +2,8 @@ package com.example.pinball.GameObjectCodes;
 
 import android.graphics.Bitmap;
 
-import com.example.pinball.Engines.RectanglePhysicsObject;
-import com.example.pinball.Engines.Vector2D;
+import com.example.pinball.Engine.RectanglePhysicsObject;
+import com.example.pinball.Engine.Vector2D;
 
 public class RectGameBall extends RectanglePhysicsObject implements GameBall {
     RectGameBall(Vector2D position, Bitmap bitmap){

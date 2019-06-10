@@ -65,7 +65,7 @@
         android:layout_width="159dp"
         android:layout_height="104dp"
         android:layout_marginTop="96dp"
-        android:onClick="net_game_start"
+        android:onClick="net_char_select"
         android:text="게임 시작"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
